@@ -627,58 +627,6 @@ and then add differing amounts of other paints to produce a darker shade.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-After completing the previous challenge,
-we can look at some further examples of 24-bit RGB colours, in a visual way.
-The image in the next challenge shows some colour names,
-their 24-bit RGB triplet values, and the colour itself.
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## RGB colour table (optional, not included in timing)
-
-![](fig/colour-table.png){alt='RGB colour table'}
-
-We cannot really provide a complete table.
-To see why, answer this question:
-How many possible colours can be represented with the 24-bit RGB model?
-
-:::::::::::::::  solution
-
-## Solution
-
-There are 24 total bits in an RGB colour of this type,
-and each bit can be on or off,
-and so there are 2<sup>24</sup> = 16,777,216
-possible colours with our additive, 24-bit RGB colour model.
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-Although 24-bit colour depth is common, there are other options.
-For example, we might have 8-bit colour
-(3 bits for red and green, but only 2 for blue, providing 8 × 8 × 4 = 256 colours)
-or 16-bit colour
-(4 bits for red, green, and blue, plus 4 more for transparency,
-providing 16 × 16 × 16 = 4096 colours, with 16 transparency levels each).
-There are colour depths with more than eight bits per channel,
-but as the human eye can only discern approximately 10 million different colours,
-these are not often used.
-
-If you are using an older or inexpensive laptop screen or LCD monitor to view images,
-it may only support 18-bit colour, capable of displaying
-64 × 64 × 64 = 262,144 colours.
-24-bit colour images will be converted in some manner to 18-bit,
-and thus the colour quality you see will not match what is actually in the image.
-
-We can combine our coordinate system with the 24-bit RGB colour model to gain a
-conceptual understanding of the images we will be working with.
-An image is a rectangular array of pixels,
-each with its own coordinate.
-Each pixel in the image is a square point of coloured light,
-where the colour is specified by a 24-bit RGB triplet.
-Such an image is an example of *raster graphics*.
-
 ## Image formats
 
 Although the images we will manipulate in our programs are conceptualised as
@@ -781,30 +729,6 @@ The following table provides more formal definitions for these terms.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## BMP image size (optional, not included in timing)
-
-Imagine that we have a fairly large, but very boring image:
-a 5,000 × 5,000 pixel image composed of nothing but white pixels.
-If we used an uncompressed image format such as BMP,
-with the 24-bit RGB colour model,
-how much storage would be required for the file?
-
-:::::::::::::::  solution
-
-## Solution
-
-In such an image, there are 5,000 × 5,000 = 25,000,000 pixels,
-and 24 bits for each pixel,
-leading to 25,000,000 × 24 = 600,000,000 bits,
-or 75,000,000 bytes (71.5MB).
-That is quite a lot of space for a very uninteresting image!
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 Since image files can be very large,
 various *compression* schemes exist for saving
 (approximately) the same information while using less space.
@@ -880,89 +804,6 @@ and the degree of compression can be tuned to your liking.
 It supports 24-bit colour depth,
 and since the format is so widely used,
 JPEG images can be viewed and manipulated easily on all computing platforms.
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Examining actual image sizes (optional, not included in timing)
-
-Let us see the effects of image compression on image size with actual images.
-The following script creates a square white image 5000 x 5000 pixels,
-and then saves it as a BMP and as a JPEG image.
-
-```python
-dim = 5000
-
-img = np.zeros((dim, dim, 3), dtype="uint8")
-img.fill(255)
-
-iio.imwrite(uri="data/ws.bmp", image=img)
-iio.imwrite(uri="data/ws.jpg", image=img)
-```
-
-Examine the file sizes of the two output files, `ws.bmp` and `ws.jpg`.
-Does the BMP image size match our previous prediction?
-How about the JPEG?
-
-:::::::::::::::  solution
-
-## Solution
-
-The BMP file, `ws.bmp`, is 75,000,054 bytes,
-which matches our prediction very nicely.
-The JPEG file, `ws.jpg`, is 392,503 bytes,
-two orders of magnitude smaller than the bitmap version.
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Comparing lossless versus lossy compression (optional, not included in timing)
-
-Let us see a hands-on example of lossless versus lossy compression.
-Open a terminal (or Windows PowerShell) and navigate to the `data/` directory.
-The two output images, `ws.bmp` and `ws.jpg`, should still be in the directory,
-along with another image, `tree.jpg`.
-
-We can apply lossless compression to any file by using the `zip` command.
-Recall that the `ws.bmp` file contains 75,000,054 bytes.
-Apply lossless compression to this image by executing the following command:
-`zip ws.zip ws.bmp` 
-(`Compress-Archive ws.bmp ws.zip` with PowerShell).
-This command tells the computer to create a new compressed file,
-`ws.zip`, from the original bitmap image.
-Execute a similar command on the tree JPEG file: `zip tree.zip tree.jpg` 
-(`Compress-Archive tree.jpg tree.zip` with PowerShell).
-
-Having created the compressed file,
-use the `ls -l` command (`dir` with PowerShell) to display the contents of the directory.
-How big are the compressed files?
-How do those compare to the size of `ws.bmp` and `tree.jpg`?
-What can you conclude from the relative sizes?
-
-:::::::::::::::  solution
-
-## Solution
-
-Here is a partial directory listing, showing the sizes of the relevant files there:
-
-```output
--rw-rw-r--  1 diva diva   154344 Jun 18 08:32 tree.jpg
--rw-rw-r--  1 diva diva   146049 Jun 18 08:53 tree.zip
--rw-rw-r--  1 diva diva 75000054 Jun 18 08:51 ws.bmp
--rw-rw-r--  1 diva diva    72986 Jun 18 08:53 ws.zip
-```
-
-We can see that the regularity of the bitmap image
-(remember, it is a 5,000 x 5,000 pixel image containing only white pixels)
-allows the lossless compression scheme to compress the file quite effectively.
-On the other hand, compressing `tree.jpg` does not create a much smaller file;
-this is because the JPEG image was already in a compressed format.
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Here is an example showing how JPEG compression might impact image quality.
 Consider this image of several maize seedlings
