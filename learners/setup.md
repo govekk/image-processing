@@ -16,35 +16,42 @@ e.g. your Desktop or a folder you have created for using in this workshop.
 
 ## Software
 
-1. Download and install the latest [Anaconda
-   distribution](https://www.anaconda.com/download/) for your
-   operating system. Make sure to choose the Python 3 version (as
-   opposed to the one with Python 2). If you wish to use an existing
-   installation, be sure to upgrade your scikit-image to at least 0.19.
-   You can upgrade to the latest scikit-image using the shell command that follows.
+1. Check your conda distribution. On terminal (Mac) or Powershell/WSL (Windows), run:
+
+   ```shell
+   conda info
+   mamba info
+   ```
+   If either command returns information, skip to creating a new environment. 
+
+1. Download and install the latest [Miniforge
+   distribution](https://github.com/conda-forge/miniforge) If you wish to use an existing
+   installation, please use a new conda environment to ensure all packages are up to date.
+
+   ::::::::::::::::  spoiler
+
+   ## Instructions for Windows
+
+   If running the `conda` commands on the standard Command Prompt or Powershell returns an error:
+   `'conda' is not recognized as an internal or external command, operable program or batch file.`
+
+   Use the Miniforge Prompt in the Start menu instead.
+
+   :::::::::::::::::::::::::
+
+3. Create a new environment with the necessary packages
+
+   ```shell
+   conda create -n imaging-workshop python=3.9 scikit-image ipympl jupyterlab -c conda-forge
+   ```
 
    :::::::::::::::::::::::::::::::::::::::::  callout
 
-   ## Updating scikit-image in an existing Anaconda distribution
+   ## Enabling the  `ipympl`  backend in Jupyter notebooks
 
-   ```shell
-   conda upgrade -y scikit-image
-   ```
-
-   ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-2. This lesson uses Matplotlib features to display images, and some
+   This lesson uses Matplotlib features to display images, and some
    interactive features will be valuable. To enable the interactive
-   tools in JupyterLab, the `ipympl` package is required. The package
-   can be installed with the command
-
-   ```shell
-   conda install -c conda-forge ipympl
-   ```
-
-   :::::::::::::::::::::::::::::::::::::::::  callout
-
-   ## Enabling the `ipympl` backend in Jupyter notebooks
+   tools in JupyterLab, the `ipympl` package is required.
 
    The `ipympl` backend can be enabled with the `%matplotlib` Jupyter
    magic. Put the following command in a cell in your notebooks
@@ -54,10 +61,6 @@ e.g. your Desktop or a folder you have created for using in this workshop.
    %matplotlib widget
    ```
 
-   ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-   :::::::::::::::::::::::::::::::::::::::::  callout
-
    ## Older JupyterLab versions
 
    If you are using an older version of JupyterLab, you may also need
@@ -65,30 +68,19 @@ e.g. your Desktop or a folder you have created for using in this workshop.
    file](https://github.com/matplotlib/ipympl#readme) for the `ipympl`
    package.
 
-
    ::::::::::::::::::::::::::::::::::::::::::::::::::
+
+4. Start environment
+
+   ```shell
+   conda activate imaging-workshop
+   ```
 
 3. Open a Jupyter notebook:
 
-   ::::::::::::::::  spoiler
-
-   ## Instructions for Linux \& Mac
-
-   Open a terminal and type `jupyter lab`.
-
-
-   :::::::::::::::::::::::::
-
-   ::::::::::::::::  spoiler
-
-   ## Instructions for Windows
-
-   Launch the Anaconda Prompt program and type `jupyter lab`.
-   (Running this command on the standard Command Prompt will return an error:
-   `'conda' is not recognized as an internal or external command, operable program or batch file.`)
-
-
-   :::::::::::::::::::::::::
+   ```shell
+   jupyter lab
+   ```
 
    After Jupyter Lab has launched, click the "Python 3" button under "Notebook" in the launcher window,
    or use the "File" menu, to open a new Python 3 notebook.
@@ -129,11 +121,4 @@ e.g. your Desktop or a folder you have created for using in this workshop.
    you can run the cell by selecting "Run" -> "Run selected cell" in the top menu,
    or pressing <kbd>Shift</kbd>\+<kbd>Enter</kbd>.
 
-
    :::::::::::::::::::::::::
-
-5. A small number of exercises will require you to run commands in a terminal. Windows users should 
-use PowerShell for this. PowerShell is probably installed by default but if not you should
-[download and install](https://apps.microsoft.com/detail/9MZ1SNWT0N5D?hl=en-eg&gl=EG) it.
-
-[figshare-data]: https://figshare.com/articles/dataset/Data_Carpentry_Image_Processing_Data_beta_/19260677
