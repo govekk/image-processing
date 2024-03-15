@@ -8,8 +8,7 @@ exercises: 50
 
 - Read and save images with imageio.
 - Display images with Matplotlib.
-- Resize images with scikit-image.
-- Perform simple image thresholding with NumPy array operations.
+- Understand RGB vs Multichannel bioimages
 - Extract sub-images using array slicing.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -49,7 +48,7 @@ Here are the first few lines:
 ```python
 """Python program to open, display, and save an image."""
 # read image
-cells = iio.imread(uri="data/hela-cells-8bit")
+cells = iio.imread(uri="data/hela-cells-8bit.tif")
 ```
 
 We use the `iio.imread()` function to read a TIFF image entitled **hela-cells-8bit**.
@@ -237,7 +236,7 @@ In [the *Image Basics* episode](02-image-basics.md) we discussed how color is re
 
 ![](fig/hed-rgb-separate.png){alt='A grid showing each RGB color of the immunohistochemistry image'}
 
-In contrast, the image of HeLa cells is a multichannel image. We can conveniently read it and view it using the same functions as RGB, since it's the same 8bit with three channels. But in reality, those channels represent fluorescence of three different parts of the cell: lysosomes, mitochondria and nucleus. Currently, the lysosomes are marked in red, mitochondria in green, and nucleus in blue, but it doesn't really matter what color each is represented by. It's also often more useful to view multichannel images one channel at a time.
+In contrast, the image of HeLa cells is a multichannel image. We can conveniently read it and view it using the same functions as RGB, since it's still 8bit with three channels. But in reality, those channels represent fluorescence of three different parts of the cell: lysosomes, mitochondria and nucleus. Currently, the lysosomes are marked in red, mitochondria in green, and nucleus in blue, but it doesn't really matter what color each is represented by. It's often more useful to view multichannel images one channel at a time.
 
 ![](fig/hela-cells-channels.png){alt='A grid showing each channel of the hela cells image'}
 
@@ -288,7 +287,7 @@ are specified in *(r, g, b)* order when doing these manipulations.
 
 Consider this image of HeLa cells, and suppose that we want to create a sub-image with just one of the cells.
 
-![](data/hela-cells-8bit.tif){alt='HeLa cells image'}
+![](fig/hela-cells-8bit.jpg){alt='HeLa cells image'}
 
 Using `matplotlib.pyplot.imshow` 
 we can determine the coordinates of the corners of the area we wish to extract
@@ -403,8 +402,6 @@ iio.imwrite(uri="data/cell_two.jpg", image=cell_two)
 - Images are read from disk with the `iio.imread()` function.
 - We create a window that automatically scales the displayed image with Matplotlib and calling `imshow()` on the global figure object.
 - Colour images can be transformed to grayscale using `ski.color.rgb2gray()` or, in many cases, be read as grayscale directly by passing the argument `mode="L"` to `iio.imread()`.
-- We can resize images with the `ski.transform.resize()` function.
-- NumPy array commands, such as `image[image < 128] = 0`, can be used to manipulate the pixels of an image.
 - Array slicing can be used to extract sub-images or modify areas of images, e.g., `clip = image[280:501, 180:521, :]`.
 - Metadata is not retained when images are loaded as NumPy arrays using `iio.imread()`.
 
