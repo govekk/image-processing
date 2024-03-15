@@ -323,8 +323,7 @@ work with images?</li>
 <h3 class="card-title">Objectives</h3>
 <ul><li>Read and save images with imageio.</li>
 <li>Display images with Matplotlib.</li>
-<li>Resize images with scikit-image.</li>
-<li>Perform simple image thresholding with NumPy array operations.</li>
+<li>Understand RGB vs Multichannel bioimages</li>
 <li>Extract sub-images using array slicing.</li>
 </ul></div>
 </div>
@@ -360,7 +359,7 @@ image to a different format. Here are the first few lines:</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">"""Python program to open, display, and save an image."""</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># read image</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit"</span>)</span></code></pre>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span></code></pre>
 </div>
 <p>We use the <code>iio.imread()</code> function to read a TIFF image
 entitled <strong>hela-cells-8bit</strong>. Imageio reads the image,
@@ -587,11 +586,11 @@ but if we split apart the RGB color channels, each one isn’t
 particularly useful in identifying that staining:</p>
 <figure><img src="../fig/hed-rgb-separate.png" alt="A grid showing each RGB color of the immunohistochemistry image" class="figure mx-auto d-block"></figure><p>In contrast, the image of HeLa cells is a multichannel image. We can
 conveniently read it and view it using the same functions as RGB, since
-it’s the same 8bit with three channels. But in reality, those channels
+it’s still 8bit with three channels. But in reality, those channels
 represent fluorescence of three different parts of the cell: lysosomes,
 mitochondria and nucleus. Currently, the lysosomes are marked in red,
 mitochondria in green, and nucleus in blue, but it doesn’t really matter
-what color each is represented by. It’s also often more useful to view
+what color each is represented by. It’s often more useful to view
 multichannel images one channel at a time.</p>
 <figure><img src="../fig/hela-cells-channels.png" alt="A grid showing each channel of the hela cells image" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -645,7 +644,7 @@ values are specified in <em>(r, g, b)</em> order when doing these
 manipulations.</p>
 <p>Consider this image of HeLa cells, and suppose that we want to create
 a sub-image with just one of the cells.</p>
-<figure><img src="../data/hela-cells-8bit.tif" alt="HeLa cells image" class="figure mx-auto d-block"></figure><p>Using <code>matplotlib.pyplot.imshow</code> we can determine the
+<figure><img src="../fig/hela-cells-8bit.jpg" alt="HeLa cells image" class="figure mx-auto d-block"></figure><p>Using <code>matplotlib.pyplot.imshow</code> we can determine the
 coordinates of the corners of the area we wish to extract by hovering
 the mouse near the points of interest and noting the coordinates
 (remember to run <code>%matplotlib widget</code> first if you haven’t
@@ -727,7 +726,7 @@ image.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Here is the completed Python program to select only the leftmost cell
 in the image</p>
@@ -771,11 +770,6 @@ object.</li>
 <code>ski.color.rgb2gray()</code> or, in many cases, be read as
 grayscale directly by passing the argument <code>mode="L"</code> to
 <code>iio.imread()</code>.</li>
-<li>We can resize images with the <code>ski.transform.resize()</code>
-function.</li>
-<li>NumPy array commands, such as
-<code>image[image &lt; 128] = 0</code>, can be used to manipulate the
-pixels of an image.</li>
 <li>Array slicing can be used to extract sub-images or modify areas of
 images, e.g., <code>clip = image[280:501, 180:521, :]</code>.</li>
 <li>Metadata is not retained when images are loaded as NumPy arrays
