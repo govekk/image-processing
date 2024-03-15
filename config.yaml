@@ -11,7 +11,7 @@
 carpentry: 'dc'
 
 # Overall title for pages.
-title: 'JAX: Image Processing with Python'
+title: 'JAX: (Bio)Image Processing with Python'
 
 # Date the lesson was created (YYYY-MM-DD, this is empty by default)
 created: '2024-03-14'
