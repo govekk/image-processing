@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title>JAX: Image Processing with Python: All in One View</title>
+<title>JAX: (Bio)Image Processing with Python: All in One View</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="../assets/styles.css">
 <script src="../assets/scripts.js" type="text/javascript"></script><!-- mathjax --><script type="text/x-mathjax-config">
@@ -58,7 +58,7 @@
       <img class="small-logo" alt="Data Carpentry" src="../assets/images/data-logo-sm.svg">
 </div>
     <div class="lesson-title-md">
-      JAX: Image Processing with Python
+      JAX: (Bio)Image Processing with Python
     </div>
     <div class="search-icon-sm">
       <!-- TODO: do not show until we have search
@@ -69,7 +69,7 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 <li class="nav-item">
           <span class="lesson-title">
-            JAX: Image Processing with Python
+            JAX: (Bio)Image Processing with Python
           </span>
         </li>
         <li class="nav-item">
@@ -105,7 +105,7 @@
   </div>
 <!--/div.container-fluid -->
 </nav><div class="col-md-12 mobile-title">
-  JAX: Image Processing with Python
+  JAX: (Bio)Image Processing with Python
 </div>
 
 <aside class="col-md-12 lesson-progress"><div style="width: %" class="percentage">
@@ -1535,7 +1535,7 @@ information may be stored in an image file, in the image metadata.</li>
 </div>
 </section></section><section id="aio-03-skimage-images"><p>Content from <a href="03-skimage-images.html">Working with scikit-image</a></p>
 <hr>
-<p>Last updated on 2024-03-11 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/03-skimage-images.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 120 minutes</p>
@@ -1587,7 +1587,7 @@ and changing digital images.</p>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span></code></pre>
 </div>
-</section><section id="reading-displaying-and-saving-images"><h2 class="section-heading">Reading, displaying, and saving images<a class="anchor" aria-label="anchor" href="#reading-displaying-and-saving-images"></a>
+</section><section id="reading-and-displaying-images"><h2 class="section-heading">Reading and displaying images<a class="anchor" aria-label="anchor" href="#reading-and-displaying-images"></a>
 </h2>
 <hr class="half-width">
 <p>Imageio provides intuitive functions for reading and writing (saving)
@@ -1603,37 +1603,61 @@ image to a different format. Here are the first few lines:</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">"""Python program to open, display, and save an image."""</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co"># read image</span></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>chair <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/chair.jpg"</span>)</span></code></pre>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit"</span>)</span></code></pre>
 </div>
-<p>We use the <code>iio.imread()</code> function to read a JPEG image
-entitled <strong>chair.jpg</strong>. Imageio reads the image, converts
-it from JPEG into a NumPy array, and returns the array; we save the
-array in a variable named <code>chair</code>.</p>
+<p>We use the <code>iio.imread()</code> function to read a TIFF image
+entitled <strong>hela-cells-8bit</strong>. Imageio reads the image,
+converts it from TIFF into a NumPy array, and returns the array; we save
+the array in a variable named <code>cells</code>.</p>
 <p>Next, we will do something with the image:</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>plt.imshow(chair)</span></code></pre>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
 </div>
 <p>Once we have the image in the program, we first call
 <code>plt.subplots()</code> so that we will have a fresh figure with a
 set of axis independent from our previous calls. Next we call
 <code>plt.imshow()</code> in order to display the image.</p>
-<p>Now, we will save the image in another format:</p>
+</section><section id="saving-images"><h2 class="section-heading">Saving images<a class="anchor" aria-label="anchor" href="#saving-images"></a>
+</h2>
+<hr class="half-width">
+<p>Another image we will use will be one of scikit-image’s example
+images. These can be loaded through the skimage.data module.</p>
 <div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># save a new version in .tif format</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>iio.imwrite(uri<span class="op">=</span><span class="st">"data/chair.tif"</span>, image<span class="op">=</span>chair)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>hed_image <span class="op">=</span> data.immunohistochemistry()</span></code></pre>
+</div>
+<p>Let’s look at this image:</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>plt.imshow(hed_image)</span></code></pre>
+</div>
+<p>What if we want to keep a local copy?</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># save a new version in .tif format</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>iio.imwrite(uri<span class="op">=</span><span class="st">"data/immunohistochemistry.tif"</span>, image<span class="op">=</span>hed_image)</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># save a new version in .jpg format</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>iio.imwrite(uri<span class="op">=</span><span class="st">"data/immunohistochemistry.jpg"</span>, image<span class="op">=</span>hed_image)</span></code></pre>
 </div>
 <p>The final statement in the program,
-<code>iio.imwrite(uri="data/chair.tif", image=chair)</code>, writes the
-image to a file named <code>chair.tif</code> in the <code>data/</code>
-directory. The <code>imwrite()</code> function automatically determines
-the type of the file, based on the file extension we provide. In this
-case, the <code>.tif</code> extension causes the image to be saved as a
-TIFF.</p>
+<code>iio.imwrite(uri="data/immunohistochemistry.jpg", image=hed_image)</code>,
+writes the image to a file named <code>immunohistochemistry.jpg</code>
+in the <code>data/</code> directory. The <code>imwrite()</code> function
+automatically determines the type of the file, based on the file
+extension we provide. In this case, the <code>.tif</code> extension
+causes the image to be saved as a TIFF, and the <code>.jpg</code>
+extension causes the image to be saved as a JPG. Using Finder or File
+Explorer, check out the size difference between these two files. As we
+discussed in <a href="02-image-basics.html">the <em>Image Basics</em>
+episode</a>, JPG is performing a lossy compression to save a smaller
+file.</p>
 <div id="metadata-revisited" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -1685,88 +1709,20 @@ definition</a> specifies two parameters, the resource to save the image
 to (e.g., a file name, an http address) and the image to write to disk.
 So, we could save the chair image in the sample code above using
 positional arguments like this:</p>
-<p><code>iio.imwrite("data/chair.tif", image)</code></p>
+<p><code>iio.imwrite("data/immunohistochemistry.jpg", hed_image)</code></p>
 <p>Since the function expects the first argument to be the file name,
-there is no confusion about what <code>"data/chair.jpg"</code> means.
-The same goes for the second argument.</p>
+there is no confusion about what
+<code>"data/immunohistochemistry.jpg"</code> means. The same goes for
+the second argument.</p>
 <p>The style we will use in this workshop is to name each argument, like
 this:</p>
-<p><code>iio.imwrite(uri="data/chair.tif", image=image)</code></p>
+<p><code>iio.imwrite(uri="data/immunohistochemistry.jpg", image=hed_image)</code></p>
 <p>This style will make it easier for you to learn how to use the
 variety of functions we will cover in this workshop.</p>
 </div>
 </div>
 </div>
-</section><section id="manipulating-pixels"><h2 class="section-heading">Manipulating pixels<a class="anchor" aria-label="anchor" href="#manipulating-pixels"></a>
-</h2>
-<hr class="half-width">
-<p>In <a href="02-image-basics.html">the <em>Image Basics</em>
-episode</a>, we individually manipulated the colours of pixels by
-changing the numbers stored in the image’s NumPy array. Let’s apply the
-principles learned there along with some new principles to a real world
-example.</p>
-<p>Suppose we are interested in this maize root cluster image. We want
-to be able to focus our program’s attention on the roots themselves,
-while ignoring the black background.</p>
-<figure><img src="../data/maize-root-cluster.jpg" alt="Root cluster image" class="figure mx-auto d-block"></figure><p>Since the image is stored as an array of numbers, we can simply look
-through the array for pixel colour values that are less than some
-threshold value. This process is called <em>thresholding</em>, and we
-will see more powerful methods to perform the thresholding task in <a href="07-thresholding.html">the <em>Thresholding</em> episode</a>. Here,
-though, we will look at a simple and elegant NumPy method for
-thresholding. Let us develop a program that keeps only the pixel colour
-values in an image that have value greater than or equal to 128. This
-will keep the pixels that are brighter than half of “full brightness”,
-i.e., pixels that do not belong to the black background.</p>
-<p>We will start by reading the image and displaying it.</p>
-<div id="loading-images-with-imageio-read-only-arrays" class="callout">
-<div class="callout-square">
-<i class="callout-icon" data-feather="bell"></i>
-</div>
-<div id="loading-images-with-imageio-read-only-arrays" class="callout-inner">
-<h3 class="callout-title">Loading images with imageio: Read-only
-arrays<a class="anchor" aria-label="anchor" href="#loading-images-with-imageio-read-only-arrays"></a>
-</h3>
-<div class="callout-content">
-<p>When loading an image with imageio, in certain situations the image
-is stored in a read-only array. If you attempt to manipulate the pixels
-in a read-only array, you will receive an error message
-<code>ValueError: assignment destination is read-only</code>. In order
-to make the image array writeable, we can create a copy with
-<code>image = np.array(image)</code> before manipulating the pixel
-values.</p>
-</div>
-</div>
-</div>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co">"""Python script to ignore low intensity pixels in an image."""</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="co"># read input image</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>maize_roots <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/maize-root-cluster.jpg"</span>)</span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>maize_roots <span class="op">=</span> np.array(maize_roots)</span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a><span class="co"># display original image</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>plt.imshow(maize_roots)</span></code></pre>
-</div>
-<p>Now we can threshold the image and display the result.</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># keep only high-intensity pixels</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>maize_roots[maize_roots <span class="op">&lt;</span> <span class="dv">128</span>] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co"># display modified image</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>plt.imshow(maize_roots)</span></code></pre>
-</div>
-<p>The NumPy command to ignore all low-intensity pixels is
-<code>roots[roots &lt; 128] = 0</code>. Every pixel colour value in the
-whole 3-dimensional array with a value less that 128 is set to zero. In
-this case, the result is an image in which the extraneous background
-detail has been removed.</p>
-<figure><img src="../fig/maize-root-cluster-threshold.jpg" alt="Thresholded root image" class="figure mx-auto d-block"></figure></section><section id="converting-colour-images-to-grayscale"><h2 class="section-heading">Converting colour images to grayscale<a class="anchor" aria-label="anchor" href="#converting-colour-images-to-grayscale"></a>
+</section><section id="converting-colour-images-to-grayscale"><h2 class="section-heading">Converting colour images to grayscale<a class="anchor" aria-label="anchor" href="#converting-colour-images-to-grayscale"></a>
 </h2>
 <hr class="half-width">
 <p>It is often easier to work with grayscale images, which have a single
@@ -1807,30 +1763,31 @@ throughout the lesson. You will encounter a similar approach with
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">"""Python script to load a color image as grayscale."""</span></span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># read input image</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>chair <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/chair.jpg"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>hed_color <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/immunohistochemistry.tif"</span>)</span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># display original image</span></span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>plt.imshow(chair)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>plt.imshow(hed_color)</span>
 <span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># convert to grayscale and display</span></span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>gray_chair <span class="op">=</span> ski.color.rgb2gray(chair)</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>hed_gray <span class="op">=</span> ski.color.rgb2gray(hed_color)</span>
 <span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>plt.imshow(gray_chair, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>plt.imshow(hed_gray, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
 </div>
-<p>We can also load colour images as grayscale directly by passing the
-argument <code>mode="L"</code> to <code>iio.imread()</code>.</p>
+<p>We can also load colour images of certain formats as grayscale
+directly by passing the argument <code>mode="L"</code> to
+<code>iio.imread()</code>.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">"""Python script to load a color image as grayscale."""</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="co"># read input image, based on filename parameter</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>gray_chair <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/chair.jpg"</span>, mode<span class="op">=</span><span class="st">"L"</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>hed_gray <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/immunohistochemistry.jpg"</span>, mode<span class="op">=</span><span class="st">"L"</span>)</span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># display grayscale image</span></span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>plt.imshow(gray_chair, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>plt.imshow(hed_gray, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
 </div>
 <p>The first argument to <code>iio.imread()</code> is the filename of
 the image. The second argument <code>mode="L"</code> determines the type
@@ -1865,75 +1822,34 @@ numbers.</p>
 </div>
 </div>
 </div>
-<div id="keeping-only-low-intensity-pixels-10-min" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="keeping-only-low-intensity-pixels-10-min" class="callout-inner">
-<h3 class="callout-title">Keeping only low intensity pixels (10
-min)<a class="anchor" aria-label="anchor" href="#keeping-only-low-intensity-pixels-10-min"></a>
-</h3>
-<div class="callout-content">
-<p>A little earlier, we showed how we could use Python and scikit-image
-to turn on only the high intensity pixels from an image, while turning
-all the low intensity pixels off. Now, you can practice doing the
-opposite - keeping all the low intensity pixels while changing the high
-intensity ones.</p>
-<p>The file <code>data/sudoku.png</code> is an RGB image of a sudoku
-puzzle:</p>
-<figure><img src="../data/sudoku.png" alt="Su-Do-Ku puzzle" class="figure mx-auto d-block"></figure><p>Your task is to load the image in grayscale format and turn all of
-the bright pixels in the image to a light gray colour. In other words,
-mask the bright pixels that have a pixel value greater than, say, 192
-and set their value to 192 (the value 192 is chosen here because it
-corresponds to 75% of the range 0-255 of an 8-bit pixel). The results
-should look like this:</p>
-<figure><img src="../fig/sudoku-gray.png" alt="Modified Su-Do-Ku puzzle" class="figure mx-auto d-block"></figure><p><em>Hint: the <code>cmap</code>, <code>vmin</code>, and
-<code>vmax</code> parameters of <code>matplotlib.pyplot.imshow</code>
-will be needed to display the modified image as desired. See the <a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html" class="external-link">Matplotlib
-documentation</a> for more details on <code>cmap</code>,
-<code>vmin</code>, and <code>vmax</code>.</em></p>
-</div>
-</div>
-</div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
-<div class="accordion-body">
-<p>First, load the image file <code>data/sudoku.png</code> as a
-grayscale image. Note we may want to create a copy of the image array to
-avoid modifying our original variable and also because
-<code>imageio.v3.imread</code> sometimes returns a non-writeable
-image.</p>
-<div class="codewrapper sourceCode" id="cb9">
+</section><section id="multichannel-images"><h2 class="section-heading">Multichannel images<a class="anchor" aria-label="anchor" href="#multichannel-images"></a>
+</h2>
+<hr class="half-width">
+<p>In <a href="02-image-basics.html">the <em>Image Basics</em>
+episode</a> we discussed how color is represented by three numbers in
+RGB images. The immunohistochemistry image we have been using is an RGB
+image. The tissue was stained with hematoxylin (blue) and DAB (brown),
+but if we split apart the RGB color channels, each one isn’t
+particularly useful in identifying that staining:</p>
+<figure><img src="../fig/hed-rgb-separate.png" alt="A grid showing each RGB color of the immunohistochemistry image" class="figure mx-auto d-block"></figure><p>In contrast, the image of HeLa cells is a multichannel image. We can
+conveniently read it and view it using the same functions as RGB, since
+it’s the same 8bit with three channels. But in reality, those channels
+represent fluorescence of three different parts of the cell: lysosomes,
+mitochondria and nucleus. Currently, the lysosomes are marked in red,
+mitochondria in green, and nucleus in blue, but it doesn’t really matter
+what color each is represented by. It’s also often more useful to view
+multichannel images one channel at a time.</p>
+<figure><img src="../fig/hela-cells-channels.png" alt="A grid showing each channel of the hela cells image" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>sudoku <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/sudoku.png"</span>, mode<span class="op">=</span><span class="st">"L"</span>)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>sudoku_gray_background <span class="op">=</span> np.array(sudoku)</span></code></pre>
-</div>
-<p>Then change all bright pixel values greater than 192 to 192:</p>
-<div class="codewrapper sourceCode" id="cb10">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>sudoku_gray_background[sudoku_gray_background <span class="op">&gt;</span> <span class="dv">192</span>] <span class="op">=</span> <span class="dv">192</span></span></code></pre>
-</div>
-<p>Finally, display the original and modified images side by side. Note
-that we have to specify <code>vmin=0</code> and <code>vmax=255</code> as
-the range of the colorscale because it would otherwise automatically
-adjust to the new range 0-192.</p>
-<div class="codewrapper sourceCode" id="cb11">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>ax[<span class="dv">0</span>].imshow(sudoku, cmap<span class="op">=</span><span class="st">"gray"</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">255</span>)</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>ax[<span class="dv">1</span>].imshow(sudoku_gray_background, cmap<span class="op">=</span><span class="st">"gray"</span>, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">255</span>)</span></code></pre>
-</div>
-</div>
-</div>
-</div>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>nuclei <span class="op">=</span> cells[:,:,<span class="dv">2</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>plt.imshow(nuclei)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>mitochondria <span class="op">=</span> cells[:,:,<span class="dv">1</span>]</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>plt.imshow(mitochondria, vmax<span class="op">=</span><span class="dv">255</span>)</span></code></pre>
 </div>
 <div id="plotting-single-channel-images-cmap-vmin-vmax" class="callout">
 <div class="callout-square">
@@ -1944,13 +1860,14 @@ adjust to the new range 0-192.</p>
 vmax)<a class="anchor" aria-label="anchor" href="#plotting-single-channel-images-cmap-vmin-vmax"></a>
 </h3>
 <div class="callout-content">
-<p>Compared to a colour image, a grayscale image contains only a single
-intensity value per pixel. When we plot such an image with
-<code>plt.imshow</code>, Matplotlib uses a colour map, to assign each
-intensity value a colour. The default colour map is called “viridis” and
-maps low values to purple and high values to yellow. We can instruct
-Matplotlib to map low values to black and high values to white instead,
-by calling <code>plt.imshow</code> with <code>cmap="gray"</code>. <a href="https://matplotlib.org/stable/gallery/color/colormap_reference.html" class="external-link">The
+<p>Compared to a colour image, a grayscale image or a single channel
+contains only a single intensity value per pixel. When we plot such an
+image with <code>plt.imshow</code>, Matplotlib uses a colour map, to
+assign each intensity value a colour. The default colour map is called
+“viridis” and maps low values to purple and high values to yellow. We
+can instruct Matplotlib to map low values to black and high values to
+white instead, by calling <code>plt.imshow</code> with
+<code>cmap="gray"</code>. <a href="https://matplotlib.org/stable/gallery/color/colormap_reference.html" class="external-link">The
 documentation contains an overview of pre-defined colour maps</a>.</p>
 <p>Furthermore, Matplotlib determines the minimum and maximum values of
 the colour map dynamically from the image, by default. That means that
@@ -1959,9 +1876,7 @@ will be mapped to black and white respectively (and not dark gray and
 light gray as you might expect). If there are defined minimum and
 maximum vales, you can specify them via <code>vmin</code> and
 <code>vmax</code> to get the desired output.</p>
-<p>If you forget about this, it can lead to unexpected results. Try
-removing the <code>vmax</code> parameter from the sudoku challenge
-solution and see what happens.</p>
+<p>If you forget about this, it can lead to unexpected results.</p>
 </div>
 </div>
 </div>
@@ -1975,113 +1890,112 @@ pixels in the image, and so on. It is important to remember that
 coordinates are specified in <em>(ry, cx)</em> order and that colour
 values are specified in <em>(r, g, b)</em> order when doing these
 manipulations.</p>
-<p>Consider this image of a whiteboard, and suppose that we want to
-create a sub-image with just the portion that says “odd + even = odd,”
-along with the red box that is drawn around the words.</p>
-<figure><img src="../data/board.jpg" alt="Whiteboard image" class="figure mx-auto d-block"></figure><p>Using <code>matplotlib.pyplot.imshow</code> we can determine the
+<p>Consider this image of HeLa cells, and suppose that we want to create
+a sub-image with just one of the cells.</p>
+<figure><img src="../data/hela-cells-8bit.tif" alt="HeLa cells image" class="figure mx-auto d-block"></figure><p>Using <code>matplotlib.pyplot.imshow</code> we can determine the
 coordinates of the corners of the area we wish to extract by hovering
 the mouse near the points of interest and noting the coordinates
 (remember to run <code>%matplotlib widget</code> first if you haven’t
 already). If we do that, we might settle on a rectangular area with an
-upper-left coordinate of <em>(135, 60)</em> and a lower-right coordinate
-of <em>(480, 150)</em>, as shown in this version of the whiteboard
-picture:</p>
-<figure><img src="../fig/board-coordinates.jpg" alt="Whiteboard coordinates" class="figure mx-auto d-block"></figure><p>Note that the coordinates in the preceding image are specified in
+upper-left coordinate of <em>(180, 280)</em> and a lower-right
+coordinate of <em>(520, 500)</em>, as shown in this version of the
+whiteboard picture:</p>
+<figure><img src="../fig/hela-cells-coordinates.jpg" alt="Sub picture coordinates for one cell" class="figure mx-auto d-block"></figure><p>Note that the coordinates in the preceding image are specified in
 <em>(cx, ry)</em> order. Now if our entire whiteboard image is stored as
 a NumPy array named <code>image</code>, we can create a new image of the
 selected region with a statement like this:</p>
-<p><code>clip = image[60:151, 135:481, :]</code></p>
+<p><code>clip = image[280:501, 180:521, :]</code></p>
 <p>Our array slicing specifies the range of y-coordinates or rows first,
-<code>60:151</code>, and then the range of x-coordinates or columns,
-<code>135:481</code>. Note we go one beyond the maximum value in each
+<code>280:501</code>, and then the range of x-coordinates or columns,
+<code>180:521</code>. Note we go one beyond the maximum value in each
 dimension, so that the entire desired area is selected. The third part
 of the slice, <code>:</code>, indicates that we want all three colour
 channels in our new image.</p>
 <p>A script to create the subimage would start by loading the image:</p>
-<div class="codewrapper sourceCode" id="cb12">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co">"""Python script demonstrating image modification and creation via NumPy array slicing."""</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="co"># load and display original image</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>board <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/board.jpg"</span>)</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>board <span class="op">=</span> np.array(board)</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>plt.imshow(board)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">"""Python script demonstrating image modification and creation via NumPy array slicing."""</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># load and display original image</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cell-8bit.tif"</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>cells <span class="op">=</span> np.array(cells)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
 </div>
 <p>Then we use array slicing to create a new image with our selected
 area and then display the new image.</p>
-<div class="codewrapper sourceCode" id="cb13">
+<div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># extract, display, and save sub-image</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>clipped_board <span class="op">=</span> board[<span class="dv">60</span>:<span class="dv">151</span>, <span class="dv">135</span>:<span class="dv">481</span>, :]</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>plt.imshow(clipped_board)</span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>iio.imwrite(uri<span class="op">=</span><span class="st">"data/clipped_board.tif"</span>, image<span class="op">=</span>clipped_board)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># extract, display, and save sub-image</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>cell_one <span class="op">=</span> cells[<span class="dv">280</span>:<span class="dv">501</span>, <span class="dv">180</span>:<span class="dv">521</span>, :]</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>plt.imshow(cell_one)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>iio.imwrite(uri<span class="op">=</span><span class="st">"data/cell_one.tif"</span>, image<span class="op">=</span>cell_one)</span></code></pre>
 </div>
 <p>We can also change the values in an image, as shown next.</p>
-<div class="codewrapper sourceCode" id="cb14">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># replace clipped area with sampled color</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>color <span class="op">=</span> board[<span class="dv">330</span>, <span class="dv">90</span>]</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>board[<span class="dv">60</span>:<span class="dv">151</span>, <span class="dv">135</span>:<span class="dv">481</span>] <span class="op">=</span> color</span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>plt.imshow(board)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># replace clipped area with sampled color</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>color <span class="op">=</span> cells[<span class="dv">30</span>,<span class="dv">30</span>]</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>board[<span class="dv">280</span>:<span class="dv">501</span>, <span class="dv">180</span>:<span class="dv">521</span>] <span class="op">=</span> color</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>plt.imshow(board)</span></code></pre>
 </div>
 <p>First, we sample a single pixel’s colour at a particular location of
 the image, saving it in a variable named <code>color</code>, which
 creates a 1 × 1 × 3 NumPy array with the blue, green, and red colour
-values for the pixel located at <em>(ry = 330, cx = 90)</em>. Then, with
-the <code>img[60:151, 135:481] = color</code> command, we modify the
+values for the pixel located at <em>(ry = 30, cx = 30)</em>. Then, with
+the <code>img[280:501, 180:521] = color</code> command, we modify the
 image in the specified area. From a NumPy perspective, this changes all
 the pixel values within that range to array saved in the
 <code>color</code> variable. In this case, the command “erases” that
-area of the whiteboard, replacing the words with a beige colour, as
-shown in the final image produced by the program:</p>
-<figure><img src="../fig/board-final.jpg" alt='"Erased" whiteboard' class="figure mx-auto d-block"></figure><div id="practicing-with-slices-10-min---optional-not-included-in-timing" class="callout challenge">
+area of the image, replacing the words with the background black color,
+as shown in the final image produced by the program:</p>
+<figure><img src="../fig/hela-cells-erased.jpg" alt='"Erased" one cell from hela cells image' class="figure mx-auto d-block"></figure><div id="practicing-with-slices-10-min" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="practicing-with-slices-10-min---optional-not-included-in-timing" class="callout-inner">
-<h3 class="callout-title">Practicing with slices (10 min - optional, not
-included in timing)<a class="anchor" aria-label="anchor" href="#practicing-with-slices-10-min---optional-not-included-in-timing"></a>
+<div id="practicing-with-slices-10-min" class="callout-inner">
+<h3 class="callout-title">Practicing with slices (10 min)<a class="anchor" aria-label="anchor" href="#practicing-with-slices-10-min"></a>
 </h3>
 <div class="callout-content">
-<p>Using the techniques you just learned, write a script that creates,
-displays, and saves a sub-image containing only the plant and its roots
-from “data/maize-root-cluster.jpg”</p>
+<p>Repeat the above exercise for the leftmost cell. Using the techniques
+you just learned, write a script that creates, displays, and saves a
+sub-image containing only the leftmost cell from the HeLa cells
+image.</p>
 </div>
 </div>
 </div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
+  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
-<p>Here is the completed Python program to select only the plant and
-roots in the image.</p>
-<div class="codewrapper sourceCode" id="cb15">
+<p>Here is the completed Python program to select only the leftmost cell
+in the image</p>
+<div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co">"""Python script to extract a sub-image containing only the plant and roots in an existing image."""</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co"># load and display original image</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>maize_roots <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/maize-root-cluster.jpg"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>plt.imshow(maize_roots)</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="co"># extract and display sub-image</span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>clipped_maize <span class="op">=</span> maize_roots[<span class="dv">0</span>:<span class="dv">400</span>, <span class="dv">275</span>:<span class="dv">550</span>, :]</span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>plt.imshow(clipped_maize)</span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a></span>
-<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a><span class="co"># save sub-image</span></span>
-<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>iio.imwrite(uri<span class="op">=</span><span class="st">"data/clipped_maize.jpg"</span>, image<span class="op">=</span>clipped_maize)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co">"""Python script to extract a sub-image containing only the plant and roots in an existing image."""</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># load and display original image</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>plt.imshow(cells)</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co"># extract and display sub-image</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>cell_two <span class="op">=</span> cells[<span class="dv">70</span>:<span class="dv">391</span>, <span class="dv">20</span>:<span class="dv">211</span>, :]</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>plt.imshow(cell_two)</span>
+<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co"># save sub-image</span></span>
+<span id="cb13-15"><a href="#cb13-15" tabindex="-1"></a>iio.imwrite(uri<span class="op">=</span><span class="st">"data/cell_two.jpg"</span>, image<span class="op">=</span>cell_two)</span></code></pre>
 </div>
 </div>
 </div>
@@ -2111,7 +2025,7 @@ function.</li>
 <code>image[image &lt; 128] = 0</code>, can be used to manipulate the
 pixels of an image.</li>
 <li>Array slicing can be used to extract sub-images or modify areas of
-images, e.g., <code>clip = image[60:150, 135:480, :]</code>.</li>
+images, e.g., <code>clip = image[280:501, 180:521, :]</code>.</li>
 <li>Metadata is not retained when images are loaded as NumPy arrays
 using <code>iio.imread()</code>.</li>
 </ul>
@@ -2120,7 +2034,7 @@ using <code>iio.imread()</code>.</li>
 </div>
 </section></section><section id="aio-04-drawing"><p>Content from <a href="04-drawing.html">Drawing and Bitwise Operations</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-15 |
         
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/04-drawing.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 90 minutes</p>
@@ -2458,6 +2372,25 @@ plot a rectangle, a circle, or a square. Again, we do this with the
 <p>All that remains is the task of modifying the image using our mask in
 such a way that the areas with <code>True</code> pixels in the mask are
 not shown in the image any more.</p>
+<div id="loading-images-with-imageio-read-only-arrays" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div id="loading-images-with-imageio-read-only-arrays" class="callout-inner">
+<h3 class="callout-title">Loading images with imageio: Read-only
+arrays<a class="anchor" aria-label="anchor" href="#loading-images-with-imageio-read-only-arrays"></a>
+</h3>
+<div class="callout-content">
+<p>When loading an image with imageio, in certain situations the image
+is stored in a read-only array. If you attempt to manipulate the pixels
+in a read-only array, you will receive an error message
+<code>ValueError: assignment destination is read-only</code>. In order
+to make the image array writeable, we can create a copy with
+<code>image = np.array(image)</code> before manipulating the pixel
+values.</p>
+</div>
+</div>
+</div>
 <div id="how-does-a-mask-work-optional-not-included-in-timing" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
@@ -2967,7 +2900,7 @@ passing it to the <code>np.histogram</code> function.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3167,7 +3100,7 @@ this:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3420,7 +3353,7 @@ moved over to apply the filter to the next pixel in the image.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Terminology about image boundaries</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>Take care to avoid mixing up the term “edge” to describe the edges of
 objects <em>within</em> an image and the outer boundaries of the images
@@ -3696,7 +3629,7 @@ on the blurred image?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Generally speaking, the larger the sigma value, the more blurry the
 result. A larger sigma will tend to get rid of more noise in the image,
@@ -3729,7 +3662,7 @@ in the cx direction.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4026,7 +3959,7 @@ think would be a good value for the threshold <code>t</code>?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>The histogram for the <code>data/shapes-02.jpg</code> image can be
 shown with</p>
@@ -4077,7 +4010,7 @@ a black background.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Here are the commands to create and view the binary mask</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -4177,7 +4110,7 @@ background depending on the data and application.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>The histogram of the maize root image may prompt questions from
 learners about the interpretation of the peaks and the broader region
@@ -4386,7 +4319,7 @@ given what we have learned so far.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>One approach we might take is to try to completely mask out a region
 from each image, particularly, the area containing the white circle and
@@ -4447,7 +4380,7 @@ Otsu’s method.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <p>We can apply a simple binary thresholding with a threshold
 <code>t=0.95</code> to remove the label and circle from the image. We
@@ -4504,7 +4437,7 @@ data/trial-293.jpg,0.13190342420212767</code></pre>
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>What is &amp; doing in the example above?</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <p>The <code>&amp;</code> operator above means that we have defined a
 logical AND statement. This combines the two tests of pixel intensities
@@ -4585,7 +4518,7 @@ good threshold value for the image.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <p>Here is the code to create the grayscale histogram:</p>
 <div class="codewrapper sourceCode" id="cb23">
@@ -5640,7 +5573,7 @@ applied conveniently to any image file.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>First, let’s work through the process for one image:</p>
 <div class="codewrapper sourceCode" id="cb1">
@@ -5784,7 +5717,7 @@ automated thresholding approach, e.g. Otsu, to mask the colonies.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Here is a modified function with the requested features. Note when
 calculating the Otsu threshold we don’t include the very bright pixels
@@ -5885,8 +5818,8 @@ those involving morphometrics.</li>
   "url": "https://govekk.github.io/image-processing/instructor/aio.html",
   "identifier": "https://govekk.github.io/image-processing/instructor/aio.html",
   "dateCreated": "2024-03-14",
-  "dateModified": "2024-03-13",
-  "datePublished": "2024-03-13"
+  "dateModified": "2024-03-15",
+  "datePublished": "2024-03-15"
 }
 
   </script><script>
