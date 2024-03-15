@@ -319,6 +319,14 @@ All that remains is the task of modifying the image using our mask in such a
 way that the areas with `True` pixels in the mask are not shown in the image
 any more.
 
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Loading images with imageio: Read-only arrays
+
+When loading an image with imageio, in certain situations the image is stored in a read-only array. If you attempt to manipulate the pixels in a read-only array, you will receive an error message `ValueError: assignment destination is read-only`. In order to make the image array writeable, we can create a copy with `image = np.array(image)` before manipulating the pixel values.
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## How does a mask work? (optional, not included in timing)

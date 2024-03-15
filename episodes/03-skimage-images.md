@@ -33,7 +33,7 @@ import numpy as np
 import skimage as ski
 ```
 
-## Reading, displaying, and saving images
+## Reading and displaying images
 
 Imageio provides intuitive functions for reading and writing (saving) images.
 All of the popular image formats, such as BMP, PNG, JPEG, and TIFF are supported,
@@ -49,18 +49,18 @@ Here are the first few lines:
 ```python
 """Python program to open, display, and save an image."""
 # read image
-chair = iio.imread(uri="data/chair.jpg")
+cells = iio.imread(uri="data/hela-cells-8bit")
 ```
 
-We use the `iio.imread()` function to read a JPEG image entitled **chair.jpg**.
-Imageio reads the image, converts it from JPEG into a NumPy array,
-and returns the array; we save the array in a variable named `chair`.
+We use the `iio.imread()` function to read a TIFF image entitled **hela-cells-8bit**.
+Imageio reads the image, converts it from TIFF into a NumPy array,
+and returns the array; we save the array in a variable named `cells`.
 
 Next, we will do something with the image:
 
 ```python
 fig, ax = plt.subplots()
-plt.imshow(chair)
+plt.imshow(cells)
 ```
 
 Once we have the image in the program,
@@ -68,18 +68,39 @@ we first call `plt.subplots()` so that we will have
 a fresh figure with a set of axis independent from our previous calls.
 Next we call `plt.imshow()` in order to display the image.
 
-Now, we will save the image in another format:
+## Saving images
+
+Another image we will use will be one of scikit-image's example images. 
+These can be loaded through the skimage.data module.
+
+```python
+hed_image = data.immunohistochemistry()
+```
+
+Let's look at this image:
+
+```python
+fig, ax = plt.subplots()
+plt.imshow(hed_image)
+```
+
+What if we want to keep a local copy? 
 
 ```python
 # save a new version in .tif format
-iio.imwrite(uri="data/chair.tif", image=chair)
+iio.imwrite(uri="data/immunohistochemistry.tif", image=hed_image)
+# save a new version in .jpg format
+iio.imwrite(uri="data/immunohistochemistry.jpg", image=hed_image)
 ```
 
-The final statement in the program, `iio.imwrite(uri="data/chair.tif", image=chair)`,
-writes the image to a file named `chair.tif` in the `data/` directory.
+The final statement in the program, `iio.imwrite(uri="data/immunohistochemistry.jpg", image=hed_image)`,
+writes the image to a file named `immunohistochemistry.jpg` in the `data/` directory.
 The `imwrite()` function automatically determines the type of the file,
 based on the file extension we provide.
-In this case, the `.tif` extension causes the image to be saved as a TIFF.
+In this case, the `.tif` extension causes the image to be saved as a TIFF, and the `.jpg` extension
+causes the image to be saved as a JPG. Using Finder or File Explorer, check out the size difference
+between these two files. As we discussed in [the *Image Basics* episode](02-image-basics.md),
+JPG is performing a lossy compression to save a smaller file.
 
 ::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -124,86 +145,20 @@ the image to write to disk.
 So, we could save the chair image in the sample code above
 using positional arguments like this:
 
-`iio.imwrite("data/chair.tif", image)`
+`iio.imwrite("data/immunohistochemistry.jpg", hed_image)`
 
 Since the function expects the first argument to be the file name,
-there is no confusion about what `"data/chair.jpg"` means. The same goes
+there is no confusion about what `"data/immunohistochemistry.jpg"` means. The same goes
 for the second argument.
 
 The style we will use in this workshop is to name each argument, like this:
 
-`iio.imwrite(uri="data/chair.tif", image=image)`
+`iio.imwrite(uri="data/immunohistochemistry.jpg", image=hed_image)`
 
 This style will make it easier for you to learn how to use the variety of
 functions we will cover in this workshop.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Manipulating pixels
-
-In [the *Image Basics* episode](02-image-basics.md),
-we individually manipulated the colours of pixels by changing the numbers stored
-in the image's NumPy array. Let's apply the principles learned there
-along with some new principles to a real world example.
-
-Suppose we are interested in this maize root cluster image.
-We want to be able to focus our program's attention on the roots themselves,
-while ignoring the black background.
-
-![](data/maize-root-cluster.jpg){alt='Root cluster image'}
-
-Since the image is stored as an array of numbers,
-we can simply look through the array for pixel colour values that are
-less than some threshold value.
-This process is called *thresholding*,
-and we will see more powerful methods to perform the thresholding task in
-[the *Thresholding* episode](07-thresholding.md).
-Here, though, we will look at a simple and elegant NumPy method for thresholding.
-Let us develop a program that keeps only the pixel colour values in an image
-that have value greater than or equal to 128.
-This will keep the pixels that are brighter than half of "full brightness",
-i.e., pixels that do not belong to the black background.
-
-We will start by reading the image and displaying it.
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-## Loading images with imageio: Read-only arrays
-
-When loading an image with imageio, in certain situations the image is stored in a read-only array. If you attempt to manipulate the pixels in a read-only array, you will receive an error message `ValueError: assignment destination is read-only`. In order to make the image array writeable, we can create a copy with `image = np.array(image)` before manipulating the pixel values.
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-```python
-"""Python script to ignore low intensity pixels in an image."""
-
-# read input image
-maize_roots = iio.imread(uri="data/maize-root-cluster.jpg")
-maize_roots = np.array(maize_roots)
-
-# display original image
-fig, ax = plt.subplots()
-plt.imshow(maize_roots)
-```
-
-Now we can threshold the image and display the result.
-
-```python
-# keep only high-intensity pixels
-maize_roots[maize_roots < 128] = 0
-
-# display modified image
-fig, ax = plt.subplots()
-plt.imshow(maize_roots)
-```
-
-The NumPy command to ignore all low-intensity pixels is `roots[roots < 128] = 0`.
-Every pixel colour value in the whole 3-dimensional array with a value less
-that 128 is set to zero.
-In this case,
-the result is an image in which the extraneous background detail has been removed.
-
-![](fig/maize-root-cluster-threshold.jpg){alt='Thresholded root image'}
 
 ## Converting colour images to grayscale
 
@@ -239,35 +194,34 @@ You will encounter a similar approach with "centre" and `center`.
 """Python script to load a color image as grayscale."""
 
 # read input image
-chair = iio.imread(uri="data/chair.jpg")
+hed_color = iio.imread(uri="data/immunohistochemistry.tif")
 
 # display original image
 fig, ax = plt.subplots()
-plt.imshow(chair)
+plt.imshow(hed_color)
 
 # convert to grayscale and display
-gray_chair = ski.color.rgb2gray(chair)
+hed_gray = ski.color.rgb2gray(hed_color)
 fig, ax = plt.subplots()
-plt.imshow(gray_chair, cmap="gray")
+plt.imshow(hed_gray, cmap="gray")
 ```
 
-We can also load colour images as grayscale directly by
+We can also load colour images of certain formats as grayscale directly by
 passing the argument `mode="L"` to `iio.imread()`.
 
 ```python
 """Python script to load a color image as grayscale."""
 
 # read input image, based on filename parameter
-gray_chair = iio.imread(uri="data/chair.jpg", mode="L")
+hed_gray = iio.imread(uri="data/immunohistochemistry.jpg", mode="L")
 
 # display grayscale image
 fig, ax = plt.subplots()
-plt.imshow(gray_chair, cmap="gray")
+plt.imshow(hed_gray, cmap="gray")
 ```
 
 The first argument to `iio.imread()` is the filename of the image.
-The second argument `mode="L"` determines the type and range of the pixel values in the image (e.g., an 8-bit pixel has a range of 0-255). This argument is forwarded to the `pillow` backend, a Python imaging library for which mode "L" means 8-bit pixels and single-channel (i.e., grayscale). The backend used by `iio.imread()` may be specified as an optional argument: to use `pillow`, you would
-pass `plugin="pillow"`. If the backend is not specified explicitly, `iio.imread()` determines the backend to use based on the image type.
+The second argument `mode="L"` determines the type and range of the pixel values in the image (e.g., an 8-bit pixel has a range of 0-255). This argument is forwarded to the `pillow` backend, a Python imaging library for which mode "L" means 8-bit pixels and single-channel (i.e., grayscale). The backend used by `iio.imread()` may be specified as an optional argument: to use `pillow`, you would pass `plugin="pillow"`. If the backend is not specified explicitly, `iio.imread()` determines the backend to use based on the image type.
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -277,72 +231,33 @@ When loading an image with `mode="L"`, the pixel values are stored as 8-bit inte
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
+## Multichannel images
 
-## Keeping only low intensity pixels (10 min)
+In [the *Image Basics* episode](02-image-basics.md) we discussed how color is represented by three numbers in RGB images. The immunohistochemistry image we have been using is an RGB image. The tissue was stained with hematoxylin (blue) and DAB (brown), but if we split apart the RGB color channels, each one isn't particularly useful in identifying that staining:
 
-A little earlier, we showed how we could use Python and scikit-image to turn
-on only the high intensity pixels from an image, while turning all the low
-intensity pixels off.
-Now, you can practice doing the opposite - keeping all
-the low intensity pixels while changing the high intensity ones.
+![](fig/hed-rgb-separate.png){alt='A grid showing each RGB color of the immunohistochemistry image'}
 
-The file `data/sudoku.png` is an RGB image of a sudoku puzzle:
+In contrast, the image of HeLa cells is a multichannel image. We can conveniently read it and view it using the same functions as RGB, since it's the same 8bit with three channels. But in reality, those channels represent fluorescence of three different parts of the cell: lysosomes, mitochondria and nucleus. Currently, the lysosomes are marked in red, mitochondria in green, and nucleus in blue, but it doesn't really matter what color each is represented by. It's also often more useful to view multichannel images one channel at a time.
 
-![](data/sudoku.png){alt='Su-Do-Ku puzzle'}
-
-Your task is to load the image in grayscale format and turn all of 
-the bright pixels in the image to a
-light gray colour. In other words, mask the bright pixels that have
-a pixel value greater than, say, 192 and set their value to 192 (the
-value 192 is chosen here because it corresponds to 75% of the
-range 0-255 of an 8-bit pixel). The results should look like this:
-
-![](fig/sudoku-gray.png){alt='Modified Su-Do-Ku puzzle'}
-
-*Hint: the `cmap`, `vmin`, and `vmax` parameters of `matplotlib.pyplot.imshow`
-will be needed to display the modified image as desired. See the [Matplotlib
-documentation](https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.imshow.html) 
-for more details on `cmap`, `vmin`, and `vmax`.*
-
-:::::::::::::::  solution
-
-## Solution
-
-First, load the image file `data/sudoku.png` as a grayscale image. 
-Note we may want to create a copy of the image array to avoid modifying our original variable and 
-also because `imageio.v3.imread` sometimes returns a non-writeable image.
+![](fig/hela-cells-channels.png){alt='A grid showing each channel of the hela cells image'}
 
 ```python
-sudoku = iio.imread(uri="data/sudoku.png", mode="L")
-sudoku_gray_background = np.array(sudoku)
-```
-
-Then change all bright pixel values greater than 192 to 192:
-
-```python
-sudoku_gray_background[sudoku_gray_background > 192] = 192
-```
-
-Finally, display the original and modified images side by side. Note that we have to specify `vmin=0` and `vmax=255` as the range of the colorscale because it would otherwise automatically adjust to the new range 0-192.
-
-```python
+cells = iio.imread(uri="data/hela-cells-8bit.tif")
+nuclei = cells[:,:,2]
 fig, ax = plt.subplots()
-fig, ax = plt.subplots(ncols=2)
-ax[0].imshow(sudoku, cmap="gray", vmin=0, vmax=255)
-ax[1].imshow(sudoku_gray_background, cmap="gray", vmin=0, vmax=255)
+plt.imshow(nuclei)
+
+mitochondria = cells[:,:,1]
+fig, ax = plt.subplots()
+plt.imshow(mitochondria, vmax=255)
 ```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::  callout
 
 ## Plotting single channel images (cmap, vmin, vmax)
 
-Compared to a colour image, a grayscale image contains only a single
-intensity value per pixel. When we plot such an image with `plt.imshow`,
+Compared to a colour image, a grayscale image or a single channel contains only a
+single intensity value per pixel. When we plot such an image with `plt.imshow`,
 Matplotlib uses a colour map, to assign each intensity value a colour.
 The default colour map is called "viridis" and maps low values to purple
 and high values to yellow. We can instruct Matplotlib to map low values
@@ -357,8 +272,7 @@ will be mapped to black and white respectively (and not dark gray and light
 gray as you might expect). If there are defined minimum and maximum vales,
 you can specify them via `vmin` and `vmax` to get the desired output.
 
-If you forget about this, it can lead to unexpected results. Try removing
-the `vmax` parameter from the sudoku challenge solution and see what happens.
+If you forget about this, it can lead to unexpected results.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -372,31 +286,29 @@ It is important to
 remember that coordinates are specified in *(ry, cx)* order and that colour values
 are specified in *(r, g, b)* order when doing these manipulations.
 
-Consider this image of a whiteboard, and suppose that we want to create a
-sub-image with just the portion that says "odd + even = odd," along with the
-red box that is drawn around the words.
+Consider this image of HeLa cells, and suppose that we want to create a sub-image with just one of the cells.
 
-![](data/board.jpg){alt='Whiteboard image'}
+![](data/hela-cells-8bit.tif){alt='HeLa cells image'}
 
 Using `matplotlib.pyplot.imshow` 
 we can determine the coordinates of the corners of the area we wish to extract
 by hovering the mouse near the points of interest and noting the coordinates 
 (remember to run `%matplotlib widget` first if you haven't already).
 If we do that, we might settle on a rectangular
-area with an upper-left coordinate of *(135, 60)*
-and a lower-right coordinate of *(480, 150)*,
+area with an upper-left coordinate of *(180, 280)*
+and a lower-right coordinate of *(520, 500)*,
 as shown in this version of the whiteboard picture:
 
-![](fig/board-coordinates.jpg){alt='Whiteboard coordinates'}
+![](fig/hela-cells-coordinates.jpg){alt='Sub picture coordinates for one cell'}
 
 Note that the coordinates in the preceding image are specified in *(cx, ry)* order.
 Now if our entire whiteboard image is stored as a NumPy array named `image`,
 we can create a new image of the selected region with a statement like this:
 
-`clip = image[60:151, 135:481, :]`
+`clip = image[280:501, 180:521, :]`
 
-Our array slicing specifies the range of y-coordinates or rows first, `60:151`,
-and then the range of x-coordinates or columns, `135:481`.
+Our array slicing specifies the range of y-coordinates or rows first, `280:501`,
+and then the range of x-coordinates or columns, `180:521`.
 Note we go one beyond the maximum value in each dimension,
 so that the entire desired area is selected.
 The third part of the slice, `:`,
@@ -408,10 +320,10 @@ A script to create the subimage would start by loading the image:
 """Python script demonstrating image modification and creation via NumPy array slicing."""
 
 # load and display original image
-board = iio.imread(uri="data/board.jpg")
-board = np.array(board)
+cells = iio.imread(uri="data/hela-cell-8bit.tif")
+cells = np.array(cells)
 fig, ax = plt.subplots()
-plt.imshow(board)
+plt.imshow(cells)
 ```
 
 Then we use array slicing to
@@ -419,18 +331,18 @@ create a new image with our selected area and then display the new image.
 
 ```python
 # extract, display, and save sub-image
-clipped_board = board[60:151, 135:481, :]
+cell_one = cells[280:501, 180:521, :]
 fig, ax = plt.subplots()
-plt.imshow(clipped_board)
-iio.imwrite(uri="data/clipped_board.tif", image=clipped_board)
+plt.imshow(cell_one)
+iio.imwrite(uri="data/cell_one.tif", image=cell_one)
 ```
 
 We can also change the values in an image, as shown next.
 
 ```python
 # replace clipped area with sampled color
-color = board[330, 90]
-board[60:151, 135:481] = color
+color = cells[30,30]
+board[280:501, 180:521] = color
 fig, ax = plt.subplots()
 plt.imshow(board)
 ```
@@ -438,49 +350,48 @@ plt.imshow(board)
 First, we sample a single pixel's colour at a particular location of the
 image, saving it in a variable named `color`,
 which creates a 1 × 1 × 3 NumPy array with the blue, green, and red colour values
-for the pixel located at *(ry = 330, cx = 90)*.
-Then, with the `img[60:151, 135:481] = color` command,
+for the pixel located at *(ry = 30, cx = 30)*.
+Then, with the `img[280:501, 180:521] = color` command,
 we modify the image in the specified area.
 From a NumPy perspective,
 this changes all the pixel values within that range to array saved in
 the `color` variable.
-In this case, the command "erases" that area of the whiteboard,
-replacing the words with a beige colour,
+In this case, the command "erases" that area of the image,
+replacing the words with the background black color,
 as shown in the final image produced by the program:
 
-![](fig/board-final.jpg){alt='"Erased" whiteboard'}
+![](fig/hela-cells-erased.jpg){alt='"Erased" one cell from hela cells image'}
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Practicing with slices (10 min - optional, not included in timing)
+## Practicing with slices (10 min)
 
-Using the techniques you just learned, write a script that
-creates, displays, and saves a sub-image containing
-only the plant and its roots from "data/maize-root-cluster.jpg"
+Repeat the above exercise for the leftmost cell. Using the techniques you just learned, 
+write a script that creates, displays, and saves a sub-image containing
+only the leftmost cell from the HeLa cells image.
 
 :::::::::::::::  solution
 
 ## Solution
 
-Here is the completed Python program to select only the plant and roots
-in the image.
+Here is the completed Python program to select only the leftmost cell in the image
 
 ```python
 """Python script to extract a sub-image containing only the plant and roots in an existing image."""
 
 # load and display original image
-maize_roots = iio.imread(uri="data/maize-root-cluster.jpg")
+cells = iio.imread(uri="data/hela-cells-8bit.tif")
 fig, ax = plt.subplots()
-plt.imshow(maize_roots)
+plt.imshow(cells)
 
 # extract and display sub-image
-clipped_maize = maize_roots[0:400, 275:550, :]
+cell_two = cells[70:391, 20:211, :]
 fig, ax = plt.subplots()
-plt.imshow(clipped_maize)
+plt.imshow(cell_two)
 
 
 # save sub-image
-iio.imwrite(uri="data/clipped_maize.jpg", image=clipped_maize)
+iio.imwrite(uri="data/cell_two.jpg", image=cell_two)
 ```
 
 :::::::::::::::::::::::::
@@ -494,7 +405,7 @@ iio.imwrite(uri="data/clipped_maize.jpg", image=clipped_maize)
 - Colour images can be transformed to grayscale using `ski.color.rgb2gray()` or, in many cases, be read as grayscale directly by passing the argument `mode="L"` to `iio.imread()`.
 - We can resize images with the `ski.transform.resize()` function.
 - NumPy array commands, such as `image[image < 128] = 0`, can be used to manipulate the pixels of an image.
-- Array slicing can be used to extract sub-images or modify areas of images, e.g., `clip = image[60:150, 135:480, :]`.
+- Array slicing can be used to extract sub-images or modify areas of images, e.g., `clip = image[280:501, 180:521, :]`.
 - Metadata is not retained when images are loaded as NumPy arrays using `iio.imread()`.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
