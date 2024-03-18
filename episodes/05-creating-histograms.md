@@ -51,13 +51,13 @@ and histograms are also quite handy as a preparatory step before performing
 
 We will start with grayscale images,
 and then move on to colour images.
-We will use this image of a plant seedling as an example:
+We will use this hematoxylin and DAB stained immunohistochemistry image as an example:
 ![](data/immunohistochemistry.jpg){alt='HED IHC scikit example image'}
 
 Here we load the image in grayscale instead of full colour, and display it:
 
 ```python
-# read the image of a plant seedling as grayscale from the outset
+# read the immunohistochemistry image as grayscale from the outset
 hed_image = iio.imread(uri="data/immunohistochemistry.tif")
 hed_image = ski.color.rgb2gray(hed_image)
 
@@ -149,10 +149,10 @@ Finally, we create the histogram plot itself with
 We use the **left** bin edges as x-positions for the histogram values by
 indexing the `bin_edges` array to ignore the last value
 (the **right** edge of the last bin).
-When we run the program on this image of a plant seedling,
+When we run the program on the immunohistochemistry image,
 it produces this histogram:
 
-![](fig/ihc-grayscale-histogram.png){alt='Plant seedling histogram'}
+![](fig/ihc-grayscale-histogram.png){alt='Grayscale immunohistochemistry histogram'}
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -308,18 +308,18 @@ Then, use that mask to apply the colour histogram operation to that cell.
 
 Your masked image should look something like this:
 
-![](fig/cells-masked.jpg){alt='Masked well plate'}
+![](fig/cells-masked.jpg){alt='Masked cell'}
 
 And, the program should produce a colour histogram that looks like this:
 
-![](fig/cells-masked-histogram.png){alt='Well plate histogram'}
+![](fig/cells-masked-histogram.png){alt='Single cell histogram'}
 
 :::::::::::::::  solution
 
 ## Solution
 
 ```python
-# create a circular mask to select the 7th well in the first row
+# create a circular mask to select the lowest cell in the image
 mask = np.zeros(shape=cells.shape[0:2], dtype="bool")
 circle = ski.draw.disk(center=(400, 360), radius=80, shape=cells.shape[0:2])
 mask[circle] = 1
@@ -344,7 +344,7 @@ plt.figure()
 plt.xlim([0, 256])
 for (channel_id, color) in enumerate(colors):
     # use your circular mask to apply the histogram
-    # operation to the 7th well of the first row
+    # operation to the lowest cell of the image
     histogram, bin_edges = np.histogram(
         cells[:, :, channel_id][mask], bins=256, range=(0, 256)
     )
