@@ -206,7 +206,6 @@
         <ul><li><a href="#first-import-the-packages-needed-for-this-episode">First, import the packages needed for this episode</a></li>
 <li><a href="#simple-thresholding">Simple thresholding</a></li>
 <li><a href="#automatic-thresholding">Automatic thresholding</a></li>
-<li><a href="#application-measuring-root-mass">Application: measuring root mass</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
         
@@ -538,7 +537,7 @@ background is black (false).</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>The histogram for the blue channel of
 <code>data/hela-cells-8bit.tif</code> image can be shown with</p>
@@ -592,7 +591,7 @@ coloured nuclei on a black background.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Here are the commands to create and view the binary mask</p>
 <div class="codewrapper sourceCode" id="cb8">
@@ -704,307 +703,7 @@ a visual test of all of them at once.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>fig, ax <span class="op">=</span> ski.filters.try_all_threshold(blurred_image, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), verbose<span class="op">=</span><span class="va">False</span>)</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>plt.show()</span></code></pre>
 </div>
-<figure><img src="fig/cells-thresholder-test.png" alt="Overview test of all automated thresholders in scikit image" class="figure mx-auto d-block"></figure></section><section id="application-measuring-root-mass"><h2 class="section-heading">Application: measuring root mass<a class="anchor" aria-label="anchor" href="#application-measuring-root-mass"></a>
-</h2>
-<hr class="half-width"><p>Let us now turn to an application where we can apply thresholding and
-other techniques we have learned to this point. Consider these four
-maize root system images, which you can find in the files
-<code>data/trial-016.jpg</code>, <code>data/trial-020.jpg</code>,
-<code>data/trial-216.jpg</code>, and
-<code>data/trial-293.jpg</code>.</p>
-<figure><img src="fig/four-maize-roots.jpg" alt="Four images of maize roots" class="figure mx-auto d-block"></figure><p>Suppose we are interested in the amount of plant material in each
-image, and in particular how that amount changes from image to image.
-Perhaps the images represent the growth of the plant over time, or
-perhaps the images show four different maize varieties at the same phase
-of their growth. The question we would like to answer is, “how much root
-mass is in each image?”</p>
-<p>We will first construct a Python program to measure this value for a
-single image. Our strategy will be this:</p>
-<ol style="list-style-type: decimal"><li>Read the image, converting it to grayscale as it is read. For this
-application we do not need the colour image.</li>
-<li>Blur the image.</li>
-<li>Use Otsu’s method of thresholding to create a binary image, where
-the pixels that were part of the maize plant are white, and everything
-else is black.</li>
-<li>Save the binary image so it can be examined later.</li>
-<li>Count the white pixels in the binary image, and divide by the number
-of pixels in the image. This ratio will be a measure of the root mass of
-the plant in the image.</li>
-<li>Output the name of the image processed and the root mass ratio.</li>
-</ol><p>Our intent is to perform these steps and produce the numeric result -
-a measure of the root mass in the image - without human intervention.
-Implementing the steps within a Python function will enable us to call
-this function for different images.</p>
-<p>Here is a Python function that implements this root-mass-measuring
-strategy. Since the function is intended to produce numeric output
-without human interaction, it does not display any of the images. Almost
-all of the commands should be familiar, and in fact, it may seem simpler
-than the code we have worked on thus far, because we are not displaying
-any of the images.</p>
-<div class="codewrapper sourceCode" id="cb15">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="kw">def</span> measure_root_mass(filename, sigma<span class="op">=</span><span class="fl">1.0</span>):</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>    <span class="co"># read the original image, converting to grayscale on the fly</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>    image <span class="op">=</span> iio.imread(uri<span class="op">=</span>filename, mode<span class="op">=</span><span class="st">"L"</span>)</span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>    <span class="co"># blur before thresholding</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>    blurred_image <span class="op">=</span> ski.filters.gaussian(image, sigma<span class="op">=</span>sigma)</span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>    <span class="co"># perform automatic thresholding to produce a binary image</span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>    t <span class="op">=</span> ski.filters.threshold_otsu(blurred_image)</span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>    binary_mask <span class="op">=</span> blurred_image <span class="op">&gt;</span> t</span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>    <span class="co"># determine root mass ratio</span></span>
-<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a>    root_pixels <span class="op">=</span> np.count_nonzero(binary_mask)</span>
-<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a>    w <span class="op">=</span> binary_mask.shape[<span class="dv">1</span>]</span>
-<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>    h <span class="op">=</span> binary_mask.shape[<span class="dv">0</span>]</span>
-<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>    density <span class="op">=</span> root_pixels <span class="op">/</span> (w <span class="op">*</span> h)</span>
-<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a></span>
-<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>    <span class="cf">return</span> density</span></code></pre>
-</div>
-<p>The function begins with reading the original image from the file
-<code>filename</code>. We use <code>iio.imread()</code> with the
-optional argument <code>mode="L"</code> to automatically convert it to
-grayscale. Next, the grayscale image is blurred with a Gaussian filter
-with the value of <code>sigma</code> that is passed to the function.
-Then we determine the threshold <code>t</code> with Otsu’s method and
-create a binary mask just as we did in the previous section. Up to this
-point, everything should be familiar.</p>
-<p>The final part of the function determines the root mass ratio in the
-image. Recall that in the <code>binary_mask</code>, every pixel has
-either a value of zero (black/background) or one (white/foreground). We
-want to count the number of white pixels, which can be accomplished with
-a call to the NumPy function <code>np.count_nonzero</code>. Then we
-determine the width and height of the image by using the elements of
-<code>binary_mask.shape</code> (that is, the dimensions of the NumPy
-array that stores the image). Finally, the density ratio is calculated
-by dividing the number of white pixels by the total number of pixels
-<code>w*h</code> in the image. The function returns then root density of
-the image.</p>
-<p>We can call this function with any filename and provide a sigma value
-for the blurring. If no sigma value is provided, the default value 1.0
-will be used. For example, for the file <code>data/trial-016.jpg</code>
-and a sigma value of 1.5, we would call the function like this:</p>
-<div class="codewrapper sourceCode" id="cb16">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>measure_root_mass(filename<span class="op">=</span><span class="st">"data/trial-016.jpg"</span>, sigma<span class="op">=</span><span class="fl">1.5</span>)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>0.0482436835106383`</code></pre>
-</div>
-<p>Now we can use the function to process the series of four images
-shown above. In a real-world scientific situation, there might be
-dozens, hundreds, or even thousands of images to process. To save us the
-tedium of calling the function for each image by hand, we can write a
-loop that processes all files automatically. The following code block
-assumes that the files are located in the same directory and the
-filenames all start with the <strong>trial-</strong> prefix and end with
-the <strong>.jpg</strong> suffix.</p>
-<div class="codewrapper sourceCode" id="cb18">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>all_files <span class="op">=</span> glob.glob(<span class="st">"data/trial-*.jpg"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> all_files:</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>    density <span class="op">=</span> measure_root_mass(filename<span class="op">=</span>filename, sigma<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>    <span class="co"># output in format suitable for .csv</span></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>    <span class="bu">print</span>(filename, density, sep<span class="op">=</span><span class="st">","</span>)</span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>data/trial-016.jpg,0.0482436835106383
-data/trial-020.jpg,0.06346941489361702
-data/trial-216.jpg,0.14073969414893617
-data/trial-293.jpg,0.13607895611702128</code></pre>
-</div>
-<div id="ignoring-more-of-the-images-brainstorming-10-min" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="ignoring-more-of-the-images-brainstorming-10-min" class="callout-inner">
-<h3 class="callout-title">Ignoring more of the images – brainstorming
-(10 min)<a class="anchor" aria-label="anchor" href="#ignoring-more-of-the-images-brainstorming-10-min"></a>
-</h3>
-<div class="callout-content">
-<p>Let us take a closer look at the binary masks produced by the
-<code>measure_root_mass</code> function.</p>
-<figure><img src="fig/four-maize-roots-binary.jpg" alt="Binary masks of the four maize root images" class="figure mx-auto d-block"></figure><p>You may have noticed in the section on automatic thresholding that
-the thresholded image does include regions of the image aside of the
-plant root: the numbered labels and the white circles in each image are
-preserved during the thresholding, because their grayscale values are
-above the threshold. Therefore, our calculated root mass ratios include
-the white pixels of the label and white circle that are not part of the
-plant root. Those extra pixels affect how accurate the root mass
-calculation is!</p>
-<p>How might we remove the labels and circles before calculating the
-ratio, so that our results are more accurate? Think about some options
-given what we have learned so far.</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
-</button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
-<div class="accordion-body">
-<p>One approach we might take is to try to completely mask out a region
-from each image, particularly, the area containing the white circle and
-the numbered label. If we had coordinates for a rectangular area on the
-image that contained the circle and the label, we could mask the area
-out by using techniques we learned in <a href="04-drawing.html">the
-<em>Drawing and Bitwise Operations</em> episode</a>.</p>
-<p>However, a closer inspection of the binary images raises some issues
-with that approach. Since the roots are not always constrained to a
-certain area in the image, and since the circles and labels are in
-different locations each time, we would have difficulties coming up with
-a single rectangle that would work for <em>every</em> image. We could
-create a different masking rectangle for each image, but that is not a
-practicable approach if we have hundreds or thousands of images to
-process.</p>
-<p>Another approach we could take is to apply two thresholding steps to
-the image. Look at the graylevel histogram of the file
-<code>data/trial-016.jpg</code> shown above again: Notice the peak near
-1.0? Recall that a grayscale value of 1.0 corresponds to white pixels:
-the peak corresponds to the white label and circle. So, we could use
-simple binary thresholding to mask the white circle and label from the
-image, and then we could use Otsu’s method to select the pixels in the
-plant portion of the image.</p>
-<p>Note that most of this extra work in processing the image could have
-been avoided during the experimental design stage, with some careful
-consideration of how the resulting images would be used. For example,
-all of the following measures could have made the images easier to
-process, by helping us predict and/or detect where the label is in the
-image and subsequently mask it from further processing:</p>
-<ul><li>Using labels with a consistent size and shape</li>
-<li>Placing all the labels in the same position, relative to the
-sample</li>
-<li>Using a non-white label, with non-black writing</li>
-</ul></div>
-</div>
-</div>
-</div>
-<div id="ignoring-more-of-the-images-implementation-30-min---optional-not-included-in-timing" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="ignoring-more-of-the-images-implementation-30-min---optional-not-included-in-timing" class="callout-inner">
-<h3 class="callout-title">Ignoring more of the images – implementation
-(30 min - optional, not included in timing)<a class="anchor" aria-label="anchor" href="#ignoring-more-of-the-images-implementation-30-min---optional-not-included-in-timing"></a>
-</h3>
-<div class="callout-content">
-<p>Implement an enhanced version of the function
-<code>measure_root_mass</code> that applies simple binary thresholding
-to remove the white circle and label from the image before applying
-Otsu’s method.</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
-  <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
-</button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
-<div class="accordion-body">
-<p>We can apply a simple binary thresholding with a threshold
-<code>t=0.95</code> to remove the label and circle from the image. We
-can then use the binary mask to calculate the Otsu threshold without the
-pixels from the label and circle.</p>
-<div class="codewrapper sourceCode" id="cb20">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="kw">def</span> enhanced_root_mass(filename, sigma):</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    <span class="co"># read the original image, converting to grayscale on the fly</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    image <span class="op">=</span> iio.imread(uri<span class="op">=</span>filename, mode<span class="op">=</span><span class="st">"L"</span>)</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>    <span class="co"># blur before thresholding</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>    blurred_image <span class="op">=</span> ski.filters.gaussian(image, sigma<span class="op">=</span>sigma)</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>    <span class="co"># perform binary thresholding to mask the white label and circle</span></span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>    binary_mask <span class="op">=</span> blurred_image <span class="op">&lt;</span> <span class="fl">0.95</span></span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>    </span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>    <span class="co"># perform automatic thresholding using only the pixels with value True in the binary mask</span></span>
-<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>    t <span class="op">=</span> ski.filters.threshold_otsu(blurred_image[binary_mask])</span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a>    </span>
-<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>    <span class="co"># update binary mask to identify pixels which are both less than 0.95 and greater than t</span></span>
-<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a>    binary_mask <span class="op">=</span> (blurred_image <span class="op">&lt;</span> <span class="fl">0.95</span>) <span class="op">&amp;</span> (blurred_image <span class="op">&gt;</span> t)</span>
-<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a></span>
-<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a>    <span class="co"># determine root mass ratio</span></span>
-<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a>    root_pixels <span class="op">=</span> np.count_nonzero(binary_mask)</span>
-<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a>    w <span class="op">=</span> binary_mask.shape[<span class="dv">1</span>]</span>
-<span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a>    h <span class="op">=</span> binary_mask.shape[<span class="dv">0</span>]</span>
-<span id="cb20-22"><a href="#cb20-22" tabindex="-1"></a>    density <span class="op">=</span> root_pixels <span class="op">/</span> (w <span class="op">*</span> h)</span>
-<span id="cb20-23"><a href="#cb20-23" tabindex="-1"></a></span>
-<span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>    <span class="cf">return</span> density</span>
-<span id="cb20-25"><a href="#cb20-25" tabindex="-1"></a></span>
-<span id="cb20-26"><a href="#cb20-26" tabindex="-1"></a></span>
-<span id="cb20-27"><a href="#cb20-27" tabindex="-1"></a>all_files <span class="op">=</span> glob.glob(<span class="st">"data/trial-*.jpg"</span>)</span>
-<span id="cb20-28"><a href="#cb20-28" tabindex="-1"></a><span class="cf">for</span> filename <span class="kw">in</span> all_files:</span>
-<span id="cb20-29"><a href="#cb20-29" tabindex="-1"></a>    density <span class="op">=</span> enhanced_root_mass(filename<span class="op">=</span>filename, sigma<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb20-30"><a href="#cb20-30" tabindex="-1"></a>    <span class="co"># output in format suitable for .csv</span></span>
-<span id="cb20-31"><a href="#cb20-31" tabindex="-1"></a>    <span class="bu">print</span>(filename, density, sep<span class="op">=</span><span class="st">","</span>)</span></code></pre>
-</div>
-<p>The output of the improved program does illustrate that the white
-circles and labels were skewing our root mass ratios:</p>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>data/trial-016.jpg,0.046250166223404256
-data/trial-020.jpg,0.05886968085106383
-data/trial-216.jpg,0.13712117686170214
-data/trial-293.jpg,0.13190342420212767</code></pre>
-</div>
-<div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
-  <h3 class="accordion-header" id="headingSpoiler1">
-<div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>What is &amp; doing in the example above?</h3>
-</button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
-<div class="accordion-body">
-<p>The <code>&amp;</code> operator above means that we have defined a
-logical AND statement. This combines the two tests of pixel intensities
-in the blurred image such that both must be true for a pixel’s position
-to be set to <code>True</code> in the resulting mask.</p>
-<table class="table"><colgroup><col width="35%"><col width="32%"><col width="32%"></colgroup><thead><tr class="header"><th>Result of <code>t &lt; blurred_image</code>
-</th>
-<th>Result of <code>blurred_image &lt; 0.95</code>
-</th>
-<th>Resulting value in <code>binary_mask</code>
-</th>
-</tr></thead><tbody><tr class="odd"><td>False</td>
-<td>True</td>
-<td>False</td>
-</tr><tr class="even"><td>True</td>
-<td>False</td>
-<td>False</td>
-</tr><tr class="odd"><td>True</td>
-<td>True</td>
-<td>True</td>
-</tr></tbody></table><p>Knowing how to construct this kind of logical operation can be very
-helpful in image processing. The University of Minnesota Library’s <a href="https://libguides.umn.edu/BooleanOperators" class="external-link">guide to Boolean
-operators</a> is a good place to start if you want to learn more.</p>
-</div>
-</div>
-</div>
-</div>
-<p>Here are the binary images produced by the additional thresholding.
-Note that we have not completely removed the offending white pixels.
-Outlines still remain. However, we have reduced the number of extraneous
-pixels, which should make the output more accurate.</p>
-<figure><img src="fig/four-maize-roots-binary-improved.jpg" alt="Improved binary masks of the four maize root images" class="figure mx-auto d-block"></figure></div>
-</div>
-</div>
-</div>
-<div id="thresholding-a-bacteria-colony-image-15-min" class="callout challenge">
+<figure><img src="fig/cells-thresholder-test.png" alt="Overview test of all automated thresholders in scikit image" class="figure mx-auto d-block"></figure><div id="thresholding-a-bacteria-colony-image-15-min" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -1024,27 +723,27 @@ good threshold value for the image.</li>
 </ol></div>
 </div>
 </div>
-<div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
+<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
 <div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
-  <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
+<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
+  <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <p>Here is the code to create the grayscale histogram:</p>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>bacteria <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/colonies-01.tif"</span>)</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>gray_image <span class="op">=</span> ski.color.rgb2gray(bacteria)</span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>blurred_image <span class="op">=</span> ski.filters.gaussian(gray_image, sigma<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>histogram, bin_edges <span class="op">=</span> np.histogram(blurred_image, bins<span class="op">=</span><span class="dv">256</span>, <span class="bu">range</span><span class="op">=</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>))</span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>plt.plot(bin_edges[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>], histogram)</span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>plt.title(<span class="st">"Graylevel histogram"</span>)</span>
-<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>plt.xlabel(<span class="st">"gray value"</span>)</span>
-<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>plt.ylabel(<span class="st">"pixel count"</span>)</span>
-<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="fl">1.0</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>bacteria <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/colonies-01.tif"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>gray_image <span class="op">=</span> ski.color.rgb2gray(bacteria)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>blurred_image <span class="op">=</span> ski.filters.gaussian(gray_image, sigma<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>histogram, bin_edges <span class="op">=</span> np.histogram(blurred_image, bins<span class="op">=</span><span class="dv">256</span>, <span class="bu">range</span><span class="op">=</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>))</span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>plt.plot(bin_edges[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>], histogram)</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>plt.title(<span class="st">"Graylevel histogram"</span>)</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>plt.xlabel(<span class="st">"gray value"</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>plt.ylabel(<span class="st">"pixel count"</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="fl">1.0</span>)</span></code></pre>
 </div>
 <figure><img src="fig/colonies-01-histogram.png" alt="Grayscale histogram of the bacteria colonies image" class="figure mx-auto d-block"></figure><p>The peak near one corresponds to the white image background, and the
 broader peak around 0.5 corresponds to the yellow/brown culture medium
@@ -1053,14 +752,14 @@ bacteria colonies. A reasonable choice thus might be to leave pixels
 below <code>t=0.2</code> on.</p>
 <p>Here is the code to create and show the binarized image using the
 <code>&lt;</code> operator with a threshold <code>t=0.2</code>:</p>
-<div class="codewrapper sourceCode" id="cb23">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">0.2</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>binary_mask <span class="op">=</span> blurred_image <span class="op">&lt;</span> t</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>plt.imshow(binary_mask, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>t <span class="op">=</span> <span class="fl">0.2</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>binary_mask <span class="op">=</span> blurred_image <span class="op">&lt;</span> t</span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>plt.imshow(binary_mask, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
 </div>
 <figure><img src="fig/colonies-01-mask.png" alt="Binary mask of the bacteria colonies image" class="figure mx-auto d-block"></figure><p>When you experiment with the threshold a bit, you can see that in
 particular the size of the bacteria colony near the edge of the dish in
