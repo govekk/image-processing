@@ -228,8 +228,6 @@ there are a few differences. Instead of using the grayscale image, select the bl
 
 ![](fig/cells-nuclei-gray.jpg){alt='HeLa cells gray nuclei'}
 
-Make sure in the resulting mask image, nuclei are white (true) and background is black (false).
-
 :::::::::::::::  solution
 
 ## Solution
