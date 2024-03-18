@@ -513,7 +513,7 @@ with is only the stained tissue from the original.</p>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>plt.imshow(foreground)</span></code></pre>
 </div>
-<figure><img src="../fig/ihc-foreground.png" alt="Selected foreground after applying binary mask" class="figure mx-auto d-block"></figure><div id="more-practice-with-simple-thresholding-20-min" class="callout challenge">
+<figure><img src="../fig/ihc-foreground.jpg" alt="Selected foreground after applying binary mask" class="figure mx-auto d-block"></figure><div id="more-practice-with-simple-thresholding-20-min" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -528,8 +528,10 @@ thresholding to select only the nuclei from the image
 <figure><img src="../fig/hela-cells-8bit.jpg" alt="HeLa cells color image" class="figure mx-auto d-block"></figure><p>Since the nuclei are marked in this multichannel image by high values
 of the blue channel, there are a few differences. Instead of using the
 grayscale image, select the blue channel using
-<code>image[:,:,2]</code>. Instead of selecting low pixel values to the
-be true in the mask, select high pixel values.</p>
+<code>image[:,:,2]</code>. This will act as your grayscale image, since
+it also has only one value per pixel.</p>
+<figure><img src="../fig/cells-nuclei-gray.jpg" alt="HeLa cells gray nuclei" class="figure mx-auto d-block"></figure><p>Make sure in the resulting mask image, nuclei are white (true) and
+background is black (false).</p>
 </div>
 </div>
 </div>

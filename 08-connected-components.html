@@ -724,7 +724,7 @@ image:</p>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>plt.imshow(colored_label_image)</span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)<span class="op">;</span></span></code></pre>
 </div>
-<figure><img src="fig/cells-labeled.png" alt="Labeled objects" class="figure mx-auto d-block"></figure><div id="how-many-objects-are-in-that-image-15-min" class="callout challenge">
+<figure><img src="fig/cells-labeled.jpg" alt="Labeled objects" class="figure mx-auto d-block"></figure><div id="how-many-objects-are-in-that-image-15-min" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
@@ -791,7 +791,7 @@ bears the danger of merging objects.</p>
 </div>
 <p>You might wonder why the connected component analysis with
 <code>sigma=1.0</code>, and <code>threshold=0.1</code> finds 6 objects,
-whereas we would expect only 4 objects. Where are the four additional
+whereas we would expect only 4 objects. Where are the two additional
 objects? With a bit of detective work, we can spot some small objects in
 the image, for example, near the bottom left corner and top border.</p>
 <figure><img src="fig/cells-labeled-small-box.jpg" alt="Highlighting small labeled objects in cell image" class="figure mx-auto d-block"></figure><p>For us it is clear that these small spots are artifacts and not
@@ -833,7 +833,7 @@ learn about other properties available.</p>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="output" tabindex="0"><code>[318542, 1, 523204, 496613, 517331, 143, 256215, 1, 68, 338784, 265755]</code></pre>
+<pre class="output" tabindex="0"><code>[20.0, 13722.0, 14147.0, 13308.0, 12629.0, 156.0]</code></pre>
 </div>
 <div id="plot-a-histogram-of-the-object-area-distribution-10-min" class="callout challenge">
 <div class="callout-square">
