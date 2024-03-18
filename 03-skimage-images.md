@@ -73,7 +73,7 @@ Another image we will use will be one of scikit-image's example images.
 These can be loaded through the skimage.data module.
 
 ```python
-hed_image = data.immunohistochemistry()
+hed_image = ski.data.immunohistochemistry()
 ```
 
 Let's look at this image:
