@@ -90,7 +90,7 @@ fig, ax = plt.subplots()
 plt.imshow(hed_blurred, cmap="gray")
 ```
 
-![](fig/ihc-grayscale-blurred.png){alt='Grayscale and blurred ihc image'}
+![](fig/ihc-grayscale-blurred.jpg){alt='Grayscale and blurred ihc image'}
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -164,7 +164,7 @@ fig, ax = plt.subplots()
 plt.imshow(binary_mask, cmap="gray")
 ```
 
-![](fig/ihc-mask.png){alt='Binary mask of the stained tissue created by thresholding'}
+![](fig/ihc-mask.jpg){alt='Binary mask of the stained tissue created by thresholding'}
 
 You can see that the areas where the staining was in the original area are now white,
 while the rest of the mask image is black.

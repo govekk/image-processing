@@ -54,19 +54,8 @@ a circle or a rectangle, say -
 on a black image.
 scikit-image provides tools to do that.
 
-Consider this image of maize seedlings:
-
-![](fig/maize-seedlings.jpg){alt='Maize seedlings'}
-
-Now, suppose we want to analyze only the area of the image containing the roots
-themselves;
-we do not care to look at the kernels,
-or anything else about the plants.
-Further, we wish to exclude the frame of the container holding the seedlings as well.
-Hovering over the image with our mouse, could tell us that
-the upper-left coordinate of the sub-area we are interested in is *(44, 357)*,
-while the lower-right coordinate is *(720, 740)*.
-These coordinates are shown in *(x, y)* order.
+Let's repeat the challenge at the end of [the *Working with scikit-image* episode](03-skimage-images.md),
+to select only the leftmost cell of HeLa cells image using a rectangular selection.
 
 A Python program to create a mask to select only that area of the image would
 start with a now-familiar section of code to open and display the original
@@ -74,10 +63,10 @@ image:
 
 ```python
 # Load and display the original image
-maize_seedlings = iio.imread(uri="data/maize-seedlings.tif")
+cells= iio.imread(uri="data/hela-cells-8bit.tif")
 
 fig, ax = plt.subplots()
-plt.imshow(maize_seedlings)
+plt.imshow(cells)
 ```
 
 We load and display the initial image in the same way we have done before.
@@ -93,7 +82,7 @@ The next section of code shows how:
 
 ```python
 # Create the basic mask
-mask = np.ones(shape=maize_seedlings.shape[0:2], dtype="bool")
+mask = np.ones(shape=cells.shape[0:2], dtype="bool")
 ```
 
 The first argument to the `ones()` function is the shape of the original image,
@@ -112,7 +101,7 @@ Next, we draw a filled, rectangle on the mask:
 
 ```python
 # Draw filled rectangle on the mask image
-rr, cc = ski.draw.rectangle(start=(357, 44), end=(740, 720))
+rr, cc = ski.draw.rectangle(start=(70,20), end=(391,211))
 mask[rr, cc] = False
 
 # Display mask image
@@ -121,9 +110,9 @@ plt.imshow(mask, cmap="gray")
 ```
 
 Here is what our constructed mask looks like:
-![](fig/maize-seedlings-mask.png){alt='Maize image mask' .image-with-shadow}
+![](fig/cells-rectangle-mask.png){alt='Cells rectangle mask'}
 
-The parameters of the `rectangle()` function `(357, 44)` and `(740, 720)`,
+The parameters of the `rectangle()` function `(70,20)` and `(391,211)`,
 are the coordinates of the upper-left (`start`) and lower-right (`end`) corners
 of a rectangle in *(ry, cx)* order.
 The function returns the rectangle as row (`rr`) and column (`cc`) coordinate arrays.
@@ -360,13 +349,13 @@ We load the original image and create the mask in the same way as before:
 
 ```python
 # Load the original image
-maize_seedlings = iio.imread(uri="data/maize-seedlings.tif")
+cells = iio.imread(uri="data/hela-cells-8bit.tif")
 
 # Create the basic mask
-mask = np.ones(shape=maize_seedlings.shape[0:2], dtype="bool")
+mask = np.ones(shape=cells.shape[0:2], dtype="bool")
 
 # Draw a filled rectangle on the mask image
-rr, cc = ski.draw.rectangle(start=(357, 44), end=(740, 720))
+rr, cc = ski.draw.rectangle(start=(70,20), end=(391,211))
 mask[rr, cc] = False
 ```
 
@@ -375,209 +364,19 @@ where the mask is `True`:
 
 ```python
 # Apply the mask
-maize_seedlings[mask] = 0
+cells[mask] = 0
 ```
 
 Then, we display the masked image.
 
 ```python
 fig, ax = plt.subplots()
-plt.imshow(maize_seedlings)
+plt.imshow(cells)
 ```
 
 The resulting masked image should look like this:
 
-![](fig/maize-seedlings-masked.jpg){alt='Applied mask'}
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Masking an image of your own (optional, not included in timing)
-
-Now, it is your turn to practice.
-Using your mobile phone, tablet, webcam, or digital camera,
-take an image of an object with a simple overall geometric shape
-(think rectangular or circular).
-Copy that image to your computer, write some code to make a mask,
-and apply it to select the part of the image containing your object.
-For example, here is an image of a remote control:
-
-![](data/remote-control.jpg){alt='Remote control image'}
-
-And, here is the end result of a program masking out everything but the remote:
-
-![](fig/remote-control-masked.jpg){alt='Remote control masked'}
-
-:::::::::::::::  solution
-
-## Solution
-
-Here is a Python program to produce the cropped remote control image shown above.
-Of course, your program should be tailored to your image.
-
-```python
-# Load the image
-remote = iio.imread(uri="data/remote-control.jpg")
-remote = np.array(remote)
-
-# Create the basic mask
-mask = np.ones(shape=remote.shape[0:2], dtype="bool")
-
-# Draw a filled rectangle on the mask image
-rr, cc = ski.draw.rectangle(start=(93, 1107), end=(1821, 1668))
-mask[rr, cc] = False
-
-# Apply the mask
-remote[mask] = 0
-
-# Display the result
-fig, ax = plt.subplots()
-plt.imshow(remote)
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Masking a 96-well plate image (30 min)
-
-Consider this image of a 96-well plate that has been scanned on a flatbed scanner.
-
-```python
-# Load the image
-wellplate = iio.imread(uri="data/wellplate-01.jpg")
-wellplate = np.array(wellplate)
-
-# Display the image
-fig, ax = plt.subplots()
-plt.imshow(wellplate)
-```
-
-![](data/wellplate-01.jpg){alt='96-well plate'}
-
-Suppose that we are interested in the colours of the solutions in each of the wells.
-We *do not* care about the colour of the rest of the image,
-i.e., the plastic that makes up the well plate itself.
-
-Your task is to write some code that will produce a mask that will
-mask out everything except for the wells.
-To help with this, you should use the text file `data/centers.txt` that contains
-the (cx, ry) coordinates of the centre of each of the 96 wells in this image.
-You may assume that each of the wells has a radius of 16 pixels.
-
-Your program should produce output that looks like this:
-
-![](fig/wellplate-01-masked.jpg){alt='Masked 96-well plate'}
-
-:::::::::::::::  solution
-
-## Solution
-
-```python
-# read in original image
-wellplate = iio.imread(uri="data/wellplate-01.jpg")
-wellplate = np.array(wellplate)
-
-# create the mask image
-mask = np.ones(shape=wellplate.shape[0:2], dtype="bool")
-
-# open and iterate through the centers file...
-with open("data/centers.txt", "r") as center_file:
-    for line in center_file:
-        # ... getting the coordinates of each well...
-        coordinates = line.split()
-        cx = int(coordinates[0])
-        ry = int(coordinates[1])
-
-        # ... and drawing a circle on the mask
-        rr, cc = ski.draw.disk(center=(ry, cx), radius=16, shape=wellplate.shape[0:2])
-        mask[rr, cc] = False
-
-# apply the mask
-wellplate[mask] = 0
-
-# display the result
-fig, ax = plt.subplots()
-plt.imshow(wellplate)
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Masking a 96-well plate image, take two (optional, not included in timing)
-
-If you spent some time looking at the contents of
-the `data/centers.txt` file from the previous challenge,
-you may have noticed that the centres of each well in the image are very regular.
-*Assuming* that the images are scanned in such a way that
-the wells are always in the same place,
-and that the image is perfectly oriented
-(i.e., it does not slant one way or another),
-we could produce our well plate mask without having to
-read in the coordinates of the centres of each well.
-Assume that the centre of the upper left well in the image is at
-location cx = 91 and ry = 108, and that there are
-70 pixels between each centre in the cx dimension and
-72 pixels between each centre in the ry dimension.
-Each well still has a radius of 16 pixels.
-Write a Python program that produces the same output image as in the previous challenge,
-but *without* having to read in the `centers.txt` file.
-*Hint: use nested for loops.*
-
-:::::::::::::::  solution
-
-## Solution
-
-Here is a Python program that is able to create the masked image without
-having to read in the `centers.txt` file.
-
-```python
-# read in original image
-wellplate = iio.imread(uri="data/wellplate-01.jpg")
-wellplate = np.array(wellplate)
-
-# create the mask image
-mask = np.ones(shape=wellplate.shape[0:2], dtype="bool")
-
-# upper left well coordinates
-cx0 = 91
-ry0 = 108
-
-# spaces between wells
-deltaCX = 70
-deltaRY = 72
-
-cx = cx0
-ry = ry0
-
-# iterate each row and column
-for row in range(12):
-    # reset cx to leftmost well in the row
-    cx = cx0
-    for col in range(8):
-
-        # ... and drawing a circle on the mask
-        rr, cc = ski.draw.disk(center=(ry, cx), radius=16, shape=wellplate.shape[0:2])
-        mask[rr, cc] = False
-        cx += deltaCX
-    # after one complete row, move to next row
-    ry += deltaRY
-
-# apply the mask
-wellplate[mask] = 0
-
-# display the result
-fig, ax = plt.subplots()
-plt.imshow(wellplate)
-```
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
+![](fig/cells-masked-rectangle.jpg){alt='Applied mask'}s
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
