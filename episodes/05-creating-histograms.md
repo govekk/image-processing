@@ -52,23 +52,24 @@ and histograms are also quite handy as a preparatory step before performing
 We will start with grayscale images,
 and then move on to colour images.
 We will use this image of a plant seedling as an example:
-![](data/plant-seedling.jpg){alt='Plant seedling'}
+![](data/immunohistochemistry.jpg){alt='HED IHC scikit example image'}
 
 Here we load the image in grayscale instead of full colour, and display it:
 
 ```python
 # read the image of a plant seedling as grayscale from the outset
-plant_seedling = iio.imread(uri="data/plant-seedling.jpg", mode="L")
+hed_image = iio.imread(uri="data/immunohistochemistry.tif")
+hed_image = ski.color.rgb2gray(hed_image)
 
 # convert the image to float dtype with a value range from 0 to 1
-plant_seedling = ski.util.img_as_float(plant_seedling)
+hed_image = ski.util.img_as_float(hed_image)
 
 # display the image
 fig, ax = plt.subplots()
-plt.imshow(plant_seedling, cmap="gray")
+plt.imshow(hed_image, cmap="gray")
 ```
 
-![](fig/plant-seedling-grayscale.png){alt='Plant seedling'}
+![](fig/ihc-grayscale.jpg){alt='grayscale verson of IHC image'}
 
 Again, we use the `iio.imread()` function to load our image.
 Then, we convert the grayscale image of integer dtype, with 0-255 range, into
@@ -81,7 +82,7 @@ which, after all, is a NumPy array:
 
 ```python
 # create the histogram
-histogram, bin_edges = np.histogram(plant_seedling, bins=256, range=(0, 1))
+histogram, bin_edges = np.histogram(hed_image, bins=256, range=(0, 1))
 ```
 
 The parameter `bins` determines the number of "bins" to use for the histogram.
@@ -151,7 +152,7 @@ indexing the `bin_edges` array to ignore the last value
 When we run the program on this image of a plant seedling,
 it produces this histogram:
 
-![](fig/plant-seedling-grayscale-histogram.png){alt='Plant seedling histogram'}
+![](fig/ihc-grayscale-histogram.png){alt='Plant seedling histogram'}
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
@@ -172,89 +173,19 @@ image into a one-dimensional array).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Using a mask for a histogram (15 min)
-
-Looking at the histogram above,
-you will notice that there is a large number of very dark pixels,
-as indicated in the chart by the spike around the grayscale value 0.12.
-That is not so surprising, since the original image is mostly black background.
-What if we want to focus more closely on the leaf of the seedling?
-That is where a mask enters the picture!
-
-First, hover over the plant seedling image with your mouse to determine the
-*(x, y)* coordinates of a bounding box around the leaf of the seedling.
-Then, using techniques from
-[the *Drawing and Bitwise Operations* episode](04-drawing.md),
-create a mask with a white rectangle covering that bounding box.
-
-After you have created the mask, apply it to the input image before passing
-it to the `np.histogram` function.
-
-:::::::::::::::  solution
-
-## Solution
-
-```python
-
-# read the image as grayscale from the outset
-plant_seedling = iio.imread(uri="data/plant-seedling.jpg", mode="L")
-
-# convert the image to float dtype with a value range from 0 to 1
-plant_seedling = ski.util.img_as_float(plant_seedling)
-
-# display the image
-fig, ax = plt.subplots()
-plt.imshow(plant_seedling, cmap="gray")
-
-# create mask here, using np.zeros() and ski.draw.rectangle()
-mask = np.zeros(shape=plant_seedling.shape, dtype="bool")
-rr, cc = ski.draw.rectangle(start=(199, 410), end=(384, 485))
-mask[rr, cc] = True
-
-# display the mask
-fig, ax = plt.subplots()
-plt.imshow(mask, cmap="gray")
-
-# mask the image and create the new histogram
-histogram, bin_edges = np.histogram(plant_seedling[mask], bins=256, range=(0.0, 1.0))
-
-# configure and draw the histogram figure
-plt.figure()
-
-plt.title("Grayscale Histogram")
-plt.xlabel("grayscale value")
-plt.ylabel("pixel count")
-plt.xlim([0.0, 1.0])
-plt.plot(bin_edges[0:-1], histogram)
-
-```
-
-Your histogram of the masked area should look something like this:
-
-![](fig/plant-seedling-grayscale-histogram-mask.png){alt='Grayscale histogram of masked area'}
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
 ## Colour Histograms
 
 We can also create histograms for full colour images,
 in addition to grayscale histograms.
-We have seen colour histograms before,
-in [the *Image Basics* episode](02-image-basics.md).
 A program to create colour histograms starts in a familiar way:
 
 ```python
 # read original image, in full color
-plant_seedling = iio.imread(uri="data/plant-seedling.jpg")
+cells = iio.imread(uri="data/hela-cells-8bit.tif")
 
 # display the image
 fig, ax = plt.subplots()
-plt.imshow(plant_seedling)
+plt.imshow(cells)
 ```
 
 We read the original image, now in full colour, and display it.
@@ -275,7 +206,7 @@ plt.figure()
 plt.xlim([0, 256])
 for channel_id, color in enumerate(colors):
     histogram, bin_edges = np.histogram(
-        plant_seedling[:, :, channel_id], bins=256, range=(0, 256)
+        cells[:, :, channel_id], bins=256, range=(0, 256)
     )
     plt.plot(bin_edges[0:-1], histogram, color=color)
 
@@ -358,46 +289,30 @@ Note the use of our loop variables, `channel_id` and `color`.
 
 Finally we label our axes and display the histogram, shown here:
 
-![](fig/plant-seedling-colour-histogram.png){alt='Colour histogram'}
+![](fig/cells-colour-histogram.png){alt='Colour histogram'}
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Colour histogram with a mask (25 min)
 
-We can also apply a mask to the images we apply the colour histogram process to,
-in the same way we did for grayscale histograms.
-Consider this image of a well plate,
-where various chemical sensors have been applied to water and
-various concentrations of hydrochloric acid and sodium hydroxide:
+Looking at the histogram above, you will notice that there is a large number of very dark pixels
+in each channel. This is not so surprising, since the image has a mostly black background.
+What if we want to focus on a more foreground part of the image, like just one of the cells.
+This is where a mask enters the picture!
 
-```python
-# read the image
-wellplate = iio.imread(uri="data/wellplate-02.tif")
+Hover over the image with your mouse to find the centre of that cell
+and the radius (in pixels) of the cell.
+Then, using techniques from [the *Drawing and Bitwise Operations* episode](04-drawing.md), 
+create a circular mask to select only the desired cell.
+Then, use that mask to apply the colour histogram operation to that cell.
 
-# display the image
-fig, ax = plt.subplots()
-plt.imshow(wellplate)
-```
+Your masked image should look something like this:
 
-![](fig/wellplate-02.jpg){alt='Well plate image'}
-
-Suppose we are interested in the colour histogram of one of the sensors in the
-well plate image,
-specifically, the seventh well from the left in the topmost row,
-which shows Erythrosin B reacting with water.
-
-Hover over the image with your mouse to find the centre of that well
-and the radius (in pixels) of the well.
-Then create a circular mask to select only the desired well.
-Then, use that mask to apply the colour histogram operation to that well.
-
-Your masked image should look like this:
-
-![](fig/wellplate-02-masked.jpg){alt='Masked well plate'}
+![](fig/cells-masked.jpg){alt='Masked well plate'}
 
 And, the program should produce a colour histogram that looks like this:
 
-![](fig/wellplate-02-histogram.png){alt='Well plate histogram'}
+![](fig/cells-masked-histogram.png){alt='Well plate histogram'}
 
 :::::::::::::::  solution
 
@@ -405,14 +320,14 @@ And, the program should produce a colour histogram that looks like this:
 
 ```python
 # create a circular mask to select the 7th well in the first row
-mask = np.zeros(shape=wellplate.shape[0:2], dtype="bool")
-circle = ski.draw.disk(center=(240, 1053), radius=49, shape=wellplate.shape[0:2])
+mask = np.zeros(shape=cells.shape[0:2], dtype="bool")
+circle = ski.draw.disk(center=(400, 360), radius=80, shape=cells.shape[0:2])
 mask[circle] = 1
 
 # just for display:
 # make a copy of the image, call it masked_image, and
 # zero values where mask is False
-masked_img = np.array(wellplate)
+masked_img = np.array(cells)
 masked_img[~mask] = 0
 
 # create a new figure and display masked_img, to verify the
@@ -431,7 +346,7 @@ for (channel_id, color) in enumerate(colors):
     # use your circular mask to apply the histogram
     # operation to the 7th well of the first row
     histogram, bin_edges = np.histogram(
-        wellplate[:, :, channel_id][mask], bins=256, range=(0, 256)
+        cells[:, :, channel_id][mask], bins=256, range=(0, 256)
     )
 
     plt.plot(histogram, color=color)
@@ -447,7 +362,6 @@ plt.ylabel("pixel count")
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
-- In many cases, we can load images in grayscale by passing the `mode="L"` argument to the `iio.imread()` function.
 - We can create histograms of images with the `np.histogram` function.
 - We can separate the RGB channels of an image using slicing operations.
 - We can display histograms using the `matplotlib pyplot` `figure()`, `title()`, `xlabel()`, `ylabel()`, `xlim()`, `plot()`, and `show()` functions.
