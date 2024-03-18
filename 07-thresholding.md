@@ -211,7 +211,7 @@ fig, ax = plt.subplots()
 plt.imshow(foreground)
 ```
 
-![](fig/ihc-foreground.png){alt='Selected foreground after applying binary mask'}
+![](fig/ihc-foreground.jpg){alt='Selected foreground after applying binary mask'}
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -224,8 +224,11 @@ to select only the nuclei from the image `data/hela-cells-8bit.tif`:
 
 Since the nuclei are marked in this multichannel image by high values of the blue channel,
 there are a few differences. Instead of using the grayscale image, select the blue channel using
-`image[:,:,2]`. Instead of selecting low pixel values to the be true in the mask, select high
-pixel values.
+`image[:,:,2]`. This will act as your grayscale image, since it also has only one value per pixel.
+
+![](fig/cells-nuclei-gray.jpg){alt='HeLa cells gray nuclei'}
+
+Make sure in the resulting mask image, nuclei are white (true) and background is black (false).
 
 :::::::::::::::  solution
 

@@ -393,7 +393,7 @@ plt.imshow(colored_label_image)
 plt.axis("off");
 ```
 
-![](fig/cells-labeled.png){alt='Labeled objects'}
+![](fig/cells-labeled.jpg){alt='Labeled objects'}
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -458,7 +458,7 @@ Setting sigma too high bears the danger of merging objects.
 
 You might wonder why the connected component analysis with `sigma=1.0`,
 and `threshold=0.1` finds 6 objects, whereas we would expect only 4 objects.
-Where are the four additional objects?
+Where are the two additional objects?
 With a bit of detective work, we can spot some small objects in the image,
 for example, near the bottom left corner and top border.
 
@@ -505,7 +505,7 @@ object_areas
 This will produce the output
 
 ```output
-[318542, 1, 523204, 496613, 517331, 143, 256215, 1, 68, 338784, 265755]
+[20.0, 13722.0, 14147.0, 13308.0, 12629.0, 156.0]
 ```
 
 :::::::::::::::::::::::::::::::::::::::  challenge
