@@ -296,12 +296,12 @@ by hovering the mouse near the points of interest and noting the coordinates
 If we do that, we might settle on a rectangular
 area with an upper-left coordinate of *(180, 280)*
 and a lower-right coordinate of *(520, 500)*,
-as shown in this version of the whiteboard picture:
+as shown in this version of the HeLa picture:
 
 ![](fig/hela-cells-coordinates.jpg){alt='Sub picture coordinates for one cell'}
 
 Note that the coordinates in the preceding image are specified in *(cx, ry)* order.
-Now if our entire whiteboard image is stored as a NumPy array named `image`,
+Now if our entire HeLa cell image is stored as a NumPy array named `image`,
 we can create a new image of the selected region with a statement like this:
 
 `clip = image[280:501, 180:521, :]`
@@ -341,9 +341,9 @@ We can also change the values in an image, as shown next.
 ```python
 # replace clipped area with sampled color
 color = cells[30,30]
-board[280:501, 180:521] = color
+cells[280:501, 180:521] = color
 fig, ax = plt.subplots()
-plt.imshow(board)
+plt.imshow(cells)
 ```
 
 First, we sample a single pixel's colour at a particular location of the
@@ -376,7 +376,7 @@ only the leftmost cell from the HeLa cells image.
 Here is the completed Python program to select only the leftmost cell in the image
 
 ```python
-"""Python script to extract a sub-image containing only the plant and roots in an existing image."""
+"""Python script to extract a sub-image containing only the leftmost cell in an existing image."""
 
 # load and display original image
 cells = iio.imread(uri="data/hela-cells-8bit.tif")

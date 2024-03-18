@@ -24,27 +24,23 @@ exercises: 55
 
 In [the *Thresholding* episode](07-thresholding.md)
 we have covered dividing an image into foreground and background pixels.
-In the shapes example image,
-we considered the coloured shapes as foreground *objects* on a white background.
+In the HeLa cells example image blue channel,
+we considered the coloured nuclei as foreground *objects* on a black background.
 
-![](data/shapes-01.jpg){alt='Original shapes image' .image-with-shadow}
+![](fig/cells-nuclei-gray.jpg){alt='Nuclei channel of HeLa cells'}
 
 In thresholding we went from the original image to this version:
 
-![](fig/shapes-01-mask.png){alt='Mask created by thresholding'}
+![](fig/cells-mask.jpg){alt='Mask created by thresholding'}
 
 Here, we created a mask that only highlights the parts of the image
 that we find interesting, the *objects*.
 All objects have pixel value of `True` while the background pixels are `False`.
 
 By looking at the mask image,
-one can count the objects that are present in the image (7).
+one can count the objects that are present in the image.
 But how did we actually do that,
 how did we decide which lump of pixels constitutes a single object?
-
-<!-- TODO: Group exercise: given sheep of paper with grids of 0's and
-1's, how to identify which pixels belong to an object, find a rule for
-each pixel to determine in which object it is -->
 
 ## Pixel Neighborhoods
 
@@ -235,18 +231,19 @@ import skimage as ski
 
 In this episode, we will use the `ski.measure.label` function to perform the CCA.
 
-Next, we define a reusable Python function `connected_components`:
+Next, we define a reusable Python function `segment_multichannel`, for finding connected
+components within a fluorescent (dark background, light objects) multichannel image:
 
 ```python
-def connected_components(filename, sigma=1.0, t=0.5, connectivity=2):
+def segment_multichannel(filename, channel=0, sigma=1.0, t=0.5, connectivity=2):
     # load the image
     image = iio.imread(filename)
     # convert the image to grayscale
-    gray_image = ski.color.rgb2gray(image)
+    channel_image = image[:,:,channel]
     # denoise the image with a Gaussian filter
-    blurred_image = ski.filters.gaussian(gray_image, sigma=sigma)
+    blurred_image = ski.filters.gaussian(channel_image, sigma=sigma)
     # mask the image according to threshold
-    binary_mask = blurred_image < t
+    binary_mask = blurred_image > t
     # perform connected component analysis
     labeled_image, count = ski.measure.label(binary_mask,
                                                  connectivity=connectivity, return_num=True)
@@ -255,8 +252,6 @@ def connected_components(filename, sigma=1.0, t=0.5, connectivity=2):
 
 The first four lines of code are familiar from
 [the *Thresholding* episode](07-thresholding.md).
-
-<!-- Note: shapes image: with sigma=2.0, threshold=0.9 -> 11 objects; with sigma=5 -> 8 objects -->
 
 Then we call the `ski.measure.label` function.
 This function has one positional argument where we pass the `binary_mask`,
@@ -312,7 +307,7 @@ We can call the above function `connected_components` and
 display the labeled image like so:
 
 ```python
-labeled_image, count = connected_components(filename="data/shapes-01.jpg", sigma=2.0, t=0.9, connectivity=2)
+labeled_image, count = connected_components(filename="data/hela-cells-8bit.tif", channel=2, sigma=2.0, t=0.1, connectivity=2)
 
 fig, ax = plt.subplots()
 plt.imshow(labeled_image)
@@ -398,7 +393,7 @@ plt.imshow(colored_label_image)
 plt.axis("off");
 ```
 
-![](fig/shapes-01-labeled.png){alt='Labeled objects'}
+![](fig/cells-labeled.png){alt='Labeled objects'}
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
@@ -442,33 +437,32 @@ num_objects = np.max(labeled_image)
 print("Found", num_objects, "objects in the image.")
 ```
 
-Invoking the function with `sigma=2.0`, and `threshold=0.9`,
+Invoking the function with `sigma=1.0`, and `threshold=0.1`,
 both methods will print
 
 ```output
-Found 11 objects in the image.
+Found 6 objects in the image.
 ```
 
-Lowering the threshold will result in fewer objects.
-The higher the threshold is set, the more objects are found.
+Raising the threshold will result in fewer objects.
+The lower the threshold is set, the more objects are found.
 More and more background noise gets picked up as objects.
 Larger sigmas produce binary masks with less noise and hence
 a smaller number of objects.
 Setting sigma too high bears the danger of merging objects.
 
 
-
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-You might wonder why the connected component analysis with `sigma=2.0`,
-and `threshold=0.9` finds 11 objects, whereas we would expect only 7 objects.
+You might wonder why the connected component analysis with `sigma=1.0`,
+and `threshold=0.1` finds 6 objects, whereas we would expect only 4 objects.
 Where are the four additional objects?
 With a bit of detective work, we can spot some small objects in the image,
-for example, near the left border.
+for example, near the bottom left corner and top border.
 
-![](fig/shapes-01-cca-detail.png){alt='shapes-01.jpg mask detail'}
+![](fig/cells-labeled-small-box.jpg){alt='Highlighting small labeled objects in cell image'}
 
 For us it is clear that these small spots are artifacts and
 not objects we are interested in.
@@ -487,15 +481,11 @@ that are found.
 
 Morphometrics is concerned with the quantitative analysis of objects and
 considers properties such as size and shape.
-For the example of the images with the shapes,
+For the example of the images with the cells,
 our intuition tells us that the objects should be of a certain size or area.
 So we could use a minimum area as a criterion for when an object should be detected.
 To apply such a criterion,
 we need a way to calculate the area of objects found by connected components.
-Recall how we determined the root mass in
-[the *Thresholding* episode](07-thresholding.md)
-by counting the pixels in the binary mask.
-But here we want to calculate the area of several objects in the labeled image.
 The scikit-image library provides the function `ski.measure.regionprops`
 to measure the properties of labeled regions.
 It returns a list of `RegionProperties` that describe each connected region in the images.
@@ -544,7 +534,7 @@ plt.xlabel("Area (pixels)")
 plt.ylabel("Number of objects");
 ```
 
-![](fig/shapes-01-areas-histogram.png){alt='Histogram of object areas'}
+![](fig/cells-area-histogram.png){alt='Histogram of object areas'}
 
 The histogram shows the number of objects (vertical axis)
 whose area is within a certain range (horizontal axis).
@@ -555,20 +545,22 @@ It is often possible to identify gaps between groups of bars
 (or peaks if we draw the histogram as a continuous curve)
 that tell us about certain groups in the image.
 
-In this example, we can see that there are four small objects that
-contain less than 50000 pixels.
-Then there is a group of four (1+1+2) objects in
-the range between 200000 and 400000,
-and three objects with a size around 500000.
+In this example, we can see that there are two small objects that
+contain less than 2000 pixels.
+Then there is a group of four (1+3) objects in
+the range between 10000 and 15000.
 For our object count, we might want to disregard the small objects as artifacts,
 i.e, we want to ignore the leftmost bar of the histogram.
-We could use a threshold of 50000 as the minimum area to count.
+We could use a threshold of 8000 as the minimum area to count.
 In fact, the `object_areas` list already tells us that
 there are fewer than 200 pixels in these objects.
 Therefore, it is reasonable to require a minimum area of at least 200 pixels
 for a detected object.
 In practice, finding the "right" threshold can be tricky and
 usually involves an educated guess based on domain knowledge.
+For example, if you know the micrometer size of your pixel resolution and expected size
+of the cells you are imaging, you could compute the expected number of pixels per cell
+area and keep objects of that size.
 
 
 
@@ -637,7 +629,7 @@ print("Found", n, "objects!")
 ```
 
 For all three alternatives, the output is the same and gives the
-expected count of 7 objects.
+expected count of 4 objects.
 
 
 
@@ -664,7 +656,7 @@ look for an availabe function that can solve a given task.
 We might also want to exclude (mask) the small objects when plotting
 the labeled image.
 
-2. Enhance the `connected_components` function such that
+2. Enhance the `segment_multichannel` function such that
   it automatically removes objects that are below a certain area that is
   passed to the function as an optional parameter.
 
@@ -719,15 +711,21 @@ labeled_image, n = ski.measure.label(object_mask,
 ```
 
 Using the scikit-image features, we can implement
-the `enhanced_connected_component` as follows:
+the `enhanced_segment_multichannel` as follows:
 
 ```python
-def enhanced_connected_components(filename, sigma=1.0, t=0.5, connectivity=2, min_area=0):
+def enhanced_segment_multichannel(filename, channel=0, sigma=1.0, t=0.5, connectivity=2, min_area=0):
+    # load the image
     image = iio.imread(filename)
-    gray_image = ski.color.rgb2gray(image)
-    blurred_image = ski.filters.gaussian(gray_image, sigma=sigma)
-    binary_mask = blurred_image < t
+    # convert the image to grayscale
+    channel_image = image[:,:,channel]
+    # denoise the image with a Gaussian filter
+    blurred_image = ski.filters.gaussian(channel_image, sigma=sigma)
+    # mask the image according to threshold
+    binary_mask = blurred_image > t
+    # remove objects smaller than specified area before labelling
     object_mask = ski.morphology.remove_small_objects(binary_mask, min_size=min_area)
+    # perform connected component analysis
     labeled_image, count = ski.measure.label(object_mask,
                                                  connectivity=connectivity, return_num=True)
     return labeled_image, count
@@ -737,8 +735,8 @@ We can now call the function with a chosen `min_area` and
 display the resulting labeled image:
 
 ```python
-labeled_image, count = enhanced_connected_components(filename="data/shapes-01.jpg", sigma=2.0, t=0.9,
-                                                     connectivity=2, min_area=min_area)
+labeled_image, count = enhanced_segment_multichannel(filename="data/hela-cells-8bit.jpg", channel=2, sigma=1.0, t=0.1,
+                                                     connectivity=2, min_area=200)
 colored_label_image = ski.color.label2rgb(labeled_image, bg_label=0)
 
 fig, ax = plt.subplots()
@@ -748,81 +746,16 @@ plt.axis("off");
 print("Found", count, "objects in the image.")
 ```
 
-![](fig/shapes-01-filtered-objects.png){alt='Objects filtered by area'}
+![](fig/cells-labeled-kept.jpg){alt='Objects filtered by area'}
 
 ```output
-Found 7 objects in the image.
+Found 4 objects in the image.
 ```
 
 Note that the small objects are "gone" and we obtain the correct
-number of 7 objects in the image.
+number of 4 objects in the image.
 
 
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
-
-:::::::::::::::::::::::::::::::::::::::  challenge
-
-## Colour objects by area (optional, not included in timing)
-
-Finally, we would like to display the image with the objects coloured
-according to the magnitude of their area.
-In practice, this can be used with other properties to give
-visual cues of the object properties.
-
-:::::::::::::::  solution
-
-## Solution
-
-We already know how to get the areas of the objects from the `regionprops`.
-We just need to insert a zero area value for the background
-(to colour it like a zero size object).
-The background is also labeled `0` in the `labeled_image`,
-so we insert the zero area value in front of the first element of
-`object_areas` with `np.insert`.
-Then we can create a `colored_area_image` where we assign each pixel value
-the area by indexing the `object_areas` with the label values in `labeled_image`.
-
-```python
-object_areas = np.array([objf["area"] for objf in ski.measure.regionprops(labeled_image)])
-# prepend zero to object_areas array for background pixels
-object_areas = np.insert(0, obj=1, values=object_areas)
-# create image where the pixels in each object are equal to that object's area
-colored_area_image = object_areas[labeled_image]
-
-fig, ax = plt.subplots()
-im = plt.imshow(colored_area_image)
-cbar = fig.colorbar(im, ax=ax, shrink=0.85)
-cbar.ax.set_title("Area")
-plt.axis("off");
-```
-
-![](fig/shapes-01-objects-coloured-by-area.png){alt='Objects colored by area'}
-
-:::::::::::::::::::::::::::::::::::::::::  callout
-
-You may have noticed that in the solution, we have used the
-`labeled_image` to index the array `object_areas`. This is an
-example of [advanced indexing in
-NumPy](https://numpy.org/doc/stable/user/basics.indexing.html#advanced-indexing)
-The result is an array of the same shape as the `labeled_image`
-whose pixel values are selected from `object_areas` according to
-the object label. Hence the objects will be colored by area when
-the result is displayed. Note that advanced indexing with an
-integer array works slightly different than the indexing with a
-Boolean array that we have used for masking. While Boolean array
-indexing returns only the entries corresponding to the `True`
-values of the index, integer array indexing returns an array
-with the same shape as the index. You can read more about advanced
-indexing in the [NumPy
-documentation](https://numpy.org/doc/stable/user/basics.indexing.html#advanced-indexing).
-
-
-
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::
 
