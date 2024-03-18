@@ -288,7 +288,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Drawing and Bitwise Operations</h1>
-        <p>Last updated on 2024-03-15 |
+        <p>Last updated on 2024-03-18 |
         
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/04-drawing.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -356,15 +356,9 @@ pixels everywhere else. Such an image is called a <em>mask</em>. In
 preparing a mask, we sometimes need to be able to draw a shape - a
 circle or a rectangle, say - on a black image. scikit-image provides
 tools to do that.</p>
-<p>Consider this image of maize seedlings:</p>
-<figure><img src="fig/maize-seedlings.jpg" alt="Maize seedlings" class="figure mx-auto d-block"></figure><p>Now, suppose we want to analyze only the area of the image containing
-the roots themselves; we do not care to look at the kernels, or anything
-else about the plants. Further, we wish to exclude the frame of the
-container holding the seedlings as well. Hovering over the image with
-our mouse, could tell us that the upper-left coordinate of the sub-area
-we are interested in is <em>(44, 357)</em>, while the lower-right
-coordinate is <em>(720, 740)</em>. These coordinates are shown in
-<em>(x, y)</em> order.</p>
+<p>Let’s repeat the challenge at the end of <a href="03-skimage-images.html">the <em>Working with scikit-image</em>
+episode</a>, to select only the leftmost cell of HeLa cells image using
+a rectangular selection.</p>
 <p>A Python program to create a mask to select only that area of the
 image would start with a now-familiar section of code to open and
 display the original image:</p>
@@ -372,10 +366,10 @@ display the original image:</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Load and display the original image</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>maize_seedlings <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/maize-seedlings.tif"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>cells<span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>plt.imshow(maize_seedlings)</span></code></pre>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
 </div>
 <p>We load and display the initial image in the same way we have done
 before.</p>
@@ -392,7 +386,7 @@ how:</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Create the basic mask</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>mask <span class="op">=</span> np.ones(shape<span class="op">=</span>maize_seedlings.shape[<span class="dv">0</span>:<span class="dv">2</span>], dtype<span class="op">=</span><span class="st">"bool"</span>)</span></code></pre>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>mask <span class="op">=</span> np.ones(shape<span class="op">=</span>cells.shape[<span class="dv">0</span>:<span class="dv">2</span>], dtype<span class="op">=</span><span class="st">"bool"</span>)</span></code></pre>
 </div>
 <p>The first argument to the <code>ones()</code> function is the shape
 of the original image, so that our mask will be exactly the same size as
@@ -410,20 +404,20 @@ create the mask, its pixel values are in fact not <code>1</code> but
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Draw filled rectangle on the mask image</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>rr, cc <span class="op">=</span> ski.draw.rectangle(start<span class="op">=</span>(<span class="dv">357</span>, <span class="dv">44</span>), end<span class="op">=</span>(<span class="dv">740</span>, <span class="dv">720</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>rr, cc <span class="op">=</span> ski.draw.rectangle(start<span class="op">=</span>(<span class="dv">70</span>,<span class="dv">20</span>), end<span class="op">=</span>(<span class="dv">391</span>,<span class="dv">211</span>))</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>mask[rr, cc] <span class="op">=</span> <span class="va">False</span></span>
 <span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># Display mask image</span></span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>plt.imshow(mask, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
 </div>
-<p>Here is what our constructed mask looks like: <img src="fig/maize-seedlings-mask.png" class="image-with-shadow figure" alt="Maize image mask"></p>
+<p>Here is what our constructed mask looks like: <img src="fig/cells-rectangle-mask.png" alt="Cells rectangle mask" class="figure"></p>
 <p>The parameters of the <code>rectangle()</code> function
-<code>(357, 44)</code> and <code>(740, 720)</code>, are the coordinates
-of the upper-left (<code>start</code>) and lower-right
-(<code>end</code>) corners of a rectangle in <em>(ry, cx)</em> order.
-The function returns the rectangle as row (<code>rr</code>) and column
-(<code>cc</code>) coordinate arrays.</p>
+<code>(70,20)</code> and <code>(391,211)</code>, are the coordinates of
+the upper-left (<code>start</code>) and lower-right (<code>end</code>)
+corners of a rectangle in <em>(ry, cx)</em> order. The function returns
+the rectangle as row (<code>rr</code>) and column (<code>cc</code>)
+coordinate arrays.</p>
 <div id="check-the-documentation" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -683,13 +677,13 @@ before:</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># Load the original image</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>maize_seedlings <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/maize-seedlings.tif"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a></span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co"># Create the basic mask</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>mask <span class="op">=</span> np.ones(shape<span class="op">=</span>maize_seedlings.shape[<span class="dv">0</span>:<span class="dv">2</span>], dtype<span class="op">=</span><span class="st">"bool"</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>mask <span class="op">=</span> np.ones(shape<span class="op">=</span>cells.shape[<span class="dv">0</span>:<span class="dv">2</span>], dtype<span class="op">=</span><span class="st">"bool"</span>)</span>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a></span>
 <span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co"># Draw a filled rectangle on the mask image</span></span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>rr, cc <span class="op">=</span> ski.draw.rectangle(start<span class="op">=</span>(<span class="dv">357</span>, <span class="dv">44</span>), end<span class="op">=</span>(<span class="dv">740</span>, <span class="dv">720</span>))</span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>rr, cc <span class="op">=</span> ski.draw.rectangle(start<span class="op">=</span>(<span class="dv">70</span>,<span class="dv">20</span>), end<span class="op">=</span>(<span class="dv">391</span>,<span class="dv">211</span>))</span>
 <span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>mask[rr, cc] <span class="op">=</span> <span class="va">False</span></span></code></pre>
 </div>
 <p>Then, we use NumPy indexing to remove the portions of the image,
@@ -698,225 +692,17 @@ where the mask is <code>True</code>:</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Apply the mask</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>maize_seedlings[mask] <span class="op">=</span> <span class="dv">0</span></span></code></pre>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>cells[mask] <span class="op">=</span> <span class="dv">0</span></span></code></pre>
 </div>
 <p>Then, we display the masked image.</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>plt.imshow(maize_seedlings)</span></code></pre>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
 </div>
 <p>The resulting masked image should look like this:</p>
-<figure><img src="fig/maize-seedlings-masked.jpg" alt="Applied mask" class="figure mx-auto d-block"></figure><div id="masking-an-image-of-your-own-optional-not-included-in-timing" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="masking-an-image-of-your-own-optional-not-included-in-timing" class="callout-inner">
-<h3 class="callout-title">Masking an image of your own (optional, not
-included in timing)<a class="anchor" aria-label="anchor" href="#masking-an-image-of-your-own-optional-not-included-in-timing"></a>
-</h3>
-<div class="callout-content">
-<p>Now, it is your turn to practice. Using your mobile phone, tablet,
-webcam, or digital camera, take an image of an object with a simple
-overall geometric shape (think rectangular or circular). Copy that image
-to your computer, write some code to make a mask, and apply it to select
-the part of the image containing your object. For example, here is an
-image of a remote control:</p>
-<figure><img src="data/remote-control.jpg" alt="Remote control image" class="figure mx-auto d-block"></figure><p>And, here is the end result of a program masking out everything but
-the remote:</p>
-<figure><img src="fig/remote-control-masked.jpg" alt="Remote control masked" class="figure mx-auto d-block"></figure></div>
-</div>
-</div>
-<div id="accordionSolution3" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
-  <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
-</button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
-<div class="accordion-body">
-<p>Here is a Python program to produce the cropped remote control image
-shown above. Of course, your program should be tailored to your
-image.</p>
-<div class="codewrapper sourceCode" id="cb14">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># Load the image</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>remote <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/remote-control.jpg"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>remote <span class="op">=</span> np.array(remote)</span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a><span class="co"># Create the basic mask</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>mask <span class="op">=</span> np.ones(shape<span class="op">=</span>remote.shape[<span class="dv">0</span>:<span class="dv">2</span>], dtype<span class="op">=</span><span class="st">"bool"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co"># Draw a filled rectangle on the mask image</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>rr, cc <span class="op">=</span> ski.draw.rectangle(start<span class="op">=</span>(<span class="dv">93</span>, <span class="dv">1107</span>), end<span class="op">=</span>(<span class="dv">1821</span>, <span class="dv">1668</span>))</span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>mask[rr, cc] <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a></span>
-<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="co"># Apply the mask</span></span>
-<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>remote[mask] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a></span>
-<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a><span class="co"># Display the result</span></span>
-<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a>plt.imshow(remote)</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="masking-a-96-well-plate-image-30-min" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="masking-a-96-well-plate-image-30-min" class="callout-inner">
-<h3 class="callout-title">Masking a 96-well plate image (30 min)<a class="anchor" aria-label="anchor" href="#masking-a-96-well-plate-image-30-min"></a>
-</h3>
-<div class="callout-content">
-<p>Consider this image of a 96-well plate that has been scanned on a
-flatbed scanner.</p>
-<div class="codewrapper sourceCode" id="cb15">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># Load the image</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>wellplate <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/wellplate-01.jpg"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>wellplate <span class="op">=</span> np.array(wellplate)</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a><span class="co"># Display the image</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>plt.imshow(wellplate)</span></code></pre>
-</div>
-<figure><img src="data/wellplate-01.jpg" alt="96-well plate" class="figure mx-auto d-block"></figure><p>Suppose that we are interested in the colours of the solutions in
-each of the wells. We <em>do not</em> care about the colour of the rest
-of the image, i.e., the plastic that makes up the well plate itself.</p>
-<p>Your task is to write some code that will produce a mask that will
-mask out everything except for the wells. To help with this, you should
-use the text file <code>data/centers.txt</code> that contains the (cx,
-ry) coordinates of the centre of each of the 96 wells in this image. You
-may assume that each of the wells has a radius of 16 pixels.</p>
-<p>Your program should produce output that looks like this:</p>
-<figure><img src="fig/wellplate-01-masked.jpg" alt="Masked 96-well plate" class="figure mx-auto d-block"></figure></div>
-</div>
-</div>
-<div id="accordionSolution4" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
-  <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
-</button>
-<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
-<div class="accordion-body">
-<div class="codewrapper sourceCode" id="cb16">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># read in original image</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>wellplate <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/wellplate-01.jpg"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>wellplate <span class="op">=</span> np.array(wellplate)</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"># create the mask image</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>mask <span class="op">=</span> np.ones(shape<span class="op">=</span>wellplate.shape[<span class="dv">0</span>:<span class="dv">2</span>], dtype<span class="op">=</span><span class="st">"bool"</span>)</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co"># open and iterate through the centers file...</span></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">"data/centers.txt"</span>, <span class="st">"r"</span>) <span class="im">as</span> center_file:</span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>    <span class="cf">for</span> line <span class="kw">in</span> center_file:</span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>        <span class="co"># ... getting the coordinates of each well...</span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>        coordinates <span class="op">=</span> line.split()</span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>        cx <span class="op">=</span> <span class="bu">int</span>(coordinates[<span class="dv">0</span>])</span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>        ry <span class="op">=</span> <span class="bu">int</span>(coordinates[<span class="dv">1</span>])</span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a></span>
-<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>        <span class="co"># ... and drawing a circle on the mask</span></span>
-<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>        rr, cc <span class="op">=</span> ski.draw.disk(center<span class="op">=</span>(ry, cx), radius<span class="op">=</span><span class="dv">16</span>, shape<span class="op">=</span>wellplate.shape[<span class="dv">0</span>:<span class="dv">2</span>])</span>
-<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>        mask[rr, cc] <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a></span>
-<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a><span class="co"># apply the mask</span></span>
-<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a>wellplate[mask] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a></span>
-<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a><span class="co"># display the result</span></span>
-<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a>plt.imshow(wellplate)</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="masking-a-96-well-plate-image-take-two-optional-not-included-in-timing" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="masking-a-96-well-plate-image-take-two-optional-not-included-in-timing" class="callout-inner">
-<h3 class="callout-title">Masking a 96-well plate image, take two
-(optional, not included in timing)<a class="anchor" aria-label="anchor" href="#masking-a-96-well-plate-image-take-two-optional-not-included-in-timing"></a>
-</h3>
-<div class="callout-content">
-<p>If you spent some time looking at the contents of the
-<code>data/centers.txt</code> file from the previous challenge, you may
-have noticed that the centres of each well in the image are very
-regular. <em>Assuming</em> that the images are scanned in such a way
-that the wells are always in the same place, and that the image is
-perfectly oriented (i.e., it does not slant one way or another), we
-could produce our well plate mask without having to read in the
-coordinates of the centres of each well. Assume that the centre of the
-upper left well in the image is at location cx = 91 and ry = 108, and
-that there are 70 pixels between each centre in the cx dimension and 72
-pixels between each centre in the ry dimension. Each well still has a
-radius of 16 pixels. Write a Python program that produces the same
-output image as in the previous challenge, but <em>without</em> having
-to read in the <code>centers.txt</code> file. <em>Hint: use nested for
-loops.</em></p>
-</div>
-</div>
-</div>
-<div id="accordionSolution5" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
-  <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
-</button>
-<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
-<div class="accordion-body">
-<p>Here is a Python program that is able to create the masked image
-without having to read in the <code>centers.txt</code> file.</p>
-<div class="codewrapper sourceCode" id="cb17">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># read in original image</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>wellplate <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/wellplate-01.jpg"</span>)</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>wellplate <span class="op">=</span> np.array(wellplate)</span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="co"># create the mask image</span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>mask <span class="op">=</span> np.ones(shape<span class="op">=</span>wellplate.shape[<span class="dv">0</span>:<span class="dv">2</span>], dtype<span class="op">=</span><span class="st">"bool"</span>)</span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="co"># upper left well coordinates</span></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>cx0 <span class="op">=</span> <span class="dv">91</span></span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>ry0 <span class="op">=</span> <span class="dv">108</span></span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a></span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a><span class="co"># spaces between wells</span></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>deltaCX <span class="op">=</span> <span class="dv">70</span></span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>deltaRY <span class="op">=</span> <span class="dv">72</span></span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a></span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>cx <span class="op">=</span> cx0</span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>ry <span class="op">=</span> ry0</span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a></span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a><span class="co"># iterate each row and column</span></span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a><span class="cf">for</span> row <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">12</span>):</span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a>    <span class="co"># reset cx to leftmost well in the row</span></span>
-<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a>    cx <span class="op">=</span> cx0</span>
-<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a>    <span class="cf">for</span> col <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">8</span>):</span>
-<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a></span>
-<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a>        <span class="co"># ... and drawing a circle on the mask</span></span>
-<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a>        rr, cc <span class="op">=</span> ski.draw.disk(center<span class="op">=</span>(ry, cx), radius<span class="op">=</span><span class="dv">16</span>, shape<span class="op">=</span>wellplate.shape[<span class="dv">0</span>:<span class="dv">2</span>])</span>
-<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a>        mask[rr, cc] <span class="op">=</span> <span class="va">False</span></span>
-<span id="cb17-28"><a href="#cb17-28" tabindex="-1"></a>        cx <span class="op">+=</span> deltaCX</span>
-<span id="cb17-29"><a href="#cb17-29" tabindex="-1"></a>    <span class="co"># after one complete row, move to next row</span></span>
-<span id="cb17-30"><a href="#cb17-30" tabindex="-1"></a>    ry <span class="op">+=</span> deltaRY</span>
-<span id="cb17-31"><a href="#cb17-31" tabindex="-1"></a></span>
-<span id="cb17-32"><a href="#cb17-32" tabindex="-1"></a><span class="co"># apply the mask</span></span>
-<span id="cb17-33"><a href="#cb17-33" tabindex="-1"></a>wellplate[mask] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb17-34"><a href="#cb17-34" tabindex="-1"></a></span>
-<span id="cb17-35"><a href="#cb17-35" tabindex="-1"></a><span class="co"># display the result</span></span>
-<span id="cb17-36"><a href="#cb17-36" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb17-37"><a href="#cb17-37" tabindex="-1"></a>plt.imshow(wellplate)</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
+<p><img src="fig/cells-masked-rectangle.jpg" alt="Applied mask" class="figure">s</p>
 <div id="keypoints1" class="callout keypoints">
 <div class="callout-square">
 <i class="callout-icon" data-feather="key"></i>
@@ -993,7 +779,7 @@ directly.</li>
   "url": "https://govekk.github.io/image-processing/04-drawing.html",
   "identifier": "https://govekk.github.io/image-processing/04-drawing.html",
   "dateCreated": "2024-03-14",
-  "dateModified": "2024-03-15",
+  "dateModified": "2024-03-18",
   "datePublished": "2024-03-18"
 }
 
