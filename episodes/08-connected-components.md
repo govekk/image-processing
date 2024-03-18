@@ -481,7 +481,7 @@ that are found.
 
 Morphometrics is concerned with the quantitative analysis of objects and
 considers properties such as size and shape.
-For the example of the images with the shapes,
+For the example of the images with the cells,
 our intuition tells us that the objects should be of a certain size or area.
 So we could use a minimum area as a criterion for when an object should be detected.
 To apply such a criterion,
