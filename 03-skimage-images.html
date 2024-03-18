@@ -648,10 +648,10 @@ the mouse near the points of interest and noting the coordinates
 (remember to run <code>%matplotlib widget</code> first if you haven’t
 already). If we do that, we might settle on a rectangular area with an
 upper-left coordinate of <em>(180, 280)</em> and a lower-right
-coordinate of <em>(520, 500)</em>, as shown in this version of the
-whiteboard picture:</p>
+coordinate of <em>(520, 500)</em>, as shown in this version of the HeLa
+picture:</p>
 <figure><img src="fig/hela-cells-coordinates.jpg" alt="Sub picture coordinates for one cell" class="figure mx-auto d-block"></figure><p>Note that the coordinates in the preceding image are specified in
-<em>(cx, ry)</em> order. Now if our entire whiteboard image is stored as
+<em>(cx, ry)</em> order. Now if our entire HeLa cell image is stored as
 a NumPy array named <code>image</code>, we can create a new image of the
 selected region with a statement like this:</p>
 <p><code>clip = image[280:501, 180:521, :]</code></p>
@@ -690,9 +690,9 @@ area and then display the new image.</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># replace clipped area with sampled color</span></span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>color <span class="op">=</span> cells[<span class="dv">30</span>,<span class="dv">30</span>]</span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>board[<span class="dv">280</span>:<span class="dv">501</span>, <span class="dv">180</span>:<span class="dv">521</span>] <span class="op">=</span> color</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>cells[<span class="dv">280</span>:<span class="dv">501</span>, <span class="dv">180</span>:<span class="dv">521</span>] <span class="op">=</span> color</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>plt.imshow(board)</span></code></pre>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
 </div>
 <p>First, we sample a single pixel’s colour at a particular location of
 the image, saving it in a variable named <code>color</code>, which
@@ -731,7 +731,7 @@ in the image</p>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co">"""Python script to extract a sub-image containing only the plant and roots in an existing image."""</span></span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co">"""Python script to extract a sub-image containing only the leftmost cell in an existing image."""</span></span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a></span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># load and display original image</span></span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
