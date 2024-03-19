@@ -4,6 +4,20 @@ teaching: 5
 exercises: 0
 ---
 
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
+
+- Hello, who are we
+- Please ask questions, either chat or raise hand. Helper will be monitoring Zoom.
+- ok to have videos off, going to be using Zoom reacts
+
+- start up jupyter
+- overview of jupyter shortcuts I may use
+  - enter to enter block, escape to exit
+  - ctrl enter to run current block
+  - b to add block below, a to add above
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 ::::::::::::::::::::::::::::::::::::::: objectives
 
 - Recognise scientific questions that could be solved with image processing / computer vision.

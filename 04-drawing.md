@@ -110,7 +110,7 @@ plt.imshow(mask, cmap="gray")
 ```
 
 Here is what our constructed mask looks like:
-![](fig/cells-rectangle-mask.png){alt='Cells rectangle mask'}
+![](fig/cells-rectangle-mask.jpg){alt='Cells rectangle mask'}
 
 The parameters of the `rectangle()` function `(70,20)` and `(391,211)`,
 are the coordinates of the upper-left (`start`) and lower-right (`end`) corners
@@ -343,8 +343,8 @@ one can set those values to 0, and effectively remove them from the image.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-Now we can write a Python program to use a mask to retain only the portions
-of our maize roots image that actually contains the seedling roots.
+Now we can write a Python program to use a mask to retain only the leftmost 
+cell of the HeLa cells image.
 We load the original image and create the mask in the same way as before:
 
 ```python
