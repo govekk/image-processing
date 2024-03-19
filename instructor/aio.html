@@ -271,18 +271,6 @@
 </div>
 <!--/div.accordion-flush-->
 
-<div class="accordion accordion-flush" id="accordionFlush10">
-  <div class="accordion-item">
-    <div class="accordion-header" id="flush-heading10">
-        <a href="09-challenges.html">9. Capstone Challenge</a>
-    </div>
-<!--/div.accordion-header-->
-        
-  </div>
-<!--/div.accordion-item-->
-</div>
-<!--/div.accordion-flush-->
-
                 </div>
               </div>
             </div>
@@ -343,13 +331,40 @@
         
 <section id="aio-01-introduction"><p>Content from <a href="01-introduction.html">Introduction</a></p>
 <hr>
-<p>Last updated on 2024-03-08 |
+<p>Last updated on 2024-03-19 |
         
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/01-introduction.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 5 minutes</p>
 <div class="text-end">
           <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
         </div>
+<div id="accordionInstructor1" class="accordion instructor-note accordion-flush">
+<div class="accordion-item">
+<button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
+  <h3 class="accordion-header" id="headingInstructor1">
+<div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
+</button>
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div class="accordion-body">
+<ul>
+<li><p>Hello, who are we</p></li>
+<li><p>Please ask questions, either chat or raise hand. Helper will be
+monitoring Zoom.</p></li>
+<li><p>ok to have videos off, going to be using Zoom reacts</p></li>
+<li><p>start up jupyter</p></li>
+<li>
+<p>overview of jupyter shortcuts I may use</p>
+<ul>
+<li>enter to enter block, escape to exit</li>
+<li>ctrl enter to run current block</li>
+<li>b to add block below, a to add above</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 <div class="overview card">
 <h2 class="card-header">Overview</h2>
 <div class="row g-0">
@@ -708,7 +723,7 @@ modules. You will encounter several different forms of
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Further explanation</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <p>In the example above, form 1 loads the entire scikit-image library
 into the program as an object. Individual modules of the library are
@@ -881,7 +896,7 @@ image and print out the matrix as well.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>There are many possible solutions, but one method would be . . .</p>
 <div class="codewrapper sourceCode" id="cb12">
@@ -1118,7 +1133,7 @@ further.)</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>(255, 0, 0) represents red, because the red channel is maximised,
@@ -1535,7 +1550,7 @@ information may be stored in an image file, in the image metadata.</li>
 </div>
 </section></section><section id="aio-03-skimage-images"><p>Content from <a href="03-skimage-images.html">Working with scikit-image</a></p>
 <hr>
-<p>Last updated on 2024-03-18 |
+<p>Last updated on 2024-03-19 |
         
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/03-skimage-images.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 120 minutes</p>
@@ -1917,7 +1932,7 @@ channels in our new image.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co">"""Python script demonstrating image modification and creation via NumPy array slicing."""</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a><span class="co"># load and display original image</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cell-8bit.tif"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>cells <span class="op">=</span> np.array(cells)</span>
 <span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
@@ -1973,7 +1988,7 @@ image.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Here is the completed Python program to select only the leftmost cell
 in the image</p>
@@ -2028,7 +2043,7 @@ using <code>iio.imread()</code>.</li>
 </div>
 </section></section><section id="aio-04-drawing"><p>Content from <a href="04-drawing.html">Drawing and Bitwise Operations</a></p>
 <hr>
-<p>Last updated on 2024-03-18 |
+<p>Last updated on 2024-03-19 |
         
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/04-drawing.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 90 minutes</p>
@@ -2152,7 +2167,7 @@ create the mask, its pixel values are in fact not <code>1</code> but
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>plt.imshow(mask, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
 </div>
-<p>Here is what our constructed mask looks like: <img src="../fig/cells-rectangle-mask.png" alt="Cells rectangle mask" class="figure"></p>
+<p>Here is what our constructed mask looks like: <img src="../fig/cells-rectangle-mask.jpg" alt="Cells rectangle mask" class="figure"></p>
 <p>The parameters of the <code>rectangle()</code> function
 <code>(70,20)</code> and <code>(391,211)</code>, are the coordinates of
 the upper-left (<code>start</code>) and lower-right (<code>end</code>)
@@ -2249,7 +2264,7 @@ image, perhaps something like this:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Drawing a circle:</p>
 <div class="codewrapper sourceCode" id="cb6">
@@ -2402,7 +2417,7 @@ the portion of the image we want to remove are all
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>When indexing the image using the mask, we access only those pixels
 at positions where the mask is <code>True</code>. So, when indexing with
@@ -2413,9 +2428,8 @@ from the image.</p>
 </div>
 </div>
 <p>Now we can write a Python program to use a mask to retain only the
-portions of our maize roots image that actually contains the seedling
-roots. We load the original image and create the mask in the same way as
-before:</p>
+leftmost cell of the HeLa cells image. We load the original image and
+create the mask in the same way as before:</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -3044,7 +3058,7 @@ moved over to apply the filter to the next pixel in the image.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Terminology about image boundaries</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Take care to avoid mixing up the term “edge” to describe the edges of
 objects <em>within</em> an image and the outer boundaries of the images
@@ -3320,7 +3334,7 @@ on the blurred image?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Generally speaking, the larger the sigma value, the more blurry the
 result. A larger sigma will tend to get rid of more noise in the image,
@@ -3353,7 +3367,7 @@ in the cx direction.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4782,275 +4796,6 @@ properties of labeled objects.</li>
 small objects and remove artifacts from an image.</li>
 <li>We can display the labeled image to view the objects coloured by
 label.</li>
-</ul>
-</div>
-</div>
-</div>
-</section></section><section id="aio-09-challenges"><p>Content from <a href="09-challenges.html">Capstone Challenge</a></p>
-<hr>
-<p>Last updated on 2024-03-08 |
-        
-        <a href="https://github.com/govekk/image-processing/edit/main/episodes/09-challenges.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
-<p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 50 minutes</p>
-<div class="text-end">
-          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
-        </div>
-<div class="overview card">
-<h2 class="card-header">Overview</h2>
-<div class="row g-0">
-<div class="col-md-4">
-<div class="card-body">
-<div class="inner">
-<h3 class="card-title">Questions</h3>
-<ul>
-<li>How can we automatically count bacterial colonies with image
-analysis?</li>
-</ul>
-</div>
-</div>
-</div>
-<div class="col-md-8">
-<div class="card-body">
-<div class="inner bordered">
-<h3 class="card-title">Objectives</h3>
-<ul>
-<li>Bring together everything you’ve learnt so far to count bacterial
-colonies in 3 images.</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p>In this episode, we will provide a final challenge for you to
-attempt, based on all the skills you have acquired so far. This
-challenge will be related to the shape of objects in images
-(<em>morphometrics</em>).</p>
-<section id="morphometrics-bacteria-colony-counting"><h2 class="section-heading">Morphometrics: Bacteria Colony Counting<a class="anchor" aria-label="anchor" href="#morphometrics-bacteria-colony-counting"></a>
-</h2>
-<hr class="half-width">
-<p>As mentioned in <a href="01-introduction.html">the workshop
-introduction</a>, your morphometric challenge is to determine how many
-bacteria colonies are in each of these images:</p>
-<figure><img src="../fig/colonies-01.jpg" alt="Colony image 1" class="figure mx-auto d-block"></figure><figure><img src="../fig/colonies-02.jpg" alt="Colony image 2" class="figure mx-auto d-block"></figure><figure><img src="../fig/colonies-03.jpg" alt="Colony image 3" class="figure mx-auto d-block"></figure><p>The image files can be found at <code>data/colonies-01.tif</code>,
-<code>data/colonies-02.tif</code>, and
-<code>data/colonies-03.tif</code>.</p>
-<div id="morphometrics-for-bacterial-colonies" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="morphometrics-for-bacterial-colonies" class="callout-inner">
-<h3 class="callout-title">Morphometrics for bacterial colonies<a class="anchor" aria-label="anchor" href="#morphometrics-for-bacterial-colonies"></a>
-</h3>
-<div class="callout-content">
-<p>Write a Python program that uses scikit-image to count the number of
-bacteria colonies in each image, and for each, produce a new image that
-highlights the colonies. The image should look similar to this one:</p>
-<figure><img src="../fig/colonies-01-summary.png" alt="Sample morphometric output" class="figure mx-auto d-block"></figure><p>Additionally, print out the number of colonies for each image.</p>
-<p>Use what you have learnt about <a href="05-creating-histograms.html">histograms</a>, <a href="07-thresholding.html">thresholding</a> and <a href="08-connected-components.html">connected component analysis</a>.
-Try to put your code into a re-usable function, so that it can be
-applied conveniently to any image file.</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution1" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
-  <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
-</button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
-<div class="accordion-body">
-<p>First, let’s work through the process for one image:</p>
-<div class="codewrapper sourceCode" id="cb1">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="im">import</span> imageio.v3 <span class="im">as</span> iio</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="im">import</span> ipympl</span>
-<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span>
-<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span>
-<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a></span>
-<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>bacteria_image <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/colonies-01.tif"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a></span>
-<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a><span class="co"># display the image</span></span>
-<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a>plt.imshow(bacteria_image)</span></code></pre>
-</div>
-<figure><img src="../fig/colonies-01.jpg" alt="Colony image 1" class="figure mx-auto d-block"></figure><p>Next, we need to threshold the image to create a mask that covers
-only the dark bacterial colonies. This is easier using a grayscale
-image, so we convert it here:</p>
-<div class="codewrapper sourceCode" id="cb2">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a>gray_bacteria <span class="op">=</span> ski.color.rgb2gray(bacteria_image)</span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># display the gray image</span></span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>plt.imshow(gray_bacteria, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
-</div>
-<figure><img src="../fig/colonies-01-gray.png" alt="Gray Colonies" class="figure mx-auto d-block"></figure><p>Next, we blur the image and create a histogram:</p>
-<div class="codewrapper sourceCode" id="cb3">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>blurred_image <span class="op">=</span> ski.filters.gaussian(gray_bacteria, sigma<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>histogram, bin_edges <span class="op">=</span> np.histogram(blurred_image, bins<span class="op">=</span><span class="dv">256</span>, <span class="bu">range</span><span class="op">=</span>(<span class="fl">0.0</span>, <span class="fl">1.0</span>))</span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>plt.plot(bin_edges[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>], histogram)</span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>plt.title(<span class="st">"Graylevel histogram"</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>plt.xlabel(<span class="st">"gray value"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>plt.ylabel(<span class="st">"pixel count"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="fl">1.0</span>)</span></code></pre>
-</div>
-<figure><img src="../fig/colonies-01-histogram.png" alt="Histogram image" class="figure mx-auto d-block"></figure><p>In this histogram, we see three peaks - the left one (i.e. the
-darkest pixels) is our colonies, the central peak is the yellow/brown
-culture medium in the dish, and the right one (i.e. the brightest
-pixels) is the white image background. Therefore, we choose a threshold
-that selects the small left peak:</p>
-<div class="codewrapper sourceCode" id="cb4">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>mask <span class="op">=</span> blurred_image <span class="op">&lt;</span> <span class="fl">0.2</span></span>
-<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>plt.imshow(mask, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
-</div>
-<figure><img src="../fig/colonies-01-mask.png" alt="Colony mask image" class="figure mx-auto d-block"></figure><p>This mask shows us where the colonies are in the image - but how can
-we count how many there are? This requires connected component
-analysis:</p>
-<div class="codewrapper sourceCode" id="cb5">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>labeled_image, count <span class="op">=</span> ski.measure.label(mask, return_num<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="bu">print</span>(count)</span></code></pre>
-</div>
-<p>Finally, we create the summary image of the coloured colonies on top
-of the grayscale image:</p>
-<div class="codewrapper sourceCode" id="cb6">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># color each of the colonies a different color</span></span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>colored_label_image <span class="op">=</span> ski.color.label2rgb(labeled_image, bg_label<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co"># give our grayscale image rgb channels, so we can add the colored colonies</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>summary_image <span class="op">=</span> ski.color.gray2rgb(gray_bacteria)</span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>summary_image[mask] <span class="op">=</span> colored_label_image[mask]</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># plot overlay</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>plt.imshow(summary_image)</span></code></pre>
-</div>
-<figure><img src="../fig/colonies-01-summary.png" alt="Sample morphometric output" class="figure mx-auto d-block"></figure><p>Now that we’ve completed the task for one image, we need to repeat
-this for the remaining two images. This is a good point to collect the
-lines above into a re-usable function:</p>
-<div class="codewrapper sourceCode" id="cb7">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="kw">def</span> count_colonies(image_filename):</span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>    bacteria_image <span class="op">=</span> iio.imread(image_filename)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>    gray_bacteria <span class="op">=</span> ski.color.rgb2gray(bacteria_image)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>    blurred_image <span class="op">=</span> ski.filters.gaussian(gray_bacteria, sigma<span class="op">=</span><span class="fl">1.0</span>)</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>    mask <span class="op">=</span> blurred_image <span class="op">&lt;</span> <span class="fl">0.2</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>    labeled_image, count <span class="op">=</span> ski.measure.label(mask, return_num<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"There are </span><span class="sc">{</span>count<span class="sc">}</span><span class="ss"> colonies in </span><span class="sc">{</span>image_filename<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>    colored_label_image <span class="op">=</span> ski.color.label2rgb(labeled_image, bg_label<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>    summary_image <span class="op">=</span> ski.color.gray2rgb(gray_bacteria)</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>    summary_image[mask] <span class="op">=</span> colored_label_image[mask]</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>    plt.imshow(summary_image)</span></code></pre>
-</div>
-<p>Now we can do this analysis on all the images via a for loop:</p>
-<div class="codewrapper sourceCode" id="cb8">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="cf">for</span> image_filename <span class="kw">in</span> [<span class="st">"data/colonies-01.tif"</span>, <span class="st">"data/colonies-02.tif"</span>, <span class="st">"data/colonies-03.tif"</span>]:</span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>    count_colonies(image_filename<span class="op">=</span>image_filename)</span></code></pre>
-</div>
-<p><img src="../fig/colonies-01-summary.png" alt="Colony 1 output" class="figure"><img src="../fig/colonies-02-summary.png" alt="Colony 2 output" class="figure"><img src="../fig/colonies-03-summary.png" alt="Colony 3 output" class="figure"></p>
-<p>You’ll notice that for the images with more colonies, the results
-aren’t perfect. For example, some small colonies are missing, and there
-are likely some small black spots being labelled incorrectly as
-colonies. You could expand this solution to, for example, use an
-automatically determined threshold for each image, which may fit each
-better. Also, you could filter out colonies below a certain size (as we
-did in <a href="08-connected-components.html">the <em>Connected
-Component Analysis</em> episode</a>). You’ll also see that some touching
-colonies are merged into one big colony. This could be fixed with more
-complicated segmentation methods (outside of the scope of this lesson)
-like <a href="https://scikit-image.org/docs/dev/auto_examples/segmentation/plot_watershed.html" class="external-link">watershed</a>.</p>
-</div>
-</div>
-</div>
-</div>
-<div id="colony-counting-with-minimum-size-and-automated-threshold-optional-not-included-in-timing" class="callout challenge">
-<div class="callout-square">
-<i class="callout-icon" data-feather="zap"></i>
-</div>
-<div id="colony-counting-with-minimum-size-and-automated-threshold-optional-not-included-in-timing" class="callout-inner">
-<h3 class="callout-title">Colony counting with minimum size and
-automated threshold (optional, not included in timing)<a class="anchor" aria-label="anchor" href="#colony-counting-with-minimum-size-and-automated-threshold-optional-not-included-in-timing"></a>
-</h3>
-<div class="callout-content">
-<p>Modify your function from the previous exercise for colony counting
-to (i) exclude objects smaller than a specified size and (ii) use an
-automated thresholding approach, e.g. Otsu, to mask the colonies.</p>
-</div>
-</div>
-</div>
-<div id="accordionSolution2" class="accordion challenge-accordion accordion-flush">
-<div class="accordion-item">
-<button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
-  <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
-</button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
-<div class="accordion-body">
-<p>Here is a modified function with the requested features. Note when
-calculating the Otsu threshold we don’t include the very bright pixels
-outside the dish.</p>
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="kw">def</span> count_colonies_enhanced(image_filename, sigma<span class="op">=</span><span class="fl">1.0</span>, min_colony_size<span class="op">=</span><span class="dv">10</span>, connectivity<span class="op">=</span><span class="dv">2</span>):</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>    </span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>    bacteria_image <span class="op">=</span> iio.imread(image_filename)</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>    gray_bacteria <span class="op">=</span> ski.color.rgb2gray(bacteria_image)</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>    blurred_image <span class="op">=</span> ski.filters.gaussian(gray_bacteria, sigma<span class="op">=</span>sigma)</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>    </span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>    <span class="co"># create mask excluding the very bright pixels outside the dish</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>    <span class="co"># we dont want to include these when calculating the automated threshold</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>    mask <span class="op">=</span> blurred_image <span class="op">&lt;</span> <span class="fl">0.90</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>    <span class="co"># calculate an automated threshold value within the dish using the Otsu method</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>    t <span class="op">=</span> ski.filters.threshold_otsu(blurred_image[mask])</span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>    <span class="co"># update mask to select pixels both within the dish and less than t</span></span>
-<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>    mask <span class="op">=</span> np.logical_and(mask, blurred_image <span class="op">&lt;</span> t)</span>
-<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a>    <span class="co"># remove objects smaller than specified area</span></span>
-<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a>    mask <span class="op">=</span> ski.morphology.remove_small_objects(mask, min_size<span class="op">=</span>min_colony_size)</span>
-<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a>    </span>
-<span id="cb9-17"><a href="#cb9-17" tabindex="-1"></a>    labeled_image, count <span class="op">=</span> ski.measure.label(mask, return_num<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb9-18"><a href="#cb9-18" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"There are </span><span class="sc">{</span>count<span class="sc">}</span><span class="ss"> colonies in </span><span class="sc">{</span>image_filename<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb9-19"><a href="#cb9-19" tabindex="-1"></a>    colored_label_image <span class="op">=</span> ski.color.label2rgb(labeled_image, bg_label<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb9-20"><a href="#cb9-20" tabindex="-1"></a>    summary_image <span class="op">=</span> ski.color.gray2rgb(gray_bacteria)</span>
-<span id="cb9-21"><a href="#cb9-21" tabindex="-1"></a>    summary_image[mask] <span class="op">=</span> colored_label_image[mask]</span>
-<span id="cb9-22"><a href="#cb9-22" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb9-23"><a href="#cb9-23" tabindex="-1"></a>    plt.imshow(summary_image)</span></code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div id="keypoints1" class="callout keypoints">
-<div class="callout-square">
-<i class="callout-icon" data-feather="key"></i>
-</div>
-<div class="callout-inner">
-<h3 class="callout-title">Key Points<a class="anchor" aria-label="anchor" href="#keypoints1"></a>
-</h3>
-<div class="callout-content">
-<ul>
-<li>Using thresholding, connected component analysis and other tools we
-can automatically segment images of bacterial colonies.</li>
-<li>These methods are useful for many scientific problems, especially
-those involving morphometrics.</li>
 </ul>
 </div>
 </div>
