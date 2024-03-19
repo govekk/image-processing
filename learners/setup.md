@@ -7,8 +7,8 @@ Before joining the workshop or following the lesson, please complete the data an
 
 ## Data
 
-The example images used in this lesson are available on [FigShare](https://figshare.com/).
-To download the data, please visit [the dataset page for this workshop][figshare-data]
+The example images used in this lesson are available on Zenodo.
+To download the data, please visit [the dataset page for this workshop][https://zenodo.org/doi/10.5281/zenodo.10839732]
 and click the "Download all" button.
 Unzip the downloaded file, and save the contents as a folder  called `data` somewhere you will easily find it again,
 e.g. your Desktop or a folder you have created for using in this workshop.
