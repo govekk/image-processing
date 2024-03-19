@@ -319,7 +319,7 @@ A script to create the subimage would start by loading the image:
 """Python script demonstrating image modification and creation via NumPy array slicing."""
 
 # load and display original image
-cells = iio.imread(uri="data/hela-cell-8bit.tif")
+cells = iio.imread(uri="data/hela-cells-8bit.tif")
 cells = np.array(cells)
 fig, ax = plt.subplots()
 plt.imshow(cells)
