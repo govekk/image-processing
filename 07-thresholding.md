@@ -384,7 +384,7 @@ fig, ax = plt.subplots()
 plt.imshow(binary_mask, cmap="gray")
 ```
 
-![](fig/cells-otsu-mask.png){alt='Binary mask of nuclei using otsu thresholding'}
+![](fig/cells-otsu-mask.jpg){alt='Binary mask of nuclei using otsu thresholding'}
 
 Otsu's method generates a fairly conservative mask on this image, meaning that
 the threshold was fairly high and less of the foreground is kept by the mask.
