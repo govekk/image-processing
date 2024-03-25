@@ -413,7 +413,7 @@ Found automatic threshold t = 0.4172454549881862.
 
 For this root image and a Gaussian blur with the chosen sigma of 1.0,
 the computed threshold value is 0.21.
-No we can create a binary mask with the comparison operator `>`.
+Now we can create a binary mask with the comparison operator `>`.
 As we have seen before, pixels above the threshold value will be turned on,
 those below the threshold will be turned off.
 
@@ -445,7 +445,12 @@ There are many reasons why we might want to measure the percentage or size of a 
 ```python
 # Load and denoise the image
 hed_image = iio.imread(uri="data/immunohistochemistry.tif")
+gray_image = skimage.color.rgb2gray(hed_image)
 blurred_image = skimage.filters.gaussian(gray_image, sigma=1.0)
+
+# Visually compare automated thresholding methods
+fig, ax = ski.filters.try_all_threshold(blurred_image, figsize=(10, 8), verbose=False)
+plt.show()
 ```
 
 Write a function to calculate the percentage of thresholded foreground in the image by counting the number of nonzero (or true) pixels in the binary mask and dividing by the total count of pixels.
@@ -489,6 +494,12 @@ t_yen = ski.filters.threshold_yen(blurred_image)
 percentage_yen = measure_foreground(blurred_image, t_yen)
 print("Yen thresholding: {:.2f}%".format(percentage_yen))
 ```
+
+```output
+Triangle thresholding: 96.88%
+Yen thresholding: 48.77%
+```
+
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::

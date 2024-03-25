@@ -303,11 +303,11 @@ with the optional parameters.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-We can call the above function `connected_components` and
+We can call the above function `segment_multichannel` and
 display the labeled image like so:
 
 ```python
-labeled_image, count = connected_components(filename="data/hela-cells-8bit.tif", channel=2, sigma=2.0, t=0.1, connectivity=2)
+labeled_image, count = segment_multichannel(filename="data/hela-cells-8bit.tif", channel=2, sigma=2.0, t=0.1, connectivity=2)
 
 fig, ax = plt.subplots()
 plt.imshow(labeled_image)
@@ -395,12 +395,44 @@ plt.axis("off");
 
 ![](fig/cells-labeled.jpg){alt='Labeled objects'}
 
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Code cheatsheet for counting objects
+
+```python
+import imageio.v3 as iio
+import ipympl
+import matplotlib.pyplot as plt
+import numpy as np
+import skimage as ski
+
+%matplotlib widget
+
+def segment_multichannel(filename, channel=0, sigma=1.0, t=0.5, connectivity=2):
+    # load the image
+    image = iio.imread(filename)
+    # convert the image to grayscale
+    channel_image = image[:,:,channel]
+    # denoise the image with a Gaussian filter
+    blurred_image = ski.filters.gaussian(channel_image, sigma=sigma)
+    # mask the image according to threshold
+    binary_mask = blurred_image > t
+    # perform connected component analysis
+    labeled_image, count = ski.measure.label(binary_mask,
+                                                 connectivity=connectivity, return_num=True)
+    return labeled_image, count
+
+# Call segmentation function on HeLa cells image file, nuclei channel
+labeled_image, count = segment_multichannel(filename="data/hela-cells-8bit.tif", channel=2, sigma=2.0, t=0.1, connectivity=2)
+```
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## How many objects are in that image (15 min)
 
 Now, it is your turn to practice.
-Using the function `connected_components`,
+Using the function `segment_multichannel`,
 find two ways of printing out the number of objects found in the image.
 
 What number of objects would you expect to get?
@@ -649,6 +681,42 @@ look for an availabe function that can solve a given task.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Code cheatsheet for removing small objects
+
+```python
+import imageio.v3 as iio
+import ipympl
+import matplotlib.pyplot as plt
+import numpy as np
+import skimage as ski
+
+%matplotlib widget
+
+def segment_multichannel(filename, channel=0, sigma=1.0, t=0.5, connectivity=2):
+    # load the image
+    image = iio.imread(filename)
+    # convert the image to grayscale
+    channel_image = image[:,:,channel]
+    # denoise the image with a Gaussian filter
+    blurred_image = ski.filters.gaussian(channel_image, sigma=sigma)
+    # mask the image according to threshold
+    binary_mask = blurred_image > t
+    # perform connected component analysis
+    labeled_image, count = ski.measure.label(binary_mask,
+                                                 connectivity=connectivity, return_num=True)
+    return labeled_image, count
+
+# Call segmentation function on HeLa cells image file, nuclei channel
+labeled_image, count = segment_multichannel(filename="data/hela-cells-8bit.tif", channel=2, sigma=2.0, t=0.1, connectivity=2)
+
+object_features = ski.measure.regionprops(labeled_image)
+object_areas = [objf["area"] for objf in object_features]
+object_areas
+```
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Remove small objects (20 min)
@@ -694,6 +762,10 @@ object_labels = np.array([objf["label"] for objf in object_features])
 small_objects = object_labels[object_areas < min_area]
 labeled_image[np.isin(labeled_image, small_objects)] = 0
 ```
+
+:::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 An even more elegant way to remove small objects from the image is
 to leverage the `ski.morphology` module.
@@ -754,12 +826,6 @@ Found 4 objects in the image.
 
 Note that the small objects are "gone" and we obtain the correct
 number of 4 objects in the image.
-
-
-
-:::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
