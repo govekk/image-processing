@@ -213,6 +213,47 @@ plt.imshow(foreground)
 
 ![](fig/ihc-foreground.jpg){alt='Selected foreground after applying binary mask'}
 
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Code cheatsheet for "More practice with simple thresholding":
+
+```python
+# Read in image (from the uri path to the image file)
+image = iio.imread(uri)
+# Select single channel (where c is the index of the channel)
+channel = image[:,:,c]
+# Blur image
+blurred_image = skimage.filters.gaussian(channel, sigma=1.0)
+
+# Create and display image
+histogram, bin_edges = np.histogram(blurred_image, bins=256, range=(0.0,1.0))
+fig,ax = plt.subplots()
+plt.plot(bin_edges[0:-1], histogram)
+plt.title("Channel histogram")
+plt.xlabel("pixel value")
+plt.ylabel("pixels")
+plt.xlim(0, 1.0)
+
+# Threshold image, keeping pixels with value > t
+binary_mask = blurred_image > t
+
+# Plot threshold image
+fig, ax = plt.subplots()
+plt.imshow(binary_mask, cmap="gray")
+
+# Copy image so we don't change the original
+foreground = image.copy()
+
+# Turn off all the pixels that are not our thresholded foreground
+foreground[~binary_mask] = 0
+
+# Display the image with only foreground pixels
+fig, ax = plt.subplots()
+plt.imshow(foreground)
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## More practice with simple thresholding (20 min)
@@ -389,7 +430,7 @@ plt.imshow(binary_mask, cmap="gray")
 Otsu's method generates a fairly conservative mask on this image, meaning that
 the threshold was fairly high and less of the foreground is kept by the mask.
 There may be other automated thresholders that work better in this application.
-Scikit image provites a method that can give a visual test of all of them at once.
+Scikit image provides a method that can give a visual test of all of them at once.
 
 ```python
 fig, ax = ski.filters.try_all_threshold(blurred_image, figsize=(10, 8), verbose=False)
@@ -398,69 +439,56 @@ plt.show()
 
 ![](fig/cells-thresholder-test.png){alt='Overview test of all automated thresholders in scikit image'}
 
+## Measuring thresholded areas
+There are many reasons why we might want to measure the percentage or size of a thresholded foreground in an image, for instance to assess tumor percentage in a tissue section or confluence of a cell culture. Here we will use it to compare the results of different automated thresholding methods.
+
+```python
+# Load and denoise the image
+hed_image = iio.imread(uri="data/immunohistochemistry.tif")
+blurred_image = skimage.filters.gaussian(gray_image, sigma=1.0)
+```
+
+Write a function to calculate the percentage of thresholded foreground in the image by counting the number of nonzero (or true) pixels in the binary mask and dividing by the total count of pixels.
+```python
+def measure_foreground(blurred_image, t):
+    binary_mask = blurred_image < t
+    foreground_pixels = np.count_nonzero(binary_mask)
+    w = binary_mask.shape[1]
+    h = binary_mask.shape[0]
+    percentage = foreground_pixels / (w * h) * 100
+    return(percentage)
+```
+
+Calculate the percentage pixels kept by the Otsu thresholding method
+```python
+t_otsu = ski.filters.threshold_otsu(blurred_image)
+percentage_otsu = measure_foreground(blurred_image, t_otsu)
+print("Otsu thresholding: {:.2f}%".format(percentage_otsu))
+```
+
+```output
+Otsu thresholding: 57.96%
+```
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## Thresholding a bacteria colony image (15 min)
+# Measure results of automated threshold methods
 
-In the images directory `data/`, you will find an image named `colonies-01.tif`.
-
-![](fig/colonies-01.jpg){alt='Image of bacteria colonies in a petri dish'}
-
-This is one of the images you will be working with in the
-morphometric challenge at the end of the workshop.
-
-1. Plot and inspect the grayscale histogram of the image to
-  determine a good threshold value for the image.
-2. Create a binary mask that leaves the pixels in the bacteria
-  colonies "on" while turning the rest of the pixels in the image
-  "off".
+Following the pipeline from above, measure the percentage of pixels kept by two different automated threshold methods.
 
 :::::::::::::::  solution
 
-## Solution
-
-Here is the code to create the grayscale histogram:
+## Solution with Triangle and Yen thresholding methods
 
 ```python
-bacteria = iio.imread(uri="data/colonies-01.tif")
-gray_image = ski.color.rgb2gray(bacteria)
-blurred_image = ski.filters.gaussian(gray_image, sigma=1.0)
-histogram, bin_edges = np.histogram(blurred_image, bins=256, range=(0.0, 1.0))
-fig, ax = plt.subplots()
-plt.plot(bin_edges[0:-1], histogram)
-plt.title("Graylevel histogram")
-plt.xlabel("gray value")
-plt.ylabel("pixel count")
-plt.xlim(0, 1.0)
+t_triangle = ski.filters.threshold_triangle(blurred_image)
+percentage_triangle = measure_foreground(blurred_image, t_triangle)
+print("Triangle thresholding: {:.2f}%".format(percentage_triangle))
+
+t_yen = ski.filters.threshold_yen(blurred_image)
+percentage_yen = measure_foreground(blurred_image, t_yen)
+print("Yen thresholding: {:.2f}%".format(percentage_yen))
 ```
- 
-![](fig/colonies-01-histogram.png){alt='Grayscale histogram of the bacteria colonies image'}
-
-The peak near one corresponds to the white image background,
-and the broader peak around 0.5 corresponds to the yellow/brown
-culture medium in the dish.
-The small peak near zero is what we are after: the dark bacteria colonies.
-A reasonable choice thus might be to leave pixels below `t=0.2` on.
-
-Here is the code to create and show the binarized image using the
-`<` operator with a threshold `t=0.2`:
-
-```python
-t = 0.2
-binary_mask = blurred_image < t
-
-fig, ax = plt.subplots()
-plt.imshow(binary_mask, cmap="gray")
-```
-
-![](fig/colonies-01-mask.png){alt='Binary mask of the bacteria colonies image'}
-
-When you experiment with the threshold a bit, you can see that in
-particular the size of the bacteria colony near the edge of the
-dish in the top right is affected by the choice of the threshold.
-
-
-
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
