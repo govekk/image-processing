@@ -577,7 +577,7 @@ it also has only one value per pixel.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>The histogram for the blue channel of
 <code>data/hela-cells-8bit.tif</code> image can be shown with</p>
@@ -631,7 +631,7 @@ coloured nuclei on a black background.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Here are the commands to create and view the binary mask</p>
 <div class="codewrapper sourceCode" id="cb9">
@@ -706,7 +706,7 @@ background depending on the data and application.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>The histogram may prompt questions from learners about the
 interpretation of the peaks and the broader region. The focus here is on
@@ -738,7 +738,7 @@ method.</p>
 <pre class="output" tabindex="0"><code>Found automatic threshold t = 0.4172454549881862.</code></pre>
 </div>
 <p>For this root image and a Gaussian blur with the chosen sigma of 1.0,
-the computed threshold value is 0.21. No we can create a binary mask
+the computed threshold value is 0.21. Now we can create a binary mask
 with the comparison operator <code>&gt;</code>. As we have seen before,
 pixels above the threshold value will be turned on, those below the
 threshold will be turned off.</p>
@@ -774,7 +774,12 @@ thresholding methods.</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Load and denoise the image</span></span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>hed_image <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/immunohistochemistry.tif"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>blurred_image <span class="op">=</span> skimage.filters.gaussian(gray_image, sigma<span class="op">=</span><span class="fl">1.0</span>)</span></code></pre>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>gray_image <span class="op">=</span> skimage.color.rgb2gray(hed_image)</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>blurred_image <span class="op">=</span> skimage.filters.gaussian(gray_image, sigma<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="co"># Visually compare automated thresholding methods</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>fig, ax <span class="op">=</span> ski.filters.try_all_threshold(blurred_image, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>), verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>plt.show()</span></code></pre>
 </div>
 <p>Write a function to calculate the percentage of thresholded
 foreground in the image by counting the number of nonzero (or true)
@@ -823,7 +828,7 @@ kept by two different automated threshold methods.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Solution with Triangle and Yen thresholding methods</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -835,6 +840,12 @@ kept by two different automated threshold methods.</p>
 <span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>t_yen <span class="op">=</span> ski.filters.threshold_yen(blurred_image)</span>
 <span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>percentage_yen <span class="op">=</span> measure_foreground(blurred_image, t_yen)</span>
 <span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Yen thresholding: </span><span class="sc">{:.2f}</span><span class="st">%"</span>.<span class="bu">format</span>(percentage_yen))</span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>Triangle thresholding: 96.88%
+Yen thresholding: 48.77%</code></pre>
 </div>
 </div>
 </div>
