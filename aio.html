@@ -692,7 +692,7 @@ modules. You will encounter several different forms of
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Further explanation</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <p>In the example above, form 1 loads the entire scikit-image library
 into the program as an object. Individual modules of the library are
@@ -865,7 +865,7 @@ image and print out the matrix as well.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>There are many possible solutions, but one method would be . . .</p>
 <div class="codewrapper sourceCode" id="cb12">
@@ -1102,7 +1102,7 @@ further.)</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>(255, 0, 0) represents red, because the red channel is maximised,
@@ -1956,7 +1956,7 @@ image.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Here is the completed Python program to select only the leftmost cell
 in the image</p>
@@ -2231,7 +2231,7 @@ image, perhaps something like this:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Drawing a circle:</p>
 <div class="codewrapper sourceCode" id="cb6">
@@ -2384,7 +2384,7 @@ the portion of the image we want to remove are all
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>When indexing the image using the mask, we access only those pixels
 at positions where the mask is <code>True</code>. So, when indexing with
@@ -2829,7 +2829,7 @@ this:</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -3595,6 +3595,10 @@ convert it to grayscale, and de-noise it as in <a href="06-blurring.html">the <e
 <div class="callout-content">
 <p>In practice, it is often necessary to denoise the image before
 thresholding, which can be done with one of the methods from <a href="06-blurring.html">the <em>Blurring Images</em> episode</a>.</p>
+<p>It may also be helpful to perform other types of denoising or
+background subtraction, such as <a href="https://scikit-image.org/docs/stable/api/skimage.restoration.html#skimage.restoration.rolling_ball" class="external-link">rolling
+ball</a> or <a href="https://scikit-image.org/docs/stable/api/skimage.morphology.html#skimage.morphology.black_tophat" class="external-link">tophat
+transforms</a>.</p>
 </div>
 </div>
 </div>
@@ -3780,7 +3784,7 @@ it also has only one value per pixel.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>The histogram for the blue channel of
 <code>data/hela-cells-8bit.tif</code> image can be shown with</p>
@@ -3834,7 +3838,7 @@ coloured nuclei on a black background.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Here are the commands to create and view the binary mask</p>
 <div class="codewrapper sourceCode" id="cb9">
@@ -4015,7 +4019,7 @@ kept by two different automated threshold methods.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Solution with Triangle and Yen thresholding methods</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -4507,12 +4511,13 @@ image:</p>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>plt.imshow(colored_label_image)</span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)<span class="op">;</span></span></code></pre>
 </div>
-<figure><img src="fig/cells-labeled.jpg" alt="Labeled objects" class="figure mx-auto d-block"></figure><div id="code-cheatsheet-for-counting-objects" class="callout">
+<figure><img src="fig/cells-labeled.jpg" alt="Labeled objects" class="figure mx-auto d-block"></figure><div id="code-cheatsheet-for-how-does-parameter-choice-change-how-many-objects-are-in-the-image" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
 </div>
-<div id="code-cheatsheet-for-counting-objects" class="callout-inner">
-<h3 class="callout-title">Code cheatsheet for counting objects<a class="anchor" aria-label="anchor" href="#code-cheatsheet-for-counting-objects"></a>
+<div id="code-cheatsheet-for-how-does-parameter-choice-change-how-many-objects-are-in-the-image" class="callout-inner">
+<h3 class="callout-title">Code cheatsheet for “How does parameter choice
+change how many objects are in the image?”<a class="anchor" aria-label="anchor" href="#code-cheatsheet-for-how-does-parameter-choice-change-how-many-objects-are-in-the-image"></a>
 </h3>
 <div class="callout-content">
 <div class="codewrapper sourceCode" id="cb17">
@@ -4545,18 +4550,18 @@ image:</p>
 </div>
 </div>
 </div>
-<div id="how-many-objects-are-in-that-image-15-min" class="callout challenge">
+<div id="how-does-parameter-choice-change-how-many-objects-are-in-the-image-15-min" class="callout challenge">
 <div class="callout-square">
 <i class="callout-icon" data-feather="zap"></i>
 </div>
-<div id="how-many-objects-are-in-that-image-15-min" class="callout-inner">
-<h3 class="callout-title">How many objects are in that image (15
-min)<a class="anchor" aria-label="anchor" href="#how-many-objects-are-in-that-image-15-min"></a>
+<div id="how-does-parameter-choice-change-how-many-objects-are-in-the-image-15-min" class="callout-inner">
+<h3 class="callout-title">How does parameter choice change how many
+objects are in the image? (15 min)<a class="anchor" aria-label="anchor" href="#how-does-parameter-choice-change-how-many-objects-are-in-the-image-15-min"></a>
 </h3>
 <div class="callout-content">
 <p>Now, it is your turn to practice. Using the function
-<code>segment_multichannel</code>, find two ways of printing out the
-number of objects found in the image.</p>
+<code>segment_multichannel</code>, print out the value
+<code>count</code> to see how many objects were found in the image.</p>
 <p>What number of objects would you expect to get?</p>
 <p>How does changing the <code>sigma</code> and <code>threshold</code>
 values influence the result?</p>
@@ -4601,11 +4606,15 @@ objects:</p>
 </h3>
 <pre class="output" tabindex="0"><code>Found 6 objects in the image.</code></pre>
 </div>
+<div class="section level2">
+<h2 id="how-do-parameters-affect-output">How do parameters affect output?<a class="anchor" aria-label="anchor" href="#how-do-parameters-affect-output"></a>
+</h2>
 <p>Raising the threshold will result in fewer objects. The lower the
 threshold is set, the more objects are found. More and more background
 noise gets picked up as objects. Larger sigmas produce binary masks with
 less noise and hence a smaller number of objects. Setting sigma too high
 bears the danger of merging objects.</p>
+</div>
 </div>
 </div>
 </div>

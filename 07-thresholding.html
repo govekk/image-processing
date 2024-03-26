@@ -398,6 +398,10 @@ convert it to grayscale, and de-noise it as in <a href="06-blurring.html">the <e
 <div class="callout-content">
 <p>In practice, it is often necessary to denoise the image before
 thresholding, which can be done with one of the methods from <a href="06-blurring.html">the <em>Blurring Images</em> episode</a>.</p>
+<p>It may also be helpful to perform other types of denoising or
+background subtraction, such as <a href="https://scikit-image.org/docs/stable/api/skimage.restoration.html#skimage.restoration.rolling_ball" class="external-link">rolling
+ball</a> or <a href="https://scikit-image.org/docs/stable/api/skimage.morphology.html#skimage.morphology.black_tophat" class="external-link">tophat
+transforms</a>.</p>
 </div>
 </div>
 </div>
@@ -582,7 +586,7 @@ it also has only one value per pixel.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>The histogram for the blue channel of
 <code>data/hela-cells-8bit.tif</code> image can be shown with</p>
@@ -636,7 +640,7 @@ coloured nuclei on a black background.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>Here are the commands to create and view the binary mask</p>
 <div class="codewrapper sourceCode" id="cb9">
@@ -814,7 +818,7 @@ kept by two different automated threshold methods.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Solution with Triangle and Yen thresholding methods</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
