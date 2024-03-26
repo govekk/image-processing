@@ -397,7 +397,7 @@ plt.axis("off");
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
-## Code cheatsheet for counting objects
+## Code cheatsheet for "How does parameter choice change how many objects are in the image?"
 
 ```python
 import imageio.v3 as iio
@@ -428,11 +428,11 @@ labeled_image, count = segment_multichannel(filename="data/hela-cells-8bit.tif",
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
-## How many objects are in that image (15 min)
+## How does parameter choice change how many objects are in the image? (15 min)
 
 Now, it is your turn to practice.
-Using the function `segment_multichannel`,
-find two ways of printing out the number of objects found in the image.
+Using the function `segment_multichannel`, print out the value `count` to
+see how many objects were found in the image.
 
 What number of objects would you expect to get?
 
@@ -475,6 +475,7 @@ both methods will print
 Found 6 objects in the image.
 ```
 
+##  How do parameters affect output?
 Raising the threshold will result in fewer objects.
 The lower the threshold is set, the more objects are found.
 More and more background noise gets picked up as objects.
