@@ -523,7 +523,7 @@ to measure the properties of labeled regions.
 It returns a list of `RegionProperties` that describe each connected region in the images.
 The properties can be accessed using the attributes of the `RegionProperties` data type.
 Here we will use the properties `"area"` and `"label"`.
-You can explore the scikit-image documentation to learn about other properties available.
+You can explore [the scikit-image documentation on regionprops](https://scikit-image.org/docs/stable/api/skimage.measure.html#skimage.measure.regionprops) to learn about other properties available.
 
 We can get a list of areas of the labeled objects as follows:
 
@@ -595,8 +595,43 @@ of the cells you are imaging, you could compute the expected number of pixels pe
 area and keep objects of that size.
 
 
-
 :::::::::::::::::::::::::
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Code cheatsheet for "Filter objects by area":
+
+```python
+import imageio.v3 as iio
+import ipympl
+import matplotlib.pyplot as plt
+import numpy as np
+import skimage as ski
+%matplotlib widget
+
+def segment_multichannel(filename, channel=0, sigma=1.0, t=0.5, connectivity=2):
+    # load the image
+    image = iio.imread(filename)
+    # convert the image to grayscale
+    channel_image = image[:,:,channel]
+    # denoise the image with a Gaussian filter
+    blurred_image = ski.filters.gaussian(channel_image, sigma=sigma)
+    # mask the image according to threshold
+    binary_mask = blurred_image > t
+    # perform connected component analysis
+    labeled_image, count = ski.measure.label(binary_mask,
+                                                 connectivity=connectivity, return_num=True)
+    return labeled_image, count
+
+# Call segmentation function on HeLa cells image file, nuclei channel
+labeled_image, count = segment_multichannel(filename="data/hela-cells-8bit.tif", channel=2, sigma=2.0, t=0.1, connectivity=2)
+
+# compute object features and extract object areas
+object_features = ski.measure.regionprops(labeled_image)
+object_areas = [objf["area"] for objf in object_features]
+```
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -609,6 +644,7 @@ accurate count of the objects in the image.
 
 1. Find a way to calculate the number of objects by only counting
   objects above a certain area.
+2. Keep track of which object labels we want to keep, e.g. in a list.
 
 :::::::::::::::  solution
 
@@ -663,8 +699,6 @@ print("Found", n, "objects!")
 For all three alternatives, the output is the same and gives the
 expected count of 4 objects.
 
-
-
 :::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -713,6 +747,21 @@ labeled_image, count = segment_multichannel(filename="data/hela-cells-8bit.tif",
 object_features = ski.measure.regionprops(labeled_image)
 object_areas = [objf["area"] for objf in object_features]
 object_areas
+
+# "for loop" way of finding large object labels
+min_area = 200
+large_objects = []
+for objf in object_features:
+    if objf["area"] > min_area:
+        large_objects.append(objf["label"])
+print("Found", len(large_objects), "objects!")
+
+# "numpy" way of finding large object labels
+min_area = 200
+object_areas = np.array([objf["area"] for objf in object_features])
+object_labels = np.array([objf["label"] for objf in object_features])
+large_objects = object_labels[object_areas > min_area]
+print("Found", len(large_objects), "objects!")
 ```
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -723,9 +772,8 @@ object_areas
 We might also want to exclude (mask) the small objects when plotting
 the labeled image.
 
-2. Enhance the `segment_multichannel` function such that
-  it automatically removes objects that are below a certain area that is
-  passed to the function as an optional parameter.
+2. Given a labeled image from the `segment_multichannel` function, remove objects
+  from the labeled image that are below a certain area.
 
 :::::::::::::::  solution
 
@@ -738,6 +786,7 @@ One way to do this is to loop over all objects and
 set the pixels that match the label of the object to 0.
 
 ```python
+min_area = 200
 for object_id, objf in enumerate(object_features, start=1):
     if objf["area"] < min_area:
         labeled_image[labeled_image == objf["label"]] = 0
@@ -756,6 +805,7 @@ This array can then be used to index the `labeled_image` and
 set the entries that belong to small objects to `0`.
 
 ```python
+min_area = 200
 object_areas = np.array([objf["area"] for objf in object_features])
 object_labels = np.array([objf["label"] for objf in object_features])
 small_objects = object_labels[object_areas < min_area]
