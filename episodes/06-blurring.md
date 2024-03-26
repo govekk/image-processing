@@ -453,6 +453,34 @@ alt='3D surface plot illustrating the smoothing effect on pixel intensities acro
 }
 
 
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Code cheatsheet for "Experimenting with sigma values":
+
+```python
+import imageio.v3 as iio
+import ipympl
+import matplotlib.pyplot as plt
+import numpy as np
+import skimage as ski
+%matplotlib widget
+
+# Read image
+image = iio.imread(uri="data/gaussian-original.png")
+
+# display the image
+fig, ax = plt.subplots()
+plt.imshow(image)
+
+# apply Gaussian blur, creating a new image, with given sigma value
+blurred = ski.filters.gaussian(image, sigma=sigma, channel_axis=-1)
+
+# display blurred image
+fig, ax = plt.subplots()
+plt.imshow(blurred)
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
 
 :::::::::::::::::::::::::::::::::::::::  challenge
 
