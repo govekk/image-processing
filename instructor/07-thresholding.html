@@ -280,7 +280,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Thresholding</h1>
-        <p>Last updated on 2024-03-25 |
+        <p>Last updated on 2024-03-26 |
         
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/07-thresholding.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -516,38 +516,45 @@ thresholding”:<a class="anchor" aria-label="anchor" href="#code-cheatsheet-for
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Read in image (from the uri path to the image file)</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>image <span class="op">=</span> iio.imread(uri)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="co"># Select single channel (where c is the index of the channel)</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>channel <span class="op">=</span> image[:,:,c]</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co"># Blur image</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>blurred_image <span class="op">=</span> skimage.filters.gaussian(channel, sigma<span class="op">=</span><span class="fl">1.0</span>)</span>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="im">import</span> imageio.v3 <span class="im">as</span> iio</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="im">import</span> ipympl</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co"># Create and display image</span></span>
-<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>histogram, bin_edges <span class="op">=</span> np.histogram(blurred_image, bins<span class="op">=</span><span class="dv">256</span>, <span class="bu">range</span><span class="op">=</span>(<span class="fl">0.0</span>,<span class="fl">1.0</span>))</span>
-<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>fig,ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>plt.plot(bin_edges[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>], histogram)</span>
-<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>plt.title(<span class="st">"Channel histogram"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>plt.xlabel(<span class="st">"pixel value"</span>)</span>
-<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a>plt.ylabel(<span class="st">"pixels"</span>)</span>
-<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="fl">1.0</span>)</span>
-<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a><span class="co"># Threshold image, keeping pixels with value &gt; t</span></span>
-<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>binary_mask <span class="op">=</span> blurred_image <span class="op">&gt;</span> t</span>
-<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a><span class="co"># Plot threshold image</span></span>
-<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>plt.imshow(binary_mask, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co"># Read in image (from the uri path to the image file)</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>image <span class="op">=</span> iio.imread(uri)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># Select single channel (where c is the index of the channel)</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>channel <span class="op">=</span> image[:,:,c]</span>
+<span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a><span class="co"># Blur image</span></span>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>blurred_image <span class="op">=</span> skimage.filters.gaussian(channel, sigma<span class="op">=</span><span class="fl">1.0</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" tabindex="-1"></a><span class="co"># Create and display image</span></span>
+<span id="cb7-16"><a href="#cb7-16" tabindex="-1"></a>histogram, bin_edges <span class="op">=</span> np.histogram(blurred_image, bins<span class="op">=</span><span class="dv">256</span>, <span class="bu">range</span><span class="op">=</span>(<span class="fl">0.0</span>,<span class="fl">1.0</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" tabindex="-1"></a>fig,ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb7-18"><a href="#cb7-18" tabindex="-1"></a>plt.plot(bin_edges[<span class="dv">0</span>:<span class="op">-</span><span class="dv">1</span>], histogram)</span>
+<span id="cb7-19"><a href="#cb7-19" tabindex="-1"></a>plt.title(<span class="st">"Channel histogram"</span>)</span>
+<span id="cb7-20"><a href="#cb7-20" tabindex="-1"></a>plt.xlabel(<span class="st">"pixel value"</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" tabindex="-1"></a>plt.ylabel(<span class="st">"pixels"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="fl">1.0</span>)</span>
 <span id="cb7-23"><a href="#cb7-23" tabindex="-1"></a></span>
-<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co"># Copy image so we don't change the original</span></span>
-<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>foreground <span class="op">=</span> image.copy()</span>
+<span id="cb7-24"><a href="#cb7-24" tabindex="-1"></a><span class="co"># Threshold image, keeping pixels with value &gt; t</span></span>
+<span id="cb7-25"><a href="#cb7-25" tabindex="-1"></a>binary_mask <span class="op">=</span> blurred_image <span class="op">&gt;</span> t</span>
 <span id="cb7-26"><a href="#cb7-26" tabindex="-1"></a></span>
-<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co"># Turn off all the pixels that are not our thresholded foreground</span></span>
-<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>foreground[<span class="op">~</span>binary_mask] <span class="op">=</span> <span class="dv">0</span></span>
-<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a></span>
-<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a><span class="co"># Display the image with only foreground pixels</span></span>
-<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>plt.imshow(foreground)</span></code></pre>
+<span id="cb7-27"><a href="#cb7-27" tabindex="-1"></a><span class="co"># Plot threshold image</span></span>
+<span id="cb7-28"><a href="#cb7-28" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb7-29"><a href="#cb7-29" tabindex="-1"></a>plt.imshow(binary_mask, cmap<span class="op">=</span><span class="st">"gray"</span>)</span>
+<span id="cb7-30"><a href="#cb7-30" tabindex="-1"></a></span>
+<span id="cb7-31"><a href="#cb7-31" tabindex="-1"></a><span class="co"># Copy image so we don't change the original</span></span>
+<span id="cb7-32"><a href="#cb7-32" tabindex="-1"></a>foreground <span class="op">=</span> image.copy()</span>
+<span id="cb7-33"><a href="#cb7-33" tabindex="-1"></a></span>
+<span id="cb7-34"><a href="#cb7-34" tabindex="-1"></a><span class="co"># Turn off all the pixels that are not our thresholded foreground</span></span>
+<span id="cb7-35"><a href="#cb7-35" tabindex="-1"></a>foreground[<span class="op">~</span>binary_mask] <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb7-36"><a href="#cb7-36" tabindex="-1"></a></span>
+<span id="cb7-37"><a href="#cb7-37" tabindex="-1"></a><span class="co"># Display the image with only foreground pixels</span></span>
+<span id="cb7-38"><a href="#cb7-38" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb7-39"><a href="#cb7-39" tabindex="-1"></a>plt.imshow(foreground)</span></code></pre>
 </div>
 </div>
 </div>
@@ -577,7 +584,7 @@ it also has only one value per pixel.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>The histogram for the blue channel of
 <code>data/hela-cells-8bit.tif</code> image can be shown with</p>
@@ -631,7 +638,7 @@ coloured nuclei on a black background.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>Here are the commands to create and view the binary mask</p>
 <div class="codewrapper sourceCode" id="cb9">
@@ -706,7 +713,7 @@ background depending on the data and application.</p>
   <h3 class="accordion-header" id="headingInstructor1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div>Instructor Note</h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
 <div class="accordion-body">
 <p>The histogram may prompt questions from learners about the
 interpretation of the peaks and the broader region. The focus here is on
@@ -828,7 +835,7 @@ kept by two different automated threshold methods.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Solution with Triangle and Yen thresholding methods</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
 <div class="accordion-body">
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -930,7 +937,7 @@ detection or finding contours.</li>
   "url": "https://govekk.github.io/image-processing/instructor/07-thresholding.html",
   "identifier": "https://govekk.github.io/image-processing/instructor/07-thresholding.html",
   "dateCreated": "2024-03-14",
-  "dateModified": "2024-03-25",
+  "dateModified": "2024-03-26",
   "datePublished": "2024-03-26"
 }
 
