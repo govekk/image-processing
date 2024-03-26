@@ -280,7 +280,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Connected Component Analysis</h1>
-        <p>Last updated on 2024-03-25 |
+        <p>Last updated on 2024-03-26 |
         
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/08-connected-components.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
         
@@ -463,7 +463,7 @@ jumps?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1">Show me the solution</h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ol start="2" style="list-style-type: lower-alpha"><li>5</li>
 </ol></div>
@@ -491,7 +491,7 @@ timing)<em>(continued)</em><a class="anchor" aria-label="anchor" href="#object-c
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2">Show me the solution</h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: lower-alpha"><li>2</li>
 </ol></div>
@@ -634,7 +634,7 @@ display the labeled image like so:</p>
   <h3 class="accordion-header" id="headingSpoiler1">
 <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div>Do you see an empty image?</h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <p>If you are using an older version of Matplotlib you might get a
 warning
@@ -733,25 +733,24 @@ image:</p>
 <span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="kw">def</span> segment_multichannel(filename, channel<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="fl">1.0</span>, t<span class="op">=</span><span class="fl">0.5</span>, connectivity<span class="op">=</span><span class="dv">2</span>):</span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>    <span class="co"># load the image</span></span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>    image <span class="op">=</span> iio.imread(filename)</span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>    <span class="co"># convert the image to grayscale</span></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>    channel_image <span class="op">=</span> image[:,:,channel]</span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>    <span class="co"># denoise the image with a Gaussian filter</span></span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>    blurred_image <span class="op">=</span> ski.filters.gaussian(channel_image, sigma<span class="op">=</span>sigma)</span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>    <span class="co"># mask the image according to threshold</span></span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>    binary_mask <span class="op">=</span> blurred_image <span class="op">&gt;</span> t</span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a>    <span class="co"># perform connected component analysis</span></span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>    labeled_image, count <span class="op">=</span> ski.measure.label(binary_mask,</span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>                                                 connectivity<span class="op">=</span>connectivity, return_num<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a>    <span class="cf">return</span> labeled_image, count</span>
-<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a></span>
-<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a><span class="co"># Call segmentation function on HeLa cells image file, nuclei channel</span></span>
-<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a>labeled_image, count <span class="op">=</span> segment_multichannel(filename<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>, channel<span class="op">=</span><span class="dv">2</span>, sigma<span class="op">=</span><span class="fl">2.0</span>, t<span class="op">=</span><span class="fl">0.1</span>, connectivity<span class="op">=</span><span class="dv">2</span>)</span></code></pre>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a><span class="kw">def</span> segment_multichannel(filename, channel<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="fl">1.0</span>, t<span class="op">=</span><span class="fl">0.5</span>, connectivity<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>    <span class="co"># load the image</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>    image <span class="op">=</span> iio.imread(filename)</span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>    <span class="co"># convert the image to grayscale</span></span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>    channel_image <span class="op">=</span> image[:,:,channel]</span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>    <span class="co"># denoise the image with a Gaussian filter</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>    blurred_image <span class="op">=</span> ski.filters.gaussian(channel_image, sigma<span class="op">=</span>sigma)</span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>    <span class="co"># mask the image according to threshold</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>    binary_mask <span class="op">=</span> blurred_image <span class="op">&gt;</span> t</span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>    <span class="co"># perform connected component analysis</span></span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a>    labeled_image, count <span class="op">=</span> ski.measure.label(binary_mask,</span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>                                                 connectivity<span class="op">=</span>connectivity, return_num<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>    <span class="cf">return</span> labeled_image, count</span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="co"># Call segmentation function on HeLa cells image file, nuclei channel</span></span>
+<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a>labeled_image, count <span class="op">=</span> segment_multichannel(filename<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>, channel<span class="op">=</span><span class="dv">2</span>, sigma<span class="op">=</span><span class="fl">2.0</span>, t<span class="op">=</span><span class="fl">0.1</span>, connectivity<span class="op">=</span><span class="dv">2</span>)</span></code></pre>
 </div>
 </div>
 </div>
@@ -779,7 +778,7 @@ values influence the result?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3">Show me the solution</h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>As you might have guessed, the return value <code>count</code>
 already contains the number of objects found in the image. So it can
@@ -890,7 +889,7 @@ obtained with <code>ski.measure.regionprops</code>.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4">Show me the solution</h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <p>The histogram can be plotted with</p>
 <div class="codewrapper sourceCode" id="cb23">
@@ -946,7 +945,7 @@ objects above a certain area.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5">Show me the solution</h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <p>One way to count only objects above a certain area is to first create
 a list of those objects, and then take the length of that list as the
@@ -1033,29 +1032,28 @@ objects<a class="anchor" aria-label="anchor" href="#code-cheatsheet-for-removing
 <span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a></span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a></span>
-<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a><span class="kw">def</span> segment_multichannel(filename, channel<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="fl">1.0</span>, t<span class="op">=</span><span class="fl">0.5</span>, connectivity<span class="op">=</span><span class="dv">2</span>):</span>
-<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>    <span class="co"># load the image</span></span>
-<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>    image <span class="op">=</span> iio.imread(filename)</span>
-<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>    <span class="co"># convert the image to grayscale</span></span>
-<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>    channel_image <span class="op">=</span> image[:,:,channel]</span>
-<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a>    <span class="co"># denoise the image with a Gaussian filter</span></span>
-<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a>    blurred_image <span class="op">=</span> ski.filters.gaussian(channel_image, sigma<span class="op">=</span>sigma)</span>
-<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a>    <span class="co"># mask the image according to threshold</span></span>
-<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a>    binary_mask <span class="op">=</span> blurred_image <span class="op">&gt;</span> t</span>
-<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a>    <span class="co"># perform connected component analysis</span></span>
-<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a>    labeled_image, count <span class="op">=</span> ski.measure.label(binary_mask,</span>
-<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a>                                                 connectivity<span class="op">=</span>connectivity, return_num<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a>    <span class="cf">return</span> labeled_image, count</span>
-<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a></span>
-<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a><span class="co"># Call segmentation function on HeLa cells image file, nuclei channel</span></span>
-<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a>labeled_image, count <span class="op">=</span> segment_multichannel(filename<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>, channel<span class="op">=</span><span class="dv">2</span>, sigma<span class="op">=</span><span class="fl">2.0</span>, t<span class="op">=</span><span class="fl">0.1</span>, connectivity<span class="op">=</span><span class="dv">2</span>)</span>
-<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a></span>
-<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>object_features <span class="op">=</span> ski.measure.regionprops(labeled_image)</span>
-<span id="cb27-27"><a href="#cb27-27" tabindex="-1"></a>object_areas <span class="op">=</span> [objf[<span class="st">"area"</span>] <span class="cf">for</span> objf <span class="kw">in</span> object_features]</span>
-<span id="cb27-28"><a href="#cb27-28" tabindex="-1"></a>object_areas</span></code></pre>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a><span class="kw">def</span> segment_multichannel(filename, channel<span class="op">=</span><span class="dv">0</span>, sigma<span class="op">=</span><span class="fl">1.0</span>, t<span class="op">=</span><span class="fl">0.5</span>, connectivity<span class="op">=</span><span class="dv">2</span>):</span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>    <span class="co"># load the image</span></span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>    image <span class="op">=</span> iio.imread(filename)</span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>    <span class="co"># convert the image to grayscale</span></span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>    channel_image <span class="op">=</span> image[:,:,channel]</span>
+<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>    <span class="co"># denoise the image with a Gaussian filter</span></span>
+<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a>    blurred_image <span class="op">=</span> ski.filters.gaussian(channel_image, sigma<span class="op">=</span>sigma)</span>
+<span id="cb27-15"><a href="#cb27-15" tabindex="-1"></a>    <span class="co"># mask the image according to threshold</span></span>
+<span id="cb27-16"><a href="#cb27-16" tabindex="-1"></a>    binary_mask <span class="op">=</span> blurred_image <span class="op">&gt;</span> t</span>
+<span id="cb27-17"><a href="#cb27-17" tabindex="-1"></a>    <span class="co"># perform connected component analysis</span></span>
+<span id="cb27-18"><a href="#cb27-18" tabindex="-1"></a>    labeled_image, count <span class="op">=</span> ski.measure.label(binary_mask,</span>
+<span id="cb27-19"><a href="#cb27-19" tabindex="-1"></a>                                                 connectivity<span class="op">=</span>connectivity, return_num<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb27-20"><a href="#cb27-20" tabindex="-1"></a>    <span class="cf">return</span> labeled_image, count</span>
+<span id="cb27-21"><a href="#cb27-21" tabindex="-1"></a></span>
+<span id="cb27-22"><a href="#cb27-22" tabindex="-1"></a><span class="co"># Call segmentation function on HeLa cells image file, nuclei channel</span></span>
+<span id="cb27-23"><a href="#cb27-23" tabindex="-1"></a>labeled_image, count <span class="op">=</span> segment_multichannel(filename<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>, channel<span class="op">=</span><span class="dv">2</span>, sigma<span class="op">=</span><span class="fl">2.0</span>, t<span class="op">=</span><span class="fl">0.1</span>, connectivity<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb27-24"><a href="#cb27-24" tabindex="-1"></a></span>
+<span id="cb27-25"><a href="#cb27-25" tabindex="-1"></a>object_features <span class="op">=</span> ski.measure.regionprops(labeled_image)</span>
+<span id="cb27-26"><a href="#cb27-26" tabindex="-1"></a>object_areas <span class="op">=</span> [objf[<span class="st">"area"</span>] <span class="cf">for</span> objf <span class="kw">in</span> object_features]</span>
+<span id="cb27-27"><a href="#cb27-27" tabindex="-1"></a>object_areas</span></code></pre>
 </div>
 </div>
 </div>
@@ -1081,7 +1079,7 @@ passed to the function as an optional parameter.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6">Show me the solution</h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
 <div class="accordion-body">
 <p>To remove the small objects from the labeled image, we change the
 value of all pixels that belong to the small objects to the background
@@ -1250,7 +1248,7 @@ label.</li>
   "url": "https://govekk.github.io/image-processing/instructor/08-connected-components.html",
   "identifier": "https://govekk.github.io/image-processing/instructor/08-connected-components.html",
   "dateCreated": "2024-03-14",
-  "dateModified": "2024-03-25",
+  "dateModified": "2024-03-26",
   "datePublished": "2024-03-26"
 }
 
