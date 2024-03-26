@@ -100,6 +100,9 @@ In practice, it is often necessary to denoise the image before
 thresholding, which can be done with one of the methods from
 [the *Blurring Images* episode](06-blurring.md).
 
+It may also be helpful to perform other types of denoising or background subtraction,
+such as [rolling ball](https://scikit-image.org/docs/stable/api/skimage.restoration.html#skimage.restoration.rolling_ball)
+or [tophat transforms](https://scikit-image.org/docs/stable/api/skimage.morphology.html#skimage.morphology.black_tophat).
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
