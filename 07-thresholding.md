@@ -218,6 +218,13 @@ plt.imshow(foreground)
 ## Code cheatsheet for "More practice with simple thresholding":
 
 ```python
+import imageio.v3 as iio
+import ipympl
+import matplotlib.pyplot as plt
+import numpy as np
+import skimage as ski
+%matplotlib widget
+
 # Read in image (from the uri path to the image file)
 image = iio.imread(uri)
 # Select single channel (where c is the index of the channel)

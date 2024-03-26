@@ -291,6 +291,53 @@ Finally we label our axes and display the histogram, shown here:
 
 ![](fig/cells-colour-histogram.png){alt='Colour histogram'}
 
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+## Code cheatsheet for "Colour histogram with a mask":
+
+Drawing a mask:
+```python
+# Create mask where background is zeros
+mask = np.zeros(shape=image.shape[0:2], dtype="bool")
+# Draw a circle with center at (yr, xc) with radius r
+circle = ski.draw.disk(center=(yr, xc), radius=r, shape=image.shape[0:2])
+mask[circle] = 1
+
+# Get pixels from image where mask is true (e.g. inside circle)
+image[mask]
+```
+
+Histograms:
+```python
+import imageio.v3 as iio
+import ipympl
+import matplotlib.pyplot as plt
+import numpy as np
+import skimage as ski
+%matplotlib widget
+
+# read original image, in full color, from uri path to image file
+image = iio.imread(uri)
+
+# tuple to select colors of each channel line
+colors = ("red", "green", "blue")
+# create the histogram plot, with three lines, one for
+# each color
+plt.figure()
+plt.xlim([0, 256])
+for channel_id, color in enumerate(colors):
+    histogram, bin_edges = np.histogram(
+        image[:, :, channel_id], bins=256, range=(0, 256)
+    )
+    plt.plot(bin_edges[0:-1], histogram, color=color)
+
+plt.title("Color Histogram")
+plt.xlabel("Color value")
+plt.ylabel("Pixel count")
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 :::::::::::::::::::::::::::::::::::::::  challenge
 
 ## Colour histogram with a mask (25 min)
