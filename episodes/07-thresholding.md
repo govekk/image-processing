@@ -421,7 +421,7 @@ print("Found automatic threshold t = {}.".format(t))
 Found automatic threshold t = 0.4172454549881862.
 ```
 
-For this root image and a Gaussian blur with the chosen sigma of 1.0,
+For this image, after blurring with the chosen sigma of 1.0,
 the computed threshold value is 0.21.
 Now we can create a binary mask with the comparison operator `>`.
 As we have seen before, pixels above the threshold value will be turned on,
