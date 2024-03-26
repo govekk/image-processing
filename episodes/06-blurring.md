@@ -289,6 +289,8 @@ blurred = ski.filters.gaussian(
     image, sigma=(sigma, sigma), truncate=3.5, channel_axis=-1)
 ```
 
+Full information on the parameters of this function are available in [the scikit-image documentation on filters](https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.gaussian).
+
 The first two arguments to `ski.filters.gaussian()` are the image to blur,
 `image`, and a tuple defining the sigma to use in ry- and cx-direction,
 `(sigma, sigma)`.
@@ -399,6 +401,11 @@ And now, how does the same set of pixels look in the corresponding *blurred* ima
 # first, create a blurred version of (grayscale) image
 image_blur = ski.filters.gaussian(image_gray, sigma=3)
 
+# visualize which pixels we are selecting
+fig, ax = plt.subplots()
+ax.imshow(image_gray, cmap='gray')
+ax.plot([xmin, xmax], [ymin, ymax], color='red')
+
 # like before, plot the pixels profile along "Y"
 image_blur_pixels_slice = image_blur[Y, :]
 image_blur_pixels_slice = ski.img_as_ubyte(image_blur_pixels_slice)
@@ -411,6 +418,11 @@ ax.set_ylim(255, 0)
 ax.set_ylabel('L')
 ax.set_xlabel('X')
 ```
+![
+Grayscale Petri dish image marking selected pixels for profiling
+](fig/petri-blurred-selected-pixels-marker.png){
+alt='Blurred bacteria colony image with selected pixels marker'
+}
 
 ![
 Intensities profile of pixels along Y=150 in *blurred* image

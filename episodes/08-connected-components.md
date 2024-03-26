@@ -405,7 +405,6 @@ import ipympl
 import matplotlib.pyplot as plt
 import numpy as np
 import skimage as ski
-
 %matplotlib widget
 
 def segment_multichannel(filename, channel=0, sigma=1.0, t=0.5, connectivity=2):
@@ -691,7 +690,6 @@ import ipympl
 import matplotlib.pyplot as plt
 import numpy as np
 import skimage as ski
-
 %matplotlib widget
 
 def segment_multichannel(filename, channel=0, sigma=1.0, t=0.5, connectivity=2):
