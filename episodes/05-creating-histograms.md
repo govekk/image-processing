@@ -66,7 +66,7 @@ hed_image = ski.util.img_as_float(hed_image)
 
 # display the image
 fig, ax = plt.subplots()
-plt.imshow(hed_image, cmap="gray")
+ax.imshow(hed_image, cmap="gray")
 ```
 
 ![](fig/ihc-grayscale.jpg){alt='grayscale verson of IHC image'}
@@ -113,28 +113,28 @@ by taking advantage of the plotting facilities of the Matplotlib library.
 
 ```python
 # configure and draw the histogram figure
-plt.figure()
-plt.title("Grayscale Histogram")
-plt.xlabel("grayscale value")
-plt.ylabel("pixel count")
-plt.xlim([0.0, 1.0])  # <- named arguments do not work here
+fig, ax = plt.subplots()
+ax.set_title("Grayscale Histogram")
+ax.set_xlabel("grayscale value")
+ax.set_ylabel("pixel count")
+ax.set_xlim([0.0, 1.0])  # <- named arguments do not work here
 
-plt.plot(bin_edges[0:-1], histogram)  # <- or here
+ax.plot(bin_edges[0:-1], histogram)  # <- or here
 ```
 
-We create the plot with `plt.figure()`,
-then label the figure and the coordinate axes with `plt.title()`,
-`plt.xlabel()`, and `plt.ylabel()` functions.
+We create the plot with `plt.subplots()`,
+then label the figure and the coordinate axes with `ax.set_title()`,
+`ax.set_xlabel()`, and `ax.set_ylabel()` functions.
 The last step in the preparation of the figure is to
 set the limits on the values on the x-axis with
-the `plt.xlim([0.0, 1.0])` function call.
+the `ax.set_xlim([0.0, 1.0])` function call.
 
 :::::::::::::::::::::::::::::::::::::::::  callout
 
 ## Variable-length argument lists
 
 Note that we cannot used named parameters for the
-`plt.xlim()` or `plt.plot()` functions.
+`ax.set_xlim()` or `ax.plot()` functions.
 This is because these functions are defined to take an arbitrary number of
 *unnamed* arguments.
 The designers wrote the functions this way because they are very versatile,
@@ -145,7 +145,7 @@ would be complicated.
 ::::::::::::::::::::::::::::::::::::::::::::::::::
 
 Finally, we create the histogram plot itself with
-`plt.plot(bin_edges[0:-1], histogram)`.
+`ax.plot(bin_edges[0:-1], histogram)`.
 We use the **left** bin edges as x-positions for the histogram values by
 indexing the `bin_edges` array to ignore the last value
 (the **right** edge of the last bin).
@@ -159,15 +159,15 @@ it produces this histogram:
 ## Histograms in Matplotlib
 
 Matplotlib provides a dedicated function to compute and display histograms:
-`plt.hist()`.
+`ax.hist()`.
 We will not use it in this lesson in order to understand how to
 calculate histograms in more detail.
 In practice, it is a good idea to use this function,
-because it visualises histograms more appropriately than `plt.plot()`.
+because it visualises histograms more appropriately than `ax.plot()`.
 Here, you could use it by calling
-`plt.hist(image.flatten(), bins=256, range=(0, 1))`
+`ax.hist(image.flatten(), bins=256, range=(0, 1))`
 instead of
-`np.histogram()` and `plt.plot()`
+`np.histogram()` and `ax.plot()`
 (`*.flatten()` is a NumPy function that converts our two-dimensional
 image into a one-dimensional array).
 
@@ -185,7 +185,7 @@ cells = iio.imread(uri="data/hela-cells-8bit.tif")
 
 # display the image
 fig, ax = plt.subplots()
-plt.imshow(cells)
+ax.imshow(cells)
 ```
 
 We read the original image, now in full colour, and display it.
@@ -202,17 +202,17 @@ colors = ("red", "green", "blue")
 
 # create the histogram plot, with three lines, one for
 # each color
-plt.figure()
-plt.xlim([0, 256])
+fig, ax = plt.subplots()
+ax.set_xlim([0, 256])
 for channel_id, color in enumerate(colors):
     histogram, bin_edges = np.histogram(
         cells[:, :, channel_id], bins=256, range=(0, 256)
     )
-    plt.plot(bin_edges[0:-1], histogram, color=color)
+    ax.plot(bin_edges[0:-1], histogram, color=color)
 
-plt.title("Color Histogram")
-plt.xlabel("Color value")
-plt.ylabel("Pixel count")
+ax.set_title("Color Histogram")
+ax.set_xlabel("Color value")
+ax.set_ylabel("Pixel count")
 ```
 
 We will draw the histogram line for each channel in a different colour,
@@ -221,7 +221,7 @@ and so we create a tuple of the colours to use for the three lines with the
 `colors = ("red", "green", "blue")`
 
 line of code.
-Then, we limit the range of the x-axis with the `plt.xlim()` function call.
+Then, we limit the range of the x-axis with the `ax.set_xlim()` function call.
 
 Next, we use the `for` control structure to iterate through the three channels,
 plotting an appropriately-coloured histogram line for each.
@@ -282,7 +282,7 @@ with the
 function call,
 and then add a histogram line of the correct colour to the plot with the
 
-`plt.plot(bin_edges[0:-1], histogram, color=color)`
+`ax.plot(bin_edges[0:-1], histogram, color=color)`
 
 function call.
 Note the use of our loop variables, `channel_id` and `color`.
@@ -380,15 +380,15 @@ masked_img[~mask] = 0
 # create a new figure and display masked_img, to verify the
 # validity of your mask
 fig, ax = plt.subplots()
-plt.imshow(masked_img)
+ax.imshow(masked_img)
 
 # list to select colors of each channel line
 colors = ("red", "green", "blue")
 
 # create the histogram plot, with three lines, one for
 # each color
-plt.figure()
-plt.xlim([0, 256])
+fig, ax = plt.subplots()
+ax.set_xlim([0, 256])
 for (channel_id, color) in enumerate(colors):
     # use your circular mask to apply the histogram
     # operation to the lowest cell of the image
@@ -396,10 +396,10 @@ for (channel_id, color) in enumerate(colors):
         cells[:, :, channel_id][mask], bins=256, range=(0, 256)
     )
 
-    plt.plot(histogram, color=color)
+    ax.plot(histogram, color=color)
 
-plt.xlabel("color value")
-plt.ylabel("pixel count")
+ax.set_xlabel("color value")
+ax.set_ylabel("pixel count")
 
 ```
 
@@ -410,7 +410,8 @@ plt.ylabel("pixel count")
 :::::::::::::::::::::::::::::::::::::::: keypoints
 
 - We can create histograms of images with the `np.histogram` function.
-- We can separate the RGB channels of an image using slicing operations.
-- We can display histograms using the `matplotlib pyplot` `figure()`, `title()`, `xlabel()`, `ylabel()`, `xlim()`, `plot()`, and `show()` functions.
+- We can display histograms using `ax.plot()` with the `bin_edges` and `histogram` values returned by `np.histogram()`.
+- The plot can be customised using `ax.set_xlabel()`, `ax.set_ylabel()`, `ax.set_xlim()`, `ax.set_ylim()`, and `ax.set_title()`.
+- We can separate the colour channels of an RGB image using slicing operations and create histograms for each colour channel separately.
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::

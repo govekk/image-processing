@@ -30,6 +30,8 @@ import ipympl
 import matplotlib.pyplot as plt
 import numpy as np
 import skimage as ski
+
+%matplotlib widget
 ```
 
 ## Reading and displaying images
@@ -59,13 +61,13 @@ Next, we will do something with the image:
 
 ```python
 fig, ax = plt.subplots()
-plt.imshow(cells)
+ax.imshow(cells)
 ```
 
 Once we have the image in the program,
-we first call `plt.subplots()` so that we will have
-a fresh figure with a set of axis independent from our previous calls.
-Next we call `plt.imshow()` in order to display the image.
+we first call `fig, ax = plt.subplots()` so that we will have
+a fresh figure with a set of axes independent from our previous calls.
+Next we call `ax.imshow()` in order to display the image.
 
 ## Saving images
 
@@ -197,12 +199,12 @@ hed_color = iio.imread(uri="data/immunohistochemistry.tif")
 
 # display original image
 fig, ax = plt.subplots()
-plt.imshow(hed_color)
+ax.imshow(hed_color)
 
 # convert to grayscale and display
 hed_gray = ski.color.rgb2gray(hed_color)
 fig, ax = plt.subplots()
-plt.imshow(hed_gray, cmap="gray")
+ax.imshow(hed_gray, cmap="gray")
 ```
 
 We can also load colour images of certain formats as grayscale directly by
@@ -216,7 +218,7 @@ hed_gray = iio.imread(uri="data/immunohistochemistry.jpg", mode="L")
 
 # display grayscale image
 fig, ax = plt.subplots()
-plt.imshow(hed_gray, cmap="gray")
+ax.imshow(hed_gray, cmap="gray")
 ```
 
 The first argument to `iio.imread()` is the filename of the image.
@@ -243,12 +245,10 @@ In contrast, the image of HeLa cells is a multichannel image. We can convenientl
 ```python
 cells = iio.imread(uri="data/hela-cells-8bit.tif")
 nuclei = cells[:,:,2]
-fig, ax = plt.subplots()
-plt.imshow(nuclei)
-
 mitochondria = cells[:,:,1]
-fig, ax = plt.subplots()
-plt.imshow(mitochondria, vmax=255)
+fig, ax = plt.subplots(ncols=2)
+ax[0].imshow(nuclei)
+ax[1].imshow(mitochondria, vmax=255)
 ```
 
 ::::::::::::::::::::::::::::::::::::::::  callout
@@ -256,11 +256,11 @@ plt.imshow(mitochondria, vmax=255)
 ## Plotting single channel images (cmap, vmin, vmax)
 
 Compared to a colour image, a grayscale image or a single channel contains only a
-single intensity value per pixel. When we plot such an image with `plt.imshow`,
+single intensity value per pixel. When we plot such an image with `ax.imshow`,
 Matplotlib uses a colour map, to assign each intensity value a colour.
 The default colour map is called "viridis" and maps low values to purple
 and high values to yellow. We can instruct Matplotlib to map low values
-to black and high values to white instead, by calling `plt.imshow` with
+to black and high values to white instead, by calling `ax.imshow` with
 `cmap="gray"`.
 [The documentation contains an overview of pre-defined colour maps](https://matplotlib.org/stable/gallery/color/colormap_reference.html).
 
@@ -322,7 +322,7 @@ A script to create the subimage would start by loading the image:
 cells = iio.imread(uri="data/hela-cells-8bit.tif")
 cells = np.array(cells)
 fig, ax = plt.subplots()
-plt.imshow(cells)
+ax.imshow(cells)
 ```
 
 Then we use array slicing to
@@ -332,7 +332,7 @@ create a new image with our selected area and then display the new image.
 # extract, display, and save sub-image
 cell_one = cells[280:501, 180:521, :]
 fig, ax = plt.subplots()
-plt.imshow(cell_one)
+ax.imshow(cell_one)
 iio.imwrite(uri="data/cell_one.tif", image=cell_one)
 ```
 
@@ -343,7 +343,7 @@ We can also change the values in an image, as shown next.
 color = cells[30,30]
 cells[280:501, 180:521] = color
 fig, ax = plt.subplots()
-plt.imshow(cells)
+ax.imshow(cells)
 ```
 
 First, we sample a single pixel's colour at a particular location of the
@@ -381,12 +381,12 @@ Here is the completed Python program to select only the leftmost cell in the ima
 # load and display original image
 cells = iio.imread(uri="data/hela-cells-8bit.tif")
 fig, ax = plt.subplots()
-plt.imshow(cells)
+ax.imshow(cells)
 
 # extract and display sub-image
 cell_two = cells[70:391, 20:211, :]
 fig, ax = plt.subplots()
-plt.imshow(cell_two)
+ax.imshow(cell_two)
 
 
 # save sub-image

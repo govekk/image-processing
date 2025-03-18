@@ -60,7 +60,7 @@ in [the *Working with scikit-image* episode](03-skimage-images.md).
 hed_image = iio.imread(uri="data/immunohistochemistry.tif")
 
 fig, ax = plt.subplots()
-plt.imshow(hed_image)
+ax.imshow(hed_image)
 ```
 
 ![](data/immunohistochemistry.jpg){alt='HED IHC scikit example image'}
@@ -87,7 +87,7 @@ hed_gray = ski.color.rgb2gray(hed_image)
 hed_blurred = ski.filters.gaussian(hed_gray, sigma=1.0)
 
 fig, ax = plt.subplots()
-plt.imshow(hed_blurred, cmap="gray")
+ax.imshow(hed_blurred, cmap="gray")
 ```
 
 ![](fig/ihc-grayscale-blurred.jpg){alt='Grayscale and blurred ihc image'}
@@ -127,11 +127,11 @@ The histogram can be produced as in
 histogram, bin_edges = np.histogram(hed_blurred, bins=256, range=(0.0, 1.0))
 
 fig, ax = plt.subplots()
-plt.plot(bin_edges[0:-1], histogram)
-plt.title("Grayscale Histogram")
-plt.xlabel("grayscale value")
-plt.ylabel("pixels")
-plt.xlim(0, 1.0)
+ax.plot(bin_edges[0:-1], histogram)
+ax.set_title("Grayscale Histogram")
+ax.set_xlabel("grayscale value")
+ax.set_ylabel("pixels")
+ax.set_xlim(0, 1.0)
 ```
 
 ![](fig/ihc-blurred-grayscale-histogram.png){alt='Grayscale histogram of the blurred ihc image'}
@@ -153,7 +153,7 @@ Here, we want to turn "on" all pixels which have values smaller than the thresho
 so we use the less operator `<` to compare the `blurred_image` to the threshold `t`.
 The operator returns a mask, that we capture in the variable `binary_mask`.
 It has only one channel, and each of its values is either 0 or 1.
-The binary mask created by the thresholding operation can be shown with `plt.imshow`,
+The binary mask created by the thresholding operation can be shown with `ax.imshow`,
 where the `False` entries are shown as black pixels
 (0-valued) and the `True` entries are shown as white pixels
 (1-valued).
@@ -164,7 +164,7 @@ t = 0.7
 binary_mask = hed_blurred < t
 
 fig, ax = plt.subplots()
-plt.imshow(binary_mask, cmap="gray")
+ax.imshow(binary_mask, cmap="gray")
 ```
 
 ![](fig/ihc-mask.jpg){alt='Binary mask of the stained tissue created by thresholding'}
@@ -211,7 +211,7 @@ foreground = hed_image.copy()
 foreground[~binary_mask] = 0
 
 fig, ax = plt.subplots()
-plt.imshow(foreground)
+ax.imshow(foreground)
 ```
 
 ![](fig/ihc-foreground.jpg){alt='Selected foreground after applying binary mask'}
@@ -293,11 +293,11 @@ blurred_image = skimage.filters.gaussian(blue_channel, sigma=1.0)
 histogram, bin_edges = np.histogram(blurred_image, bins=256, range=(0.0,1.0))
 
 fig,ax = plt.subplots()
-plt.plot(bin_edges[0:-1], histogram)
-plt.title("Blue (nuclei) channel histogram")
-plt.xlabel("pixel value")
-plt.ylabel("pixels")
-plt.xlim(0, 1.0)
+ax.plot(bin_edges[0:-1], histogram)
+ax.set_title("Blue (nuclei) channel histogram")
+ax.set_xlabel("pixel value")
+ax.set_ylabel("pixels")
+ax.set_xlim(0, 1.0)
 ```
 
 ![](fig/cells-blue-histogram.png){alt='Histogram of the blue channel from the HeLa cells image'}
@@ -330,7 +330,7 @@ t = 0.1
 binary_mask = blurred_image > t
 
 fig, ax = plt.subplots()
-plt.imshow(binary_mask, cmap="gray")
+ax.imshow(binary_mask, cmap="gray")
 ```
 
 ![](fig/cells-mask.jpg){alt='Binary mask created by thresholding the HeLa cells image'}
@@ -342,7 +342,7 @@ nuclei_only = cells.copy()
 nuclei_only[~binary_mask] = 0
 
 fig, ax = plt.subplots()
-plt.imshow(nuclei_only)
+ax.imshow(nuclei_only)
 ```
 
 ![](fig/nuclei-selected.jpg){alt='Selected nuclei after applying binary mask to the HeLa cells image'}
@@ -376,11 +376,11 @@ blurred_image = ski.filters.gaussian(blue_channel, sigma=1.0)
 # show the histogram of the blurred image
 histogram, bin_edges = np.histogram(blurred_image, bins=256, range=(0.0, 1.0))
 fig, ax = plt.subplots()
-plt.plot(bin_edges[0:-1], histogram)
-plt.title("Blue (nuclei) channel histogram")
-plt.xlabel("pixel value")
-plt.ylabel("pixel count")
-plt.xlim(0, 1.0)
+ax.plot(bin_edges[0:-1], histogram)
+ax.set_title("Blue (nuclei) channel histogram")
+ax.set_xlabel("pixel value")
+ax.set_ylabel("pixel count")
+ax.set_xlim(0, 1.0)
 ```
 
 ![](fig/cells-blue-histogram.png){alt='Histogram of the blue channel on the HeLa cells image'}
@@ -432,7 +432,7 @@ those below the threshold will be turned off.
 binary_mask = blurred_image > t
 
 fig, ax = plt.subplots()
-plt.imshow(binary_mask, cmap="gray")
+ax.imshow(binary_mask, cmap="gray")
 ```
 
 ![](fig/cells-otsu-mask.jpg){alt='Binary mask of nuclei using otsu thresholding'}
@@ -444,7 +444,7 @@ Scikit image provides a method that can give a visual test of all of them at onc
 
 ```python
 fig, ax = ski.filters.try_all_threshold(blurred_image, figsize=(10, 8), verbose=False)
-plt.show()
+ax.show()
 ```
 
 ![](fig/cells-thresholder-test.png){alt='Overview test of all automated thresholders in scikit image'}

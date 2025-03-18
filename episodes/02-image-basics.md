@@ -32,6 +32,12 @@ as numeric abstractions, approximations of what we see with our eyes in the real
 Before we begin to learn how to process images with Python programs,
 we need to spend some time understanding how these abstractions work.
 
+:::::::::::::::::::::::::::::::::::::::::  callout
+
+Feel free to make use of the [available cheat-sheet](./files/cheatsheet.html) as a guide for the rest of the course material. View it online, share it, or print the [PDF](./files/cheatsheet.pdf)!
+
+::::::::::::::::::::::::::::::::::::::::::::::::::
+
 ## Pixels
 
 It is important to realise that images are stored as rectangular arrays
@@ -228,7 +234,8 @@ With that taken care of, let us display the image we have loaded, using
 the `imshow` function from the `matplotlib.pyplot` module.
 
 ```python
-plt.imshow(eight)
+fig, ax = plt.subplots()
+ax.imshow(eight)
 ```
 
 ![](fig/eight.png){alt='Image of 8'}
@@ -286,12 +293,11 @@ Using array slicing, we can then address and assign a new value to that position
 
 ```python
 zero = iio.imread(uri="data/eight.tif")
-zero[2,1]= 1.0
+zero[2, 1]= 1.0
 
 # The following line of code creates a new figure for imshow to use in displaying our output.
-# Without it, plt.imshow() would overwrite our previous image in the cell above
 fig, ax = plt.subplots()
-plt.imshow(zero)
+ax.imshow(zero)
 print(zero)
 ```
 
@@ -362,10 +368,10 @@ There are many possible solutions, but one method would be . . .
 
 ```python
 five = iio.imread(uri="data/eight.tif")
-five[1,2]= 1.0
-five[3,0]= 1.0
+five[1, 2] = 1.0
+five[3, 0] = 1.0
 fig, ax = plt.subplots()
-plt.imshow(five)
+ax.imshow(five)
 print(five)
 ```
 
@@ -400,9 +406,9 @@ three_colours = three_colours * 128
 
 # set the middle row (index 2) to the value of 255.,
 # so you end up with the values 0., 128., and 255.
-three_colours[2,:] = 255.
+three_colours[2, :] = 255.
 fig, ax = plt.subplots()
-plt.imshow(three_colours)
+ax.imshow(three_colours)
 print(three_colours)
 ```
 
@@ -436,12 +442,12 @@ a mapped continuum of intensities: greyscale.
 
 ```python
 fig, ax = plt.subplots()
-plt.imshow(three_colours,cmap=plt.cm.gray)
+ax.imshow(three_colours, cmap="gray")
 ```
 
 ![](fig/grayscale.png){alt='Image in greyscale'}
 
-Above we have exactly the same underying data matrix, but in greyscale.
+Above we have exactly the same underlying data matrix, but in greyscale.
 Zero maps to black, 255 maps to white, and 128 maps to medium grey.
 Here we only have a single channel in the data and utilize a grayscale color map
 to represent the luminance, or intensity of the data and correspondingly
@@ -472,7 +478,7 @@ pseudorandomizer = np.random.RandomState(2021)
 checkerboard = pseudorandomizer.randint(0, 255, size=(4, 4, 3))
 # restore the default map as you show the image
 fig, ax = plt.subplots()
-plt.imshow(checkerboard)
+ax.imshow(checkerboard)
 # display the arrays
 print(checkerboard)
 ```
@@ -535,7 +541,7 @@ a 1d matrix that has a one for the channel we want to keep and zeros for the res
 ```python
 red_channel = checkerboard * [1, 0, 0]
 fig, ax = plt.subplots()
-plt.imshow(red_channel)
+ax.imshow(red_channel)
 ```
 
 ![](fig/checkerboard-red-channel.png){alt='Image of red channel'}
@@ -543,7 +549,7 @@ plt.imshow(red_channel)
 ```python
 green_channel = checkerboard * [0, 1, 0]
 fig, ax = plt.subplots()
-plt.imshow(green_channel)
+ax.imshow(green_channel)
 ```
 
 ![](fig/checkerboard-green-channel.png){alt='Image of green channel'}
@@ -551,7 +557,7 @@ plt.imshow(green_channel)
 ```python
 blue_channel = checkerboard * [0, 0, 1]
 fig, ax = plt.subplots()
-plt.imshow(blue_channel)
+ax.imshow(blue_channel)
 ```
 
 ![](fig/checkerboard-blue-channel.png){alt='Image of blue channel'}
@@ -920,6 +926,12 @@ metadata
  'resolution': (1.0, 1.0, 'NONE')}
 ```
 
+Many popular image editing programs have built-in metadata viewing
+capabilities. A platform-independent open-source tool that allows
+users to read, write, and edit metadata is
+[ExifTool](https://exiftool.org/). It can handle a wide range of file
+types and metadata formats but requires some technical knowledge to be
+used effectively.
 Other software exists that can help you handle metadata,
 e.g., [Fiji](https://imagej.net/Fiji)
 and [ImageMagick](https://imagemagick.org/index.php).
