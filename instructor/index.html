@@ -454,13 +454,17 @@ we will use to refer to the folder throughout the lesson.)</p>
 Powershell/WSL (Windows), run:</p>
 <pre class="shell"><code>conda info
 mamba info</code></pre>
-<p>If either command returns information, skip to creating a new
-environment.</p>
+<p>If either command returns information, you can skip to creating a new
+environment. Even if you wish to use existing installation, please use a
+new conda environment to ensure all packages are up to date.</p>
 </li>
 <li>
-<p>Download and install the latest <a href="https://github.com/conda-forge/miniforge" class="external-link">Miniforge
-distribution</a> If you wish to use an existing installation, please use
-a new conda environment to ensure all packages are up to date.</p>
+<p>If you do not have an existing conda installation, please read
+our MyJAX page on <a href="http://jacksonlaboratory.sharepoint.com/sites/ResearchIT/SitePages/Best-practices-with-conda.aspx" class="external-link">conda
+best practices</a> and then follow the <a href="http://jacksonlaboratory.sharepoint.com/sites/ResearchIT/SitePages/conda_installing_miniforge.aspx" class="external-link">miniforge
+installation instructions</a>. We recommend doing this a few days before
+the workshop in case you need to contact the IT helpdesk or instructors
+for help with installation.</p>
 <div id="accordionSpoiler1" class="accordion spoiler-accordion accordion-flush">
 <div class="accordion-item">
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
@@ -482,7 +486,7 @@ Prompt or Powershell returns an error:
 </li>
 <li>
 <p>Create a new environment with the necessary packages</p>
-<pre class="shell"><code>conda create -n imaging-workshop python=3.9 scikit-image ipympl jupyterlab -c conda-forge</code></pre>
+<pre class="shell"><code>conda create -n imaging-workshop python=3.11 scikit-image ipympl jupyterlab -c conda-forge</code></pre>
 <div id="callout1" class="callout">
 <div class="callout-square">
 <i class="callout-icon" data-feather="bell"></i>
@@ -529,21 +533,22 @@ the notebook:</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="im">import</span> imageio.v3 <span class="im">as</span> iio</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a><span class="co"># load an image</span></span>
-<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>image <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">'data/colonies-01.tif'</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a><span class="co"># rotate it by 45 degrees</span></span>
-<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>rotated <span class="op">=</span> ski.transform.rotate(image<span class="op">=</span>image, angle<span class="op">=</span><span class="dv">45</span>)</span>
-<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a></span>
-<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a><span class="co"># display the original image and its rotated version side by side</span></span>
-<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>ax[<span class="dv">0</span>].imshow(image)</span>
-<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>ax[<span class="dv">1</span>].imshow(rotated)</span></code></pre>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="im">import</span> ipympl</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a><span class="co"># load an image</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>image <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">'data/colonies-01.tif'</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a><span class="co"># rotate it by 45 degrees</span></span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>rotated <span class="op">=</span> ski.transform.rotate(image<span class="op">=</span>image, angle<span class="op">=</span><span class="dv">45</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a><span class="co"># display the original image and its rotated version side by side</span></span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>ax[<span class="dv">0</span>].imshow(image)</span>
+<span id="cb6-17"><a href="#cb6-17" tabindex="-1"></a>ax[<span class="dv">1</span>].imshow(rotated)</span></code></pre>
 </div>
 <p>Upon execution of the cell, a figure with two images should be
 displayed in an interactive widget. When hovering over the images with
@@ -599,7 +604,7 @@ you have added the code, you can run the cell by selecting “Run” -&gt;
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.11" class="external-link">sandpaper (0.16.11)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -621,8 +626,8 @@ you have added the code, you can run the cell by selecting “Run” -&gt;
   "url": "https://govekk.github.io/image-processing/instructor/index.html",
   "identifier": "https://govekk.github.io/image-processing/instructor/index.html",
   "dateCreated": "2024-03-14",
-  "dateModified": "2025-01-14",
-  "datePublished": "2025-01-14"
+  "dateModified": "2025-03-25",
+  "datePublished": "2025-03-25"
 }
 
   </script><script>

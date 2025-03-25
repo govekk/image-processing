@@ -339,7 +339,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Working with scikit-image</h1>
-        <p>Last updated on 2024-03-19 |
+        <p>Last updated on 2025-03-25 |
 
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/03-skimage-images.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -389,7 +389,9 @@ and changing digital images.</p>
 <span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="im">import</span> ipympl</span>
 <span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span></code></pre>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="im">import</span> skimage <span class="im">as</span> ski</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="op">%</span>matplotlib widget</span></code></pre>
 </div>
 </section><section><h2 class="section-heading" id="reading-and-displaying-images">Reading and displaying images<a class="anchor" aria-label="anchor" href="#reading-and-displaying-images"></a></h2>
 <hr class="half-width"><p>Imageio provides intuitive functions for reading and writing (saving)
@@ -416,12 +418,12 @@ the array in a variable named <code>cells</code>.</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>ax.imshow(cells)</span></code></pre>
 </div>
 <p>Once we have the image in the program, we first call
-<code>plt.subplots()</code> so that we will have a fresh figure with a
-set of axis independent from our previous calls. Next we call
-<code>plt.imshow()</code> in order to display the image.</p>
+<code>fig, ax = plt.subplots()</code> so that we will have a fresh
+figure with a set of axes independent from our previous calls. Next we
+call <code>ax.imshow()</code> in order to display the image.</p>
 </section><section><h2 class="section-heading" id="saving-images">Saving images<a class="anchor" aria-label="anchor" href="#saving-images"></a></h2>
 <hr class="half-width"><p>Another image we will use will be one of scikit-image’s example
 images. These can be loaded through the skimage.data module.</p>
@@ -561,12 +563,12 @@ throughout the lesson. You will encounter a similar approach with
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
 <span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co"># display original image</span></span>
 <span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>plt.imshow(hed_color)</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>ax.imshow(hed_color)</span>
 <span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a></span>
 <span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co"># convert to grayscale and display</span></span>
 <span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>hed_gray <span class="op">=</span> ski.color.rgb2gray(hed_color)</span>
 <span id="cb7-12"><a href="#cb7-12" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>plt.imshow(hed_gray, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
+<span id="cb7-13"><a href="#cb7-13" tabindex="-1"></a>ax.imshow(hed_gray, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
 </div>
 <p>We can also load colour images of certain formats as grayscale
 directly by passing the argument <code>mode="L"</code> to
@@ -581,7 +583,7 @@ directly by passing the argument <code>mode="L"</code> to
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
 <span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co"># display grayscale image</span></span>
 <span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>plt.imshow(hed_gray, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>ax.imshow(hed_gray, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
 </div>
 <p>The first argument to <code>iio.imread()</code> is the filename of
 the image. The second argument <code>mode="L"</code> determines the type
@@ -634,12 +636,10 @@ multichannel images one channel at a time.</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>nuclei <span class="op">=</span> cells[:,:,<span class="dv">2</span>]</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>plt.imshow(nuclei)</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>mitochondria <span class="op">=</span> cells[:,:,<span class="dv">1</span>]</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>plt.imshow(mitochondria, vmax<span class="op">=</span><span class="dv">255</span>)</span></code></pre>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>mitochondria <span class="op">=</span> cells[:,:,<span class="dv">1</span>]</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>ax[<span class="dv">0</span>].imshow(nuclei)</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>ax[<span class="dv">1</span>].imshow(mitochondria, vmax<span class="op">=</span><span class="dv">255</span>)</span></code></pre>
 </div>
 <div id="plotting-single-channel-images-cmap-vmin-vmax" class="callout">
 <div class="callout-square">
@@ -650,11 +650,11 @@ multichannel images one channel at a time.</p>
 <div class="callout-content">
 <p>Compared to a colour image, a grayscale image or a single channel
 contains only a single intensity value per pixel. When we plot such an
-image with <code>plt.imshow</code>, Matplotlib uses a colour map, to
+image with <code>ax.imshow</code>, Matplotlib uses a colour map, to
 assign each intensity value a colour. The default colour map is called
 “viridis” and maps low values to purple and high values to yellow. We
 can instruct Matplotlib to map low values to black and high values to
-white instead, by calling <code>plt.imshow</code> with
+white instead, by calling <code>ax.imshow</code> with
 <code>cmap="gray"</code>. <a href="https://matplotlib.org/stable/gallery/color/colormap_reference.html" class="external-link">The
 documentation contains an overview of pre-defined colour maps</a>.</p>
 <p>Furthermore, Matplotlib determines the minimum and maximum values of
@@ -707,7 +707,7 @@ channels in our new image.</p>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>cells <span class="op">=</span> np.array(cells)</span>
 <span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>ax.imshow(cells)</span></code></pre>
 </div>
 <p>Then we use array slicing to create a new image with our selected
 area and then display the new image.</p>
@@ -717,7 +717,7 @@ area and then display the new image.</p>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># extract, display, and save sub-image</span></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>cell_one <span class="op">=</span> cells[<span class="dv">280</span>:<span class="dv">501</span>, <span class="dv">180</span>:<span class="dv">521</span>, :]</span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>plt.imshow(cell_one)</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>ax.imshow(cell_one)</span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>iio.imwrite(uri<span class="op">=</span><span class="st">"data/cell_one.tif"</span>, image<span class="op">=</span>cell_one)</span></code></pre>
 </div>
 <p>We can also change the values in an image, as shown next.</p>
@@ -728,7 +728,7 @@ area and then display the new image.</p>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>color <span class="op">=</span> cells[<span class="dv">30</span>,<span class="dv">30</span>]</span>
 <span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>cells[<span class="dv">280</span>:<span class="dv">501</span>, <span class="dv">180</span>:<span class="dv">521</span>] <span class="op">=</span> color</span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>plt.imshow(cells)</span></code></pre>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>ax.imshow(cells)</span></code></pre>
 </div>
 <p>First, we sample a single pixel’s colour at a particular location of
 the image, saving it in a variable named <code>color</code>, which
@@ -759,7 +759,7 @@ image.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>Here is the completed Python program to select only the leftmost cell
 in the image</p>
@@ -771,12 +771,12 @@ in the image</p>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co"># load and display original image</span></span>
 <span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>cells <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/hela-cells-8bit.tif"</span>)</span>
 <span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>plt.imshow(cells)</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>ax.imshow(cells)</span>
 <span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a></span>
 <span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co"># extract and display sub-image</span></span>
 <span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>cell_two <span class="op">=</span> cells[<span class="dv">70</span>:<span class="dv">391</span>, <span class="dv">20</span>:<span class="dv">211</span>, :]</span>
 <span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>plt.imshow(cell_two)</span>
+<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>ax.imshow(cell_two)</span>
 <span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a></span>
 <span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a></span>
 <span id="cb13-14"><a href="#cb13-14" tabindex="-1"></a><span class="co"># save sub-image</span></span>
@@ -845,7 +845,7 @@ using <code>iio.imread()</code>.</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.11" class="external-link">sandpaper (0.16.11)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -867,8 +867,8 @@ using <code>iio.imread()</code>.</li>
   "url": "https://govekk.github.io/image-processing/instructor/03-skimage-images.html",
   "identifier": "https://govekk.github.io/image-processing/instructor/03-skimage-images.html",
   "dateCreated": "2024-03-14",
-  "dateModified": "2024-03-19",
-  "datePublished": "2025-01-14"
+  "dateModified": "2025-03-25",
+  "datePublished": "2025-03-25"
 }
 
   </script><script>

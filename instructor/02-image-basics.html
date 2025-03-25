@@ -347,7 +347,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Image Basics</h1>
-        <p>Last updated on 2024-03-11 |
+        <p>Last updated on 2025-03-25 |
 
         <a href="https://github.com/govekk/image-processing/edit/main/episodes/02-image-basics.md" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -402,6 +402,19 @@ numeric abstractions, approximations of what we see with our eyes in the
 real world. Before we begin to learn how to process images with Python
 programs, we need to spend some time understanding how these
 abstractions work.</p>
+<div id="callout1" class="callout">
+<div class="callout-square">
+<i class="callout-icon" data-feather="bell"></i>
+</div>
+<div class="callout-inner">
+<h3 class="callout-title">Callout</h3>
+<div class="callout-content">
+<p>Feel free to make use of the <a href=".././files/cheatsheet.html">available cheat-sheet</a> as a guide for
+the rest of the course material. View it online, share it, or print the
+<a href=".././files/cheatsheet.pdf">PDF</a>!</p>
+</div>
+</div>
+</div>
 <section><h2 class="section-heading" id="pixels">Pixels<a class="anchor" aria-label="anchor" href="#pixels"></a></h2>
 <hr class="half-width"><p>It is important to realise that images are stored as rectangular
 arrays of hundreds, thousands, or millions of discrete “picture
@@ -610,7 +623,8 @@ using the <code>imshow</code> function from the
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>plt.imshow(eight)</span></code></pre>
+<pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>ax.imshow(eight)</span></code></pre>
 </div>
 <figure><img src="../fig/eight.png" alt="Image of 8" class="figure mx-auto d-block"></figure><p>You might be thinking, “That does look vaguely like an eight, and I
 see two colours but how can that be only 15 pixels”. The display of the
@@ -660,13 +674,12 @@ and assign a new value to that position.</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>zero <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/eight.tif"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>zero[<span class="dv">2</span>,<span class="dv">1</span>]<span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>zero[<span class="dv">2</span>, <span class="dv">1</span>]<span class="op">=</span> <span class="fl">1.0</span></span>
 <span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># The following line of code creates a new figure for imshow to use in displaying our output.</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="co"># Without it, plt.imshow() would overwrite our previous image in the cell above</span></span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>plt.imshow(zero)</span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="bu">print</span>(zero)</span></code></pre>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>ax.imshow(zero)</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="bu">print</span>(zero)</span></code></pre>
 </div>
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -737,10 +750,10 @@ image and print out the matrix as well.</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>five <span class="op">=</span> iio.imread(uri<span class="op">=</span><span class="st">"data/eight.tif"</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>five[<span class="dv">1</span>,<span class="dv">2</span>]<span class="op">=</span> <span class="fl">1.0</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>five[<span class="dv">3</span>,<span class="dv">0</span>]<span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>five[<span class="dv">1</span>, <span class="dv">2</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>five[<span class="dv">3</span>, <span class="dv">0</span>] <span class="op">=</span> <span class="fl">1.0</span></span>
 <span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>plt.imshow(five)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>ax.imshow(five)</span>
 <span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a><span class="bu">print</span>(five)</span></code></pre>
 </div>
 <div class="codewrapper">
@@ -772,9 +785,9 @@ levels of grey. Let’s try that out.</p>
 <span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a></span>
 <span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co"># set the middle row (index 2) to the value of 255.,</span></span>
 <span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="co"># so you end up with the values 0., 128., and 255.</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>three_colours[<span class="dv">2</span>,:] <span class="op">=</span> <span class="fl">255.</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>three_colours[<span class="dv">2</span>, :] <span class="op">=</span> <span class="fl">255.</span></span>
 <span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>plt.imshow(three_colours)</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>ax.imshow(three_colours)</span>
 <span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a><span class="bu">print</span>(three_colours)</span></code></pre>
 </div>
 <figure><img src="../fig/three-colours.png" alt="Image of three colours" class="figure mx-auto d-block"></figure><p>We now have 3 colours, but are they the three colours you expected?
@@ -802,9 +815,9 @@ greyscale.</p>
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>plt.imshow(three_colours,cmap<span class="op">=</span>plt.cm.gray)</span></code></pre>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>ax.imshow(three_colours, cmap<span class="op">=</span><span class="st">"gray"</span>)</span></code></pre>
 </div>
-<figure><img src="../fig/grayscale.png" alt="Image in greyscale" class="figure mx-auto d-block"></figure><p>Above we have exactly the same underying data matrix, but in
+<figure><img src="../fig/grayscale.png" alt="Image in greyscale" class="figure mx-auto d-block"></figure><p>Above we have exactly the same underlying data matrix, but in
 greyscale. Zero maps to black, 255 maps to white, and 128 maps to medium
 grey. Here we only have a single channel in the data and utilize a
 grayscale color map to represent the luminance, or intensity of the data
@@ -835,7 +848,7 @@ this example using NumPy.</p>
 <span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>checkerboard <span class="op">=</span> pseudorandomizer.randint(<span class="dv">0</span>, <span class="dv">255</span>, size<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">3</span>))</span>
 <span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"># restore the default map as you show the image</span></span>
 <span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>plt.imshow(checkerboard)</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>ax.imshow(checkerboard)</span>
 <span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a><span class="co"># display the arrays</span></span>
 <span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a><span class="bu">print</span>(checkerboard)</span></code></pre>
 </div>
@@ -893,21 +906,21 @@ a one for the channel we want to keep and zeros for the rest.</p>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>red_channel <span class="op">=</span> checkerboard <span class="op">*</span> [<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>]</span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>plt.imshow(red_channel)</span></code></pre>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>ax.imshow(red_channel)</span></code></pre>
 </div>
 <figure><img src="../fig/checkerboard-red-channel.png" alt="Image of red channel" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>green_channel <span class="op">=</span> checkerboard <span class="op">*</span> [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>]</span>
 <span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>plt.imshow(green_channel)</span></code></pre>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>ax.imshow(green_channel)</span></code></pre>
 </div>
 <figure><img src="../fig/checkerboard-green-channel.png" alt="Image of green channel" class="figure mx-auto d-block"></figure><div class="codewrapper sourceCode" id="cb21">
 <h3 class="code-label">PYTHON<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="sourceCode python" tabindex="0"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>blue_channel <span class="op">=</span> checkerboard <span class="op">*</span> [<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">1</span>]</span>
 <span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots()</span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>plt.imshow(blue_channel)</span></code></pre>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>ax.imshow(blue_channel)</span></code></pre>
 </div>
 <figure><img src="../fig/checkerboard-blue-channel.png" alt="Image of blue channel" class="figure mx-auto d-block"></figure><p>If we look at the upper [1, 3] square in all three figures, we can
 see each of those colour contributions in action. Notice that there are
@@ -1232,7 +1245,12 @@ pixel data:</p>
  'resolution_unit': 1,
  'resolution': (1.0, 1.0, 'NONE')}</code></pre>
 </div>
-<p>Other software exists that can help you handle metadata, e.g., <a href="https://imagej.net/Fiji" class="external-link">Fiji</a> and <a href="https://imagemagick.org/index.php" class="external-link">ImageMagick</a>. You may want
+<p>Many popular image editing programs have built-in metadata viewing
+capabilities. A platform-independent open-source tool that allows users
+to read, write, and edit metadata is <a href="https://exiftool.org/" class="external-link">ExifTool</a>. It can handle a wide range of
+file types and metadata formats but requires some technical knowledge to
+be used effectively. Other software exists that can help you handle
+metadata, e.g., <a href="https://imagej.net/Fiji" class="external-link">Fiji</a> and <a href="https://imagemagick.org/index.php" class="external-link">ImageMagick</a>. You may want
 to explore these options if you need to work with the metadata of your
 images.</p>
 </div>
@@ -1337,7 +1355,7 @@ information may be stored in an image file, in the image metadata.</li>
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.10" class="external-link">sandpaper (0.16.10)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.7" class="external-link">pegboard (0.7.7)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.16.11" class="external-link">sandpaper (0.16.11)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.5" class="external-link">varnish (1.0.5)</a></p>
 			</div>
 		</footer></div> <!-- / div.container -->
 	<div id="to-top">
@@ -1359,8 +1377,8 @@ information may be stored in an image file, in the image metadata.</li>
   "url": "https://govekk.github.io/image-processing/instructor/02-image-basics.html",
   "identifier": "https://govekk.github.io/image-processing/instructor/02-image-basics.html",
   "dateCreated": "2024-03-14",
-  "dateModified": "2024-03-11",
-  "datePublished": "2025-01-14"
+  "dateModified": "2025-03-25",
+  "datePublished": "2025-03-25"
 }
 
   </script><script>
