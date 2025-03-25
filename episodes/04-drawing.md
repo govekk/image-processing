@@ -66,7 +66,7 @@ image:
 cells= iio.imread(uri="data/hela-cells-8bit.tif")
 
 fig, ax = plt.subplots()
-plt.imshow(cells)
+ax.imshow(cells)
 ```
 
 We load and display the initial image in the same way we have done before.
@@ -106,7 +106,7 @@ mask[rr, cc] = False
 
 # Display mask image
 fig, ax = plt.subplots()
-plt.imshow(mask, cmap="gray")
+ax.imshow(mask, cmap="gray")
 ```
 
 Here is what our constructed mask looks like:
@@ -218,7 +218,7 @@ canvas[rr, cc] = (0, 255, 0)
 ```python
 # Display the image
 fig, ax = plt.subplots()
-plt.imshow(canvas)
+ax.imshow(canvas)
 ```
 
 We could expand this solution, if we wanted,
@@ -247,7 +247,7 @@ for i in range(15):
 
 # display the results
 fig, ax = plt.subplots()
-plt.imshow(canvas)
+ax.imshow(canvas)
 ```
 
 We could expand this even further to also
@@ -295,7 +295,7 @@ for i in range(15):
 
 # display the results
 fig, ax = plt.subplots()
-plt.imshow(canvas)
+ax.imshow(canvas)
 ```
 
 :::::::::::::::::::::::::
@@ -371,12 +371,12 @@ Then, we display the masked image.
 
 ```python
 fig, ax = plt.subplots()
-plt.imshow(cells)
+ax.imshow(cells)
 ```
 
 The resulting masked image should look like this:
 
-![](fig/cells-masked-rectangle.jpg){alt='Applied mask'}s
+![](fig/cells-masked-rectangle.jpg){alt='Applied mask'}
 
 :::::::::::::::::::::::::::::::::::::::: keypoints
 

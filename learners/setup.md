@@ -22,11 +22,10 @@ e.g. your Desktop or a folder you have created for using in this workshop.
    conda info
    mamba info
    ```
-   If either command returns information, skip to creating a new environment. 
-
-1. Download and install the latest [Miniforge
-   distribution](https://github.com/conda-forge/miniforge) If you wish to use an existing
+   If either command returns information, you can skip to creating a new environment. Even if you wish to use existing
    installation, please use a new conda environment to ensure all packages are up to date.
+
+2. If you do not have an existing conda installation, please read our MyJAX page on [conda best practices](http://jacksonlaboratory.sharepoint.com/sites/ResearchIT/SitePages/Best-practices-with-conda.aspx) and then follow the [miniforge installation instructions](http://jacksonlaboratory.sharepoint.com/sites/ResearchIT/SitePages/conda_installing_miniforge.aspx). We recommend doing this a few days before the workshop in case you need to contact the IT helpdesk or instructors for help with installation.
 
    ::::::::::::::::  spoiler
 
@@ -42,7 +41,7 @@ e.g. your Desktop or a folder you have created for using in this workshop.
 3. Create a new environment with the necessary packages
 
    ```shell
-   conda create -n imaging-workshop python=3.9 scikit-image ipympl jupyterlab -c conda-forge
+   conda create -n imaging-workshop python=3.11 scikit-image ipympl jupyterlab -c conda-forge
    ```
 
    :::::::::::::::::::::::::::::::::::::::::  callout
@@ -89,9 +88,10 @@ e.g. your Desktop or a folder you have created for using in this workshop.
 
    ```python
    import imageio.v3 as iio
+   import ipympl
    import matplotlib.pyplot as plt
+   import numpy as np
    import skimage as ski
-
    %matplotlib widget
 
    # load an image
