@@ -762,7 +762,7 @@ modules. You will encounter several different forms of
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Further explanation </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
 <div class="accordion-body">
 <p>In the example above, form 1 loads the entire scikit-image library
 into the program as an object. Individual modules of the library are
@@ -935,7 +935,7 @@ image and print out the matrix as well.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <p>There are many possible solutions, but one method would be . . .</p>
 <div class="codewrapper sourceCode" id="cb12">
@@ -1172,7 +1172,7 @@ further.)</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: decimal">
 <li>(255, 0, 0) represents red, because the red channel is maximised,
@@ -1206,20 +1206,20 @@ several image formats we might encounter, and we should know the basics
 of at least of few of them. Some formats we might encounter, and their
 file extensions, are shown in this table:</p>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th align="left">Format</th>
 <th align="left">Extension</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="left">Device-Independent Bitmap (BMP)</td>
 <td align="left">.bmp</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">Joint Photographic Experts Group (JPEG)</td>
 <td align="left">.jpg or .jpeg</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">Tagged Image File Format (TIFF)</td>
 <td align="left">.tif or .tiff</td>
 </tr>
@@ -1292,28 +1292,28 @@ have is quantified by terms like Megabytes (MB), Gigabytes (GB), and
 Terabytes (TB). The following table provides more formal definitions for
 these terms.</p>
 <table class="table">
-<thead><tr class="header">
+<thead><tr>
 <th align="left">Unit</th>
 <th>Abbreviation</th>
 <th align="left">Size</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="left">Kilobyte</td>
 <td>KB</td>
 <td align="left">1024 bytes</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">Megabyte</td>
 <td>MB</td>
 <td align="left">1024 KB</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">Gigabyte</td>
 <td>GB</td>
 <td align="left">1024 MB</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">Terabyte</td>
 <td>TB</td>
 <td align="left">1024 GB</td>
@@ -1516,7 +1516,7 @@ and TIFF image formats:</p>
 <col width="26%">
 <col width="26%">
 </colgroup>
-<thead><tr class="header">
+<thead><tr>
 <th align="left">Format</th>
 <th align="left">Compression</th>
 <th align="left">Metadata</th>
@@ -1524,21 +1524,21 @@ and TIFF image formats:</p>
 <th align="left">Disadvantages</th>
 </tr></thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td align="left">BMP</td>
 <td align="left">None</td>
 <td align="left">None</td>
 <td align="left">Universally viewable, high quality</td>
 <td align="left">Large file sizes</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">JPEG</td>
 <td align="left">Lossy</td>
 <td align="left">Yes</td>
 <td align="left">Universally viewable, smaller file size</td>
 <td align="left">Detail may be lost</td>
 </tr>
-<tr class="odd">
+<tr>
 <td align="left">PNG</td>
 <td align="left">Lossless</td>
 <td align="left"><a href="https://www.w3.org/TR/PNG/#11keywords" class="external-link">Yes</a></td>
@@ -1546,7 +1546,7 @@ and TIFF image formats:</p>
 size</td>
 <td align="left">Metadata less flexible than TIFF, RGB only</td>
 </tr>
-<tr class="even">
+<tr>
 <td align="left">TIFF</td>
 <td align="left">None, lossy, or lossless</td>
 <td align="left">Yes</td>
@@ -2031,7 +2031,7 @@ image.</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <p>Here is the completed Python program to select only the leftmost cell
 in the image</p>
@@ -4321,7 +4321,7 @@ jumps?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Show me the solution </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <ol start="2" style="list-style-type: lower-alpha">
 <li>5</li>
@@ -4354,7 +4354,7 @@ timing)<em> (continued)</em>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <ol style="list-style-type: lower-alpha">
 <li>2</li>
@@ -4499,7 +4499,7 @@ display the labeled image like so:</p>
 <button class="accordion-button spoiler-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSpoiler1" aria-expanded="false" aria-controls="collapseSpoiler1">
   <h3 class="accordion-header" id="headingSpoiler1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="eye"></i></div> Do you see an empty image? </h3>
 </button>
-<div id="collapseSpoiler1" class="accordion-collapse collapse" aria-labelledby="headingSpoiler1" data-bs-parent="#accordionSpoiler1">
+<div id="collapseSpoiler1" class="accordion-collapse collapse" data-bs-parent="#accordionSpoiler1" aria-labelledby="headingSpoiler1">
 <div class="accordion-body">
 <p>If you are using an older version of Matplotlib you might get a
 warning
@@ -4644,7 +4644,7 @@ values influence the result?</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution3" aria-expanded="false" aria-controls="collapseSolution3">
   <h4 class="accordion-header" id="headingSolution3"> Show me the solution </h4>
 </button>
-<div id="collapseSolution3" class="accordion-collapse collapse" aria-labelledby="headingSolution3" data-bs-parent="#accordionSolution3">
+<div id="collapseSolution3" class="accordion-collapse collapse" data-bs-parent="#accordionSolution3" aria-labelledby="headingSolution3">
 <div class="accordion-body">
 <p>As you might have guessed, the return value <code>count</code>
 already contains the number of objects found in the image. So it can
@@ -4763,7 +4763,7 @@ obtained with <code>ski.measure.regionprops</code>.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution4" aria-expanded="false" aria-controls="collapseSolution4">
   <h4 class="accordion-header" id="headingSolution4"> Show me the solution </h4>
 </button>
-<div id="collapseSolution4" class="accordion-collapse collapse" aria-labelledby="headingSolution4" data-bs-parent="#accordionSolution4">
+<div id="collapseSolution4" class="accordion-collapse collapse" data-bs-parent="#accordionSolution4" aria-labelledby="headingSolution4">
 <div class="accordion-body">
 <p>The histogram can be plotted with</p>
 <div class="codewrapper sourceCode" id="cb23">
@@ -4866,7 +4866,7 @@ list.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution5" aria-expanded="false" aria-controls="collapseSolution5">
   <h4 class="accordion-header" id="headingSolution5"> Show me the solution </h4>
 </button>
-<div id="collapseSolution5" class="accordion-collapse collapse" aria-labelledby="headingSolution5" data-bs-parent="#accordionSolution5">
+<div id="collapseSolution5" class="accordion-collapse collapse" data-bs-parent="#accordionSolution5" aria-labelledby="headingSolution5">
 <div class="accordion-body">
 <p>One way to count only objects above a certain area is to first create
 a list of those objects, and then take the length of that list as the
@@ -5017,7 +5017,7 @@ area.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution6" aria-expanded="false" aria-controls="collapseSolution6">
   <h4 class="accordion-header" id="headingSolution6"> Show me the solution </h4>
 </button>
-<div id="collapseSolution6" class="accordion-collapse collapse" aria-labelledby="headingSolution6" data-bs-parent="#accordionSolution6">
+<div id="collapseSolution6" class="accordion-collapse collapse" data-bs-parent="#accordionSolution6" aria-labelledby="headingSolution6">
 <div class="accordion-body">
 <p>To remove the small objects from the labeled image, we change the
 value of all pixels that belong to the small objects to the background
@@ -5181,8 +5181,8 @@ label.</li>
   "url": "https://govekk.github.io/image-processing/aio.html",
   "identifier": "https://govekk.github.io/image-processing/aio.html",
   "dateCreated": "2024-03-14",
-  "dateModified": "2026-04-28",
-  "datePublished": "2026-04-28"
+  "dateModified": "2026-05-05",
+  "datePublished": "2026-05-05"
 }
 
   </script><script>
